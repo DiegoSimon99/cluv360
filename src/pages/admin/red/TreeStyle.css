@@ -1,0 +1,23 @@
+.color-box {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 3px;
+    min-width: 20px;
+}
+
+.legend-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: space-between;
+}
+
+.legend-list>li{
+    display: flex;
+}
+
+.legend-list>li>.text{
+    white-space: nowrap;
+}

@@ -1,0 +1,214 @@
+[
+    {
+        "header": "",
+        "items": [
+            {
+                "text": "Dashboard",
+                "icon": "bx bx-home",
+                "available": true,
+                "link": "/admin/"
+            },
+            {
+                "text": "Cierre premium",
+                "icon": "bx bx-clipboard",
+                "available": true,
+                "link": "/admin/cierre-premium"
+            },
+            {
+                "text": "Asociados",
+                "icon": "bx bx-user",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "Lista de asociados",
+                        "available": true,
+                        "link": "/admin/customers/list"
+                    },
+                    {
+                        "text": "Solicitudes de eliminación",
+                        "available": true,
+                        "link": "/admin/customers/delete-request"
+                    }
+                ]
+            },
+            {
+                "text": "Ver Movimientos",
+                "icon": "bx bx-table",
+                "available": true,
+                "link": "/admin/movements"
+            },
+            {
+                "text": "Ingresar Venta",
+                "icon": "bx bx-cart-alt",
+                "available": true,
+                "link": "/admin/direct-sale"
+            },
+            {
+                "text": "Proyectos",
+                "icon": "bx bx-briefcase-alt-2",
+                "available": true,
+                "link": "/admin/proyectos"
+            },
+            {
+                "text": "Generar Descuento",
+                "icon": "bx bx-money",
+                "available": true,
+                "link": "/admin/discount"
+            },
+            {
+                "text": "Red de Afiliados",
+                "icon": "bx bx-user",
+                "available": true,
+                "link": "/admin/affiliate/user"
+            },
+            {
+                "text": "Plantilla de correos",
+                "icon": "bx bx-envelope",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "Bienvenida",
+                        "available": true,
+                        "link": "/admin/edit-template/bienvenida"
+                    }
+                ]
+            },
+            {
+                "text": "Red Social",
+                "icon": "bx bx-cog",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "Publicaciones",
+                        "available": true,
+                        "link": "/admin/posts"
+                    },
+                    {
+                        "text": "Publicaciones Denunciadas",
+                        "available": true,
+                        "link": "/admin/posts/denuncias"
+                    },
+                    {
+                        "text": "Conceptos Denuncias",
+                        "available": true,
+                        "link": "/admin/denuncias/conceptos"
+                    }
+                ]
+            },
+            {
+                "text": "Configuración MLM",
+                "icon": "bx bx-cog",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "General",
+                        "available": true,
+                        "link": "/admin/config/general"
+                    },
+                    {
+                        "text": "Rangos",
+                        "available": true,
+                        "link": "/admin/config/rangos"
+                    },
+                    {
+                        "text": "Configuración Ciclo",
+                        "available": true,
+                        "link": "/admin/config/ciclo"
+                    },
+                    {
+                        "text": "Cerrar Ciclo",
+                        "available": true,
+                        "link": "/admin/config/cerrar-ciclo"
+                    },
+                    {
+                        "text": "Configuración de tareas",
+                        "available": true,
+                        "link": "/admin/config/cron-job-settings"
+                    },
+                    {
+                        "text": "Eventos",
+                        "available": true,
+                        "link": "/admin/config/eventos"
+                    },
+                    {
+                        "text": "Noticias",
+                        "available": true,
+                        "link": "/admin/config/noticias"
+                    },
+                    {
+                        "text": "Viajes",
+                        "available": true,
+                        "link": "/admin/config/viajes"
+                    },
+                    {
+                        "text": "Testimonios",
+                        "available": true,
+                        "link": "/admin/config/testimonios"
+                    },
+                    {
+                        "text": "Configuración Red",
+                        "available": true,
+                        "link": "/admin/config/red"
+                    },
+                    {
+                        "text": "Proyectos",
+                        "available": true,
+                        "link": "/admin/config/proyectos"
+                    },
+                    {
+                        "text": "Términos y Condiciones (Yala)",
+                        "available": true,
+                        "link": "/admin/config/terminos-condiciones-yala"
+                    }
+                ]
+            },
+            {
+                "text": "Productos",
+                "icon": "bx bx-cart",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "Marcas",
+                        "available": true,
+                        "link": "/admin/brands"
+                    },
+                    {
+                        "text": "Categorías",
+                        "available": true,
+                        "link": "/admin/categories"
+                    },
+                    {
+                        "text": "SubCategorías",
+                        "available": true,
+                        "link": "/admin/subcategories"
+                    },
+                    {
+                        "text": "Sub SubCategorías",
+                        "available": true,
+                        "link": "/admin/subsubcategories"
+                    },
+                    {
+                        "text": "Productos GoMarket360",
+                        "available": true,
+                        "link": "/admin/products"
+                    },
+                    {
+                        "text": "Productos Agentes",
+                        "available": true,
+                        "link": "/admin/products/seller"
+                    },
+                    {
+                        "text": "Calificación de Productos",
+                        "available": false,
+                        "link": "/admin/products/reviews"
+                    }
+                ]
+            }
+        ]
+    }
+]
