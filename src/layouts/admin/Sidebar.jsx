@@ -53,9 +53,11 @@ const Sidebar = () => {
 
 const MenuItem = ({ text, link, available, icon, submenu, reviewCount }) => {
   const location = useLocation();
-  const isActive = location.pathname === link;
   const hasSubmenu = submenu && submenu.length > 0;
-  const isSubmenuActive = hasSubmenu && submenu.some((subitem) => location.pathname === subitem.link);
+
+  // Verifica si la URL actual comienza con el `link` en lugar de exigir una coincidencia exacta
+  const isActive = location.pathname.startsWith(link);
+  const isSubmenuActive = hasSubmenu && submenu.some((subitem) => location.pathname.startsWith(subitem.link));
 
   return (
     <li
@@ -64,24 +66,15 @@ const MenuItem = ({ text, link, available, icon, submenu, reviewCount }) => {
       }`}
     >
       <NavLink
-        aria-label={`Navigate to ${text} ${!available ? "Pro" : ""}`}
         to={link}
         className={`menu-link ${submenu ? "menu-toggle" : ""}`}
         target={link.includes("http") ? "_blank" : undefined}
       >
         {icon && icon !== "undefined" && <i className={`menu-icon tf-icons ${icon}`}></i>}
-
         <div>{text}</div>
-
-        {/* Badge de cantidad de reviews */}
         {text === "Calificación de Productos" && reviewCount > 0 && (
           <div className="badge bg-primary fs-tiny rounded-pill ms-auto">{reviewCount}</div>
         )}
-
-        {/* Badge "Pro" si no está disponible */}
-        {/* {available === false && (
-                    <div className="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
-                )} */}
       </NavLink>
       {submenu && (
         <ul className="menu-sub">
@@ -93,5 +86,6 @@ const MenuItem = ({ text, link, available, icon, submenu, reviewCount }) => {
     </li>
   );
 };
+
 
 export default Sidebar;

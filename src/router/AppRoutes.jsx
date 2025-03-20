@@ -64,6 +64,7 @@ import { Index as AdminListaSubSubCategorias } from "../pages/admin/productos/su
 import { Create as AdminCreateSubSubCategorias } from "../pages/admin/productos/subsubcategorias/create";
 import { Edit as AdminEditSubSubCategorias } from "../pages/admin/productos/subsubcategorias/edit";
 import { Index as AdminListaProductos } from "../pages/admin/productos/productos";
+import { Create as AdminCreateProductos } from "../pages/admin/productos/productos/create";
 import { Index as AdminListaProductosSeller } from "../pages/admin/productos/productos-agentes";
 import { Index as AdminListaCalificacionProductos } from "../pages/admin/productos/calificacion-productos";
 
@@ -81,7 +82,7 @@ const AppRoutes = () => {
 
             {/* Ruta protegida para administradores */}
             <Route path="/admin" element={<AdminRoutes />}>
-                <Route path="" element={<DashboardPage />} />
+                <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="movements" element={<AdminListaMovimientos />} />
                 <Route path="customers/list" element={<AdminListaCustomers />} />
                 <Route path="customers/delete-request" element={<SolicitudesCustomers />} />
@@ -92,8 +93,8 @@ const AppRoutes = () => {
                 <Route path="proyectos/edit/:id" element={<AdminEditProyectos />} />
                 <Route path="discount" element={<AdminListaDescuento />} />
                 <Route path="posts" element={<AdminListaPosts />} />
-                <Route path="posts/denuncias" element={<Reported />} />
-                <Route path="denuncias/conceptos" element={<AdminDenunciaConceptos />} />
+                <Route path="denuncias/posts" element={<Reported />} />
+                <Route path="conceptos/denuncias" element={<AdminDenunciaConceptos />} />
                 <Route path="affiliate/user" element={<AdminListaRed />} />
                 <Route path="config/general" element={<General />} />
                 <Route path="config/rangos" element={<AdminListaRangos />} />
@@ -135,8 +136,9 @@ const AppRoutes = () => {
                 <Route path="subsubcategories/create" element={<AdminCreateSubSubCategorias />} />
                 <Route path="subsubcategories/edit/:id" element={<AdminEditSubSubCategorias />} />
                 <Route path="products" element={<AdminListaProductos />} />
-                <Route path="products/seller" element={<AdminListaProductosSeller />} />
-                <Route path="products/reviews" element={<AdminListaCalificacionProductos />} />
+                <Route path="products/create" element={<AdminCreateProductos />} />
+                <Route path="seller/products" element={<AdminListaProductosSeller />} />
+                <Route path="reviews/products" element={<AdminListaCalificacionProductos />} />
             </Route>
 
             {/* Rutas protegidas para customers y sellers */}

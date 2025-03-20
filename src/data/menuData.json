@@ -6,7 +6,7 @@
                 "text": "Dashboard",
                 "icon": "bx bx-home",
                 "available": true,
-                "link": "/admin/"
+                "link": "/admin/dashboard"
             },
             {
                 "text": "Cierre premium",
@@ -89,12 +89,12 @@
                     {
                         "text": "Publicaciones Denunciadas",
                         "available": true,
-                        "link": "/admin/posts/denuncias"
+                        "link": "/admin/denuncias/posts"
                     },
                     {
                         "text": "Conceptos Denuncias",
                         "available": true,
-                        "link": "/admin/denuncias/conceptos"
+                        "link": "/admin/conceptos/denuncias"
                     }
                 ]
             },
@@ -200,12 +200,12 @@
                     {
                         "text": "Productos Agentes",
                         "available": true,
-                        "link": "/admin/products/seller"
+                        "link": "/admin/seller/products"
                     },
                     {
                         "text": "Calificación de Productos",
                         "available": false,
-                        "link": "/admin/products/reviews"
+                        "link": "/admin/reviews/products"
                     }
                 ]
             }

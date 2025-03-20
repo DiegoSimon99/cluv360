@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../../api/axios';
 import LoaderTable from '../../../components/admin/LoaderTable';
+import { formatDate } from '../../../utils/dateFormatter';
 
 export const ListaMovimientos = () => {
     const [movimientos, setData] = useState([]);  // Almacena los datos de la API
@@ -145,7 +146,7 @@ export const ListaMovimientos = () => {
                                     <td>{item.movimiento_conceptos.nombre}</td>
                                     <td>{item.moneda}</td>
                                     <td>{item.monto}</td>
-                                    <td>{item.created_at}</td>
+                                    <td>{formatDate(item.created_at)}</td>
                                 </tr>
                             ))}
                         </tbody>

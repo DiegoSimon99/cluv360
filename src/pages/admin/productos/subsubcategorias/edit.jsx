@@ -189,8 +189,7 @@ export const Edit = () => {
     const fetchDataSubCategories = async (category_id) => {
         try {
             showLoading();
-            const data = { category_id: category_id }
-            const response = await apiClient.post('/admin/subsubcategories/subcategories', data);
+            const response = await apiClient.get(`/admin/subsubcategories/select/${category_id}`);
             setSubCategories(response.data)
         } catch (error) {
             showNotification("Ocurrio un error al obtener lista de sub categorías", 'error');

@@ -5493,6 +5493,10 @@ fieldset:disabled .btn {
   filter: var(--bs-btn-close-white-filter);
 }
 
+.img-md{
+  height: auto;
+  width: 64px;
+}
 .toast {
   --bs-toast-zindex: 1095;
   --bs-toast-padding-x: 1.25rem;
@@ -5562,6 +5566,10 @@ fieldset:disabled .btn {
 .toast-body {
   padding: var(--bs-toast-padding-x);
   word-wrap: break-word;
+}
+
+.css-1nmdiq5-menu { /* Clase generada por React-Select */
+  z-index: 1050 !important;
 }
 
 .modal {
