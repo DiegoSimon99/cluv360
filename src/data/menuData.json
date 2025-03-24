@@ -208,6 +208,12 @@
                         "link": "/admin/reviews/products"
                     }
                 ]
+            },
+            {
+                "text": "Publicaciones",
+                "icon": "bx bx-globe",
+                "available": true,
+                "link": "/admin/publications"
             }
         ]
     }

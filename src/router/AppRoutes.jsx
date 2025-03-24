@@ -65,8 +65,12 @@ import { Create as AdminCreateSubSubCategorias } from "../pages/admin/productos/
 import { Edit as AdminEditSubSubCategorias } from "../pages/admin/productos/subsubcategorias/edit";
 import { Index as AdminListaProductos } from "../pages/admin/productos/productos";
 import { Create as AdminCreateProductos } from "../pages/admin/productos/productos/create";
+import { Edit as AdminEditProductos } from "../pages/admin/productos/productos/edit";
 import { Index as AdminListaProductosSeller } from "../pages/admin/productos/productos-agentes";
 import { Index as AdminListaCalificacionProductos } from "../pages/admin/productos/calificacion-productos";
+import { Index as AdminListaPublicaciones } from "../pages/admin/publicaciones";
+import { Create as AdminCreatePublicacion } from "../pages/admin/publicaciones/create";
+import { Edit as AdminEditPublicacion } from "../pages/admin/publicaciones/edit";
 
 const AppRoutes = () => {
     return (
@@ -137,8 +141,12 @@ const AppRoutes = () => {
                 <Route path="subsubcategories/edit/:id" element={<AdminEditSubSubCategorias />} />
                 <Route path="products" element={<AdminListaProductos />} />
                 <Route path="products/create" element={<AdminCreateProductos />} />
+                <Route path="products/edit/:id" element={<AdminEditProductos />} />
                 <Route path="seller/products" element={<AdminListaProductosSeller />} />
                 <Route path="reviews/products" element={<AdminListaCalificacionProductos />} />
+                <Route path="publications" element={<AdminListaPublicaciones />} />
+                <Route path="publications/create" element={<AdminCreatePublicacion />} />
+                <Route path="publications/edit/:id" element={<AdminEditPublicacion />} />
             </Route>
 
             {/* Rutas protegidas para customers y sellers */}

@@ -30,6 +30,7 @@ export const Create = () => {
     brand_id: null,
     unit: "",
     colors: [],
+    attributes: [],
     choice_options: [],
     barcode: "",
     unit_price: 0,
@@ -37,6 +38,9 @@ export const Create = () => {
     discount_type: "amount",
     earn_point: 0,
     current_stock: 0,
+    video_provider: null,
+    video_link: null,
+    pdf: null,
   });
 
   const navigate = useNavigate();
@@ -175,25 +179,27 @@ export const Create = () => {
 
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        if (key === "colors") {
-          const array = value.map((item) => item.color);
-          data.append("colors", JSON.stringify(array));
-        } else if (key === "attributes") {
-          const array = value.map((item) => String(item));
-          data.append("attributes", JSON.stringify(array));
-        } else if (key === "tags") {
-          const tagsValue = value.map((tag) => tag.value).join(",");
-          data.append("tags", tagsValue);
-        } else if (key === "choice_options") {
-          data.append("choice_options", JSON.stringify(value));
+      if (value !== null && value !== undefined && value !== "") {
+        if (Array.isArray(value)) {
+          if (key === "colors") {
+            const array = value.map((item) => item.color);
+            data.append("colors", JSON.stringify(array));
+          } else if (key === "attributes") {
+            const array = value.map((item) => String(item));
+            data.append("attributes", JSON.stringify(array));
+          } else if (key === "tags") {
+            const tagsValue = value.map((tag) => tag.value).join(",");
+            data.append("tags", tagsValue);
+          } else if (key === "choice_options") {
+            data.append("choice_options", JSON.stringify(value));
+          }
+        } else if (key === "brand_id") {
+          data.append("brand_id", String(value.value));
+        } else if (key === "pdf" && value instanceof File) {
+          data.append("pdf", value);
+        } else {
+          data.append(key, value);
         }
-      } else if (key === "brand_id") {
-        data.append("brand_id", String(value.value));
-      } else if (key === "pdf" && value instanceof File) {
-        data.append("pdf", value);
-      } else {
-        data.append(key, value);
       }
     });
 
@@ -299,14 +305,19 @@ export const Create = () => {
   };
 
   const generateVariations = (choice_options, colors, colorEnabled) => {
-    if (!choice_options || choice_options.length === 0) return [];
+    let attributeValues = [];
 
-    // Extraer valores de cada atributo
-    const attributeValues = choice_options
-      .map((option) => option.values || []) // Asegurar que hay valores
-      .filter((values) => Array.isArray(values) && values.length > 0); // Filtrar vacíos
+    // Verificar si hay atributos seleccionados y extraer valores
+    if (choice_options && choice_options.length > 0) {
+      attributeValues = choice_options
+        .map((option) => option.values || [])
+        .filter((values) => Array.isArray(values) && values.length > 0);
+    }
 
-    if (attributeValues.length === 0) return []; // Si no hay valores, retornar vacío
+    // **Nueva lógica: Si no hay atributos, aún podemos generar variaciones con solo colores**
+    if (attributeValues.length === 0 && colors.length === 0) {
+      return [];
+    }
 
     // Función para generar combinaciones de atributos
     const combine = (arrays, prefix = "") => {
@@ -317,7 +328,8 @@ export const Create = () => {
       return first.flatMap((value) => combine(rest, prefix ? `${prefix}-${value}` : value));
     };
 
-    const newCombinations = combine(attributeValues);
+    // Obtener combinaciones de atributos (si existen)
+    const attributeCombinations = attributeValues.length > 0 ? combine(attributeValues) : [""]; // Si no hay atributos, usar una cadena vacía para combinar con colores
 
     // Obtener iniciales de cada palabra en `formData.name`
     const getInitials = (name) => {
@@ -326,31 +338,41 @@ export const Create = () => {
             .split(" ")
             .map((word) => word.charAt(0).toUpperCase())
             .join("")
-        : ""; // Default si no hay nombre
+        : "";
     };
 
     const initials = getInitials(formData.name);
 
-    // Obtener el nombre del color solo si `colorEnabled` es `false`
-    const colorLabel = !colorEnabled && colors.length > 0 ? colors.map((color) => color.label).join("-") : "";
+    let newVariations = [];
 
-    // Generar nuevas variaciones y asegurarse de que no se borren los cambios previos
-    return newCombinations.map((combination) => {
-      // Determinar el prefijo del SKU y variante
-      const prefix = colorLabel ? `${initials}-${colorLabel}` : initials;
-      const variantPrefix = colorLabel ? `${colorLabel}-${combination}` : combination;
+    // Si hay colores, generar combinaciones por color
+    if (!colorEnabled && colors.length > 0) {
+      colors.forEach((color) => {
+        const colorLabel = color.label;
+        attributeCombinations.forEach((combination) => {
+          newVariations.push({
+            combination: combination ? `${colorLabel}-${combination}` : colorLabel,
+            price: formData.unit_price || 0,
+            sku: combination ? `${initials}-${colorLabel}-${combination}` : `${initials}-${colorLabel}`,
+            quantity: 10, // Siempre 10 por defecto
+          });
+        });
+      });
+    } else {
+      // Si no hay colores seleccionados, usar solo atributos
+      newVariations = attributeCombinations.map((combination) => ({
+        combination,
+        price: formData.unit_price || 0,
+        sku: `${initials}-${combination}`,
+        quantity: 10,
+      }));
+    }
 
-      return {
-        combination: variantPrefix, // Se usa ya concatenado
-        price: formData.unit_price || 0, // Si ya tiene precio definido, no lo borra
-        sku: formData.name ? `${prefix}-${combination}` : `${combination}`,
-        quantity: 10, // Siempre 10 por defecto
-      };
-    });
+    return newVariations;
   };
 
   useEffect(() => {
-    if (!formData.choice_options || formData.choice_options.length === 0) {
+    if ((!formData.choice_options || formData.choice_options.length === 0) && formData.colors.length === 0) {
       setVariations([]);
       return;
     }
@@ -359,19 +381,17 @@ export const Create = () => {
 
     setVariations((prevVariations) =>
       newVariations.map((newVariation) => {
-        const existingVariation = prevVariations.find(
-          (v) => v.combination === newVariation.combination // Ya no es un array, no se necesita join("-")
-        );
+        const existingVariation = prevVariations.find((v) => v.combination === newVariation.combination);
 
         return {
           ...newVariation,
-          price: formData.unit_price, // Usa precio editado si existe
-          sku: formData.name ? `${newVariation.sku}` : `${newVariation.combination}`, // Asegura que el nombre se usa correctamente
-          quantity: existingVariation ? existingVariation.quantity : 10, // Mantiene cantidad si ya existe
+          price: formData.unit_price,
+          sku: formData.name ? `${newVariation.sku}` : `${newVariation.combination}`,
+          quantity: existingVariation ? existingVariation.quantity : 10,
         };
       })
     );
-  }, [formData.choice_options, formData.name, formData.unit_price, formData.colors, colorEnabled]); // Escucha cambios en `name`, `colors` y `colorEnabled`
+  }, [formData.choice_options, formData.colors, formData.name, formData.unit_price, colorEnabled]);
 
   const handlePriceChange = (index, newPrice) => {
     if (!/^\d*\.?\d*$/.test(newPrice)) return;
@@ -896,16 +916,17 @@ export const Create = () => {
             </div>
           </div>
         </div>
-        <div className="row justify-content-end mt-4 mt-md-0">
+        <div className="row justify-content-end pt-3 mt-md-0">
           <div className="col-sm-10 text-end">
             <button aria-label="Click me" type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? (
-                <div className="spinner-border spinner-border-sm text-primary" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              ) : (
-                "Guardar"
-              )}
+              <div className="d-flex align-items-center">
+                {loading && (
+                  <div className="spinner-border spinner-border-sm text-primary me-2" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                )}
+                Guardar
+              </div>
             </button>
           </div>
         </div>

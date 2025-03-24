@@ -5,6 +5,7 @@ import LoaderTable from "../../../../components/admin/LoaderTable";
 import { useNavigate } from 'react-router-dom';
 import { confirmAlert } from "react-confirm-alert";
 import { useLoading } from "../../../../layouts/admin/contexts/LoadingContext";
+import { formatDate } from "../../../../utils/dateFormatter";
 
 export const Index = () => {
     const [noticias, setNoticias] = useState([]);
@@ -190,7 +191,7 @@ export const Index = () => {
                                 <tr key={item.id}>
                                     <td>{(index + 1) + (currentPageTable - 1) * perPage}</td>
                                     <td>{item.title}</td>
-                                    <td>{item.created_at}</td>
+                                    <td>{formatDate(item.created_at)}</td>
                                     <td>
                                         <div className="dropdown">
                                             <button aria-label='Click me' type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

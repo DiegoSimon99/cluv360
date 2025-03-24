@@ -6,6 +6,7 @@ import NumberFormatter from '../../../../components/NumberFormatter';
 import { useNavigate } from 'react-router-dom';
 import { confirmAlert } from "react-confirm-alert";
 import { useLoading } from "../../../../layouts/admin/contexts/LoadingContext";
+import { formatDate } from "../../../../utils/dateFormatter";
 
 export const Index = () => {
     const [eventos, setEventos] = useState([]);
@@ -199,9 +200,9 @@ export const Index = () => {
                                     <td>
                                         <a href={item.link} target="_blank" rel="noopener noreferrer" style={{"color": "#566a7f","text-decoration": "underline"}}>Abrir link</a>
                                     </td>
-                                    <td>{item.fecha_inicio}</td>
-                                    <td>{item.fecha_fin}</td>
-                                    <td>{item.created_at}</td>
+                                    <td>{formatDate(item.fecha_inicio)}</td>
+                                    <td>{formatDate(item.fecha_fin)}</td>
+                                    <td>{formatDate(item.created_at)}</td>
                                     <td>
                                         <div className="dropdown">
                                             <button aria-label='Click me' type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
