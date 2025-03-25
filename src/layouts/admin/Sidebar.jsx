@@ -2,21 +2,43 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import menuData from "../../data/menuData.json";
 import apiClient from "../../api/axios";
+import { useAdmin } from "../contexts/AdminContext";
 
 const Sidebar = () => {
-  const [reviewCount, setReviewCount] = useState(0);
+  const {
+    reviewCount,
+    setReviewCount,
+    reviewCountOrder,
+    setReviewCountOrder,
+    refreshOrdersCount,
+    setRefreshOrdersCount,
+  } = useAdmin();
 
   useEffect(() => {
-    const fetchReviewCount = async () => {
+    const fetchReviewCountProducts = async () => {
       try {
-        const response = await apiClient.get("/admin/products/reviews/count"); // Cambia por tu endpoint que devuelva la cantidad
+        const response = await apiClient.get("/admin/products/reviews/count");
         setReviewCount(response.data.count);
       } catch (error) {
         console.error("Error al obtener la cantidad de reviews", error);
       }
     };
-    fetchReviewCount();
+
+    fetchReviewCountProducts();
   }, []);
+
+  useEffect(() => {
+    const fetchReviewCountOrders = async () => {
+      try {
+        const response = await apiClient.get("/admin/orders/countNewOrders");
+        setReviewCountOrder(response.data.count);
+      } catch (error) {
+        console.error("Error al obtener la cantidad de pedidos", error);
+      }
+    };
+
+    fetchReviewCountOrders();
+  }, [refreshOrdersCount]);
 
   return (
     <aside id="layout-menu" className="layout-menu menu-vertical menu bg-menu-theme">
@@ -42,7 +64,12 @@ const Sidebar = () => {
               </li>
             )}
             {section.items.map((item, itemIndex) => (
-              <MenuItem key={item.link || itemIndex} {...item} reviewCount={reviewCount} />
+              <MenuItem
+                key={item.link || itemIndex}
+                {...item}
+                reviewCount={reviewCount}
+                reviewCountOrder={reviewCountOrder}
+              />
             ))}
           </React.Fragment>
         ))}
@@ -51,7 +78,7 @@ const Sidebar = () => {
   );
 };
 
-const MenuItem = ({ text, link, available, icon, submenu, reviewCount }) => {
+const MenuItem = ({ text, link, available, icon, submenu, reviewCount, reviewCountOrder }) => {
   const location = useLocation();
   const hasSubmenu = submenu && submenu.length > 0;
 
@@ -72,6 +99,9 @@ const MenuItem = ({ text, link, available, icon, submenu, reviewCount }) => {
       >
         {icon && icon !== "undefined" && <i className={`menu-icon tf-icons ${icon}`}></i>}
         <div>{text}</div>
+        {text === "Ventas GoMarket360" && reviewCountOrder > 0 && (
+          <div className="badge bg-primary fs-tiny rounded-pill ms-auto">{reviewCountOrder}</div>
+        )}
         {text === "Calificación de Productos" && reviewCount > 0 && (
           <div className="badge bg-primary fs-tiny rounded-pill ms-auto">{reviewCount}</div>
         )}
@@ -79,13 +109,17 @@ const MenuItem = ({ text, link, available, icon, submenu, reviewCount }) => {
       {submenu && (
         <ul className="menu-sub">
           {submenu.map((submenuItem, index) => (
-            <MenuItem key={submenuItem.link || index} {...submenuItem} reviewCount={reviewCount} />
+            <MenuItem
+              key={submenuItem.link || index}
+              {...submenuItem}
+              reviewCount={reviewCount}
+              reviewCountOrder={reviewCountOrder}
+            />
           ))}
         </ul>
       )}
     </li>
   );
 };
-
 
 export default Sidebar;

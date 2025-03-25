@@ -4,7 +4,7 @@ import { showNotification } from "../../../../utils/greetingHandler";
 import LoaderTable from "../../../../components/admin/LoaderTable";
 import { useNavigate } from 'react-router-dom';
 import { confirmAlert } from "react-confirm-alert";
-import { useLoading } from "../../../../layouts/admin/contexts/LoadingContext";
+import { useAdmin } from "../../../../layouts/contexts/AdminContext";
 import NumberFormatter from "../../../../components/NumberFormatter";
 
 export const Index = () => {

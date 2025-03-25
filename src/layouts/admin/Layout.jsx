@@ -10,10 +10,10 @@ import {
   SyncLoader,
   BarLoader,
 } from "react-spinners";
-import { useLoading } from "./contexts/LoadingContext";
+import { useAdmin } from "../contexts/AdminContext";
 
 const Layout = ({ children }) => {
-  const { loading } = useLoading();
+  const { loading } = useAdmin();
   useEffect(() => {
     Main();
   }, [])

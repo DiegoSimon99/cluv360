@@ -5,7 +5,7 @@ import LoaderTable from "../../../../components/admin/LoaderTable";
 import NumberFormatter from '../../../../components/NumberFormatter';
 import { useNavigate } from 'react-router-dom';
 import { confirmAlert } from "react-confirm-alert";
-import { useLoading } from "../../../../layouts/admin/contexts/LoadingContext";
+import { useAdmin } from "../../../../layouts/contexts/AdminContext";
 import { formatDate } from "../../../../utils/dateFormatter";
 
 export const Index = () => {
@@ -17,7 +17,7 @@ export const Index = () => {
     const [currentPageTable, setCurrentPageTable] = useState(1);
     const [search, setSearch] = useState('');
     const [paginate, setPaginate] = useState(10);
-    const { showLoading, hideLoading } = useLoading();
+    const { showLoading, hideLoading } = useAdmin();
     const navigate = useNavigate();
 
     const listEventos = () => {

@@ -4,37 +4,43 @@ import LoaderTable from "../../../components/admin/LoaderTable";
 import { useNavigate } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
 import { useAdmin } from "../../../layouts/contexts/AdminContext";
-import { formatDate } from "../../../utils/dateFormatter";
 import { showNotification } from "../../../utils/greetingHandler";
+import { formatDate } from "../../../utils/dateFormatter";
 
 export const Index = () => {
-  const [publicaciones, setPublicaciones] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [paymentType, setPaymentType] = useState([]);
+  const [deliveryStatus, setDeliveryStatus] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [perPage, setPerPage] = useState(1);
   const [currentPageTable, setCurrentPageTable] = useState(1);
   const [search, setSearch] = useState("");
+  const [filterPaymentType, setFilterPaymentType] = useState(null);
+  const [filterDeliveryStatus, setFilterDeliveryStatus] = useState(null);
   const [paginate, setPaginate] = useState(10);
   const { showLoading, hideLoading } = useAdmin();
   const navigate = useNavigate();
 
-  const listPublicaciones = () => {
+  const listOrders = () => {
     setLoading(true);
     const data = {
       search: search,
       paginate: paginate,
+      payment_type: filterPaymentType,
+      delivery_status: filterDeliveryStatus,
     };
     apiClient
-      .post(`admin/publications?page=${currentPage}`, data)
+      .post(`admin/orders?page=${currentPage}`, data)
       .then((response) => {
-        setPublicaciones(response.data.data);
+        setOrders(response.data.data);
         setTotalPages(response.data.last_page);
         setPerPage(response.data.per_page);
         setCurrentPageTable(response.data.current_page);
       })
       .catch((error) => {
-        showNotification(error.response?.data?.message || "Error al listar publicaciones","error");
+        showNotification(error.response?.data?.message || "Error al listar pedidos", "error");
       })
       .finally(() => {
         setLoading(false);
@@ -42,8 +48,42 @@ export const Index = () => {
   };
 
   useEffect(() => {
-    listPublicaciones();
-  }, [currentPage, search, paginate]);
+    const dataPaymentType = [
+      {
+        value: "paid",
+        name: "Pagado",
+      },
+      {
+        value: "unpaid",
+        name: "No pagado",
+      },
+    ];
+    setPaymentType(dataPaymentType);
+
+    const deliveryStatus = [
+      {
+        value: "pending",
+        name: "Pendiente",
+      },
+      {
+        value: "on_review",
+        name: "En revisión",
+      },
+      {
+        value: "on_delivery",
+        name: "Procesando envío",
+      },
+      {
+        value: "delivered",
+        name: "Entregado",
+      },
+    ];
+    setDeliveryStatus(deliveryStatus);
+  }, []);
+
+  useEffect(() => {
+    listOrders();
+  }, [currentPage, search, paginate, filterPaymentType, filterDeliveryStatus]);
 
   const getPagination = () => {
     const pages = [];
@@ -90,33 +130,29 @@ export const Index = () => {
     setCurrentPage(1);
   };
 
-  const createPublicacion = (e) => {
-    navigate("/admin/publications/create");
+  const showOrder = (id) => {
+    navigate(`/admin/orders/${id}`);
   };
 
-  const editPublicacion = (id) => {
-    navigate(`/admin/publications/edit/${id}`);
-  };
-
-  const deletePublicacion = (id) => {
+  const deleteOrder = (id) => {
     confirmAlert({
       title: "Confirmar eliminación",
-      message: "¿Estás seguro de que deseas eliminar esta publicación?",
+      message: "¿Estás seguro de que deseas eliminar este pedido?",
       buttons: [
         {
           label: "Sí, eliminar",
           onClick: async () => {
             try {
               showLoading();
-              const response = await apiClient.delete(`/admin/publications/${id}`);
+              const response = await apiClient.delete(`/admin/orders/${id}`);
               if (response.data.success) {
                 showNotification(response.data.message, "success");
-                listPublicaciones();
+                listOrders();
               } else {
                 showNotification(response.data.message, "error");
               }
             } catch (error) {
-              showNotification(error.response?.data?.message || "Error al eliminar publicación", "error");
+              showNotification(error.response?.data?.message || "Error al eliminar pedido", "error");
             } finally {
               hideLoading();
             }
@@ -129,42 +165,54 @@ export const Index = () => {
     });
   };
 
-  const handleCheckboxChange = async (e, id) => {
-    const { name } = e.target;
-    const newStatus = e.target.checked ? 1 : 0;
-    const data = {
-      id: id,
-      status: newStatus,
-    };
-    if (name === "status") {
-      setPublicaciones((prevItems) =>
-        prevItems.map((item) => (item.id === id ? { ...item, status: newStatus } : item))
-      );
-      try {
-        const response = await apiClient.post("/admin/publications/updateStatus", data);
-        if (response.data.success) {
-          showNotification(response.data.message, "success");
-        } else {
-          showNotification(response.data.message, "error");
+  const downloadComprobante = async (id) => {
+    try {
+      const response = await apiClient.get(`/admin/invoice/seller/${id}`, {
+        responseType: "blob",
+      });
+
+      const disposition = response.headers["content-disposition"];
+      let fileName = "comprobante.pdf";
+
+      if (disposition && disposition.includes("filename=")) {
+        const filenameMatch = disposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+        if (filenameMatch && filenameMatch[1]) {
+          fileName = filenameMatch[1].replace(/['"]/g, "");
         }
-      } catch (error) {
-        showNotification(error.response?.data?.message || "Ocurrio un error al actualizar estado", "error");
       }
+
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      showNotification(error.response?.data?.message || "Ocurrió un error al descargar comprobante", "error");
     }
+  };
+
+  const handleFilter = (e) => {
+    const { name, value } = e.target;
+    if (name === "payment_type") {
+      setFilterPaymentType(value);
+    } else if (name === "delivery_status") {
+      setFilterDeliveryStatus(value);
+    }
+    setCurrentPage(1);
   };
 
   return (
     <>
       <div className="card">
         <div className="card-header align-items-center row">
-          <div className="col-12 col-md-10 pt-0 pt-md-2 mb-4">
-            <h5 className="mb-0 text-md-start text-center">Publicaciones</h5>
-          </div>
-          <div className="col-12 col-md-2 mb-4">
-            <button type="button" className="btn btn-primary w-100" onClick={() => createPublicacion()}>
-              {" "}
-              Nueva Publicación
-            </button>
+          <div className="col-12 pt-0 pt-md-2 mb-4">
+            <h5 className="mb-0 text-md-start text-center">Ventas realizadas por GoMarket360</h5>
           </div>
           <div className="col-12 col-md-2 mb-1">
             <label>Entradas</label>
@@ -175,8 +223,30 @@ export const Index = () => {
               <option value="100">100</option>
             </select>
           </div>
-          <div className="col-0 col-md-8 mb-1"></div>
-          <div className="col-12 col-md-2 mb-1">
+          <div className="col-12 col-md-3 mb-2">
+            <br />
+            <select className="form-select" name="payment_type" onChange={handleFilter} value={filterPaymentType}>
+              <option value="">Filtrar por estado de pago</option>
+              {paymentType.map((item) => (
+                <option key={item.value} value={item.value}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-12 col-md-3 mb-2">
+            <br />
+            <select className="form-select" name="delivery_status" onChange={handleFilter} value={filterDeliveryStatus}>
+              <option value="">Filtrar por estado de envio</option>
+              {deliveryStatus.map((item) => (
+                <option key={item.value} value={item.value}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-0 col-md-1 mb-1"></div>
+          <div className="col-12 col-md-3 mb-1">
             <br />
             <div className="input-group input-group-merge">
               <span className="input-group-text" id="basic-addon-search31">
@@ -184,7 +254,7 @@ export const Index = () => {
               </span>
               <input
                 type="search"
-                placeholder="Buscar.."
+                placeholder="Buscar código de orden.."
                 className="form-control"
                 value={search}
                 onChange={handleFilterSubmit}
@@ -198,46 +268,42 @@ export const Index = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Descripción</th>
-                <th>Enlace</th>
-                <th>Sugerencia</th>
-                <th>Fecha de registro</th>
-                <th>Estado de Publicación</th>
+                <th>Código de orden</th>
+                <th>Productos</th>
+                <th>Cliente</th>
+                <th>DNI</th>
+                <th>Lugar</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+                <th>Método de pago</th>
+                <th>Pago</th>
+                <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody className={`table-border-bottom-0 ${loading ? "position-relative" : ""}`}>
-              <LoaderTable loading={loading} cantidad={publicaciones.length}></LoaderTable>
-              {publicaciones.map((item, index) => (
+              <LoaderTable loading={loading} cantidad={orders.length}></LoaderTable>
+              {orders.map((item, index) => (
                 <tr key={item.id}>
                   <td>{index + 1 + (currentPageTable - 1) * perPage}</td>
-                  <td
-                    className="text-truncate"
-                    style={{
-                      minWidth: "400px",
-                      whiteSpace: "normal",
-                      overflow: "hidden",
-                      display: "-webkit-box",
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                    }}
-                    title={item.descripcion}
-                  >
-                    {item.descripcion}
-                  </td>
-                  <td>{item.enlace}</td>
-                  <td>{item.sugerencia}</td>
-                  <td>{formatDate(item.created_at)}</td>
                   <td>
-                    <div className="form-check form-switch">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        name="status"
-                        checked={item.status === 1}
-                        onChange={(e) => handleCheckboxChange(e, item.id)}
-                      />
-                    </div>
+                    {item.code}
+                    {item.viewed == 0 && <span className="badge rounded-pill text-bg-success ms-3">Nuevo</span>}
+                  </td>
+                  <td>{item.productos}</td>
+                  <td>{item.cliente}</td>
+                  <td>{item.dni}</td>
+                  <td>{item.lugar}</td>
+                  <td>{item.monto}</td>
+                  <td>{formatDate(item.created_at)}</td>
+                  <td>{item.payment_type}</td>
+                  <td>
+                    <span className={`badge rounded-pill text-bg-${item.payment_status.color}`}>
+                      {item.payment_status.name}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`badge rounded-pill text-bg-${item.status.color}`}>{item.status.name}</span>
                   </td>
                   <td>
                     <div className="dropdown">
@@ -254,17 +320,25 @@ export const Index = () => {
                           aria-label="dropdown action option"
                           className="dropdown-item"
                           href="#"
-                          onClick={() => editPublicacion(item.id)}
+                          onClick={() => showOrder(item.id)}
                         >
-                          <i className="bx bx-edit-alt me-1"></i> Editar
+                          <i className="bx bx-show me-1"></i> Ver
                         </button>
                         <button
                           aria-label="dropdown action option"
                           className="dropdown-item"
-                          onClick={() => deletePublicacion(item.id)}
+                          href="#"
+                          onClick={() => downloadComprobante(item.id)}
+                        >
+                          <i className="bx bxs-download me-1"></i> Descargar Comprobante
+                        </button>
+                        {/* <button
+                          aria-label="dropdown action option"
+                          className="dropdown-item"
+                          onClick={() => deleteOrder(item.id)}
                         >
                           <i className="bx bx-trash me-1"></i> Eliminar
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </td>

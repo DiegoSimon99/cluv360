@@ -3,7 +3,7 @@ import apiClient from "../../../api/axios";
 import { showNotification } from "../../../utils/greetingHandler";
 import LoaderTable from "../../../components/admin/LoaderTable";
 import { confirmAlert } from "react-confirm-alert";
-import { useLoading } from "../../../layouts/admin/contexts/LoadingContext";
+import { useAdmin } from "../../../layouts/contexts/AdminContext";
 
 export const Solicitudes = () => {
     const [solicitudes, setSolicitudes] = useState([]);
@@ -13,7 +13,7 @@ export const Solicitudes = () => {
     const [perPage, setPerPage] = useState(1);
     const [currentPageTable, setCurrentPageTable] = useState(1);
     const [search, setSearch] = useState('');
-    const { showLoading, hideLoading } = useLoading();
+    const { showLoading, hideLoading } = useAdmin();
     const [paginate, setPaginate] = useState(10);
 
     const listSolicitudes = () => {

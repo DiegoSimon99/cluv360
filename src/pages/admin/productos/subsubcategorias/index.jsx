@@ -4,7 +4,7 @@ import { showNotification } from "../../../../utils/greetingHandler";
 import LoaderTable from "../../../../components/admin/LoaderTable";
 import { useNavigate } from 'react-router-dom';
 import { confirmAlert } from "react-confirm-alert";
-import { useLoading } from "../../../../layouts/admin/contexts/LoadingContext";
+import { useAdmin } from "../../../../layouts/contexts/AdminContext";
 
 export const Index = () => {
     const [subsubCategorias, setSubSubCategorias] = useState([]);
@@ -15,7 +15,7 @@ export const Index = () => {
     const [currentPageTable, setCurrentPageTable] = useState(1);
     const [search, setSearch] = useState('');
     const [paginate, setPaginate] = useState(10);
-    const { showLoading, hideLoading } = useLoading();
+    const { showLoading, hideLoading } = useAdmin();
     const navigate = useNavigate();
 
     const listSubSubCategorias = () => {

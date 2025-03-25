@@ -4,7 +4,7 @@ import { showNotification } from '../../../utils/greetingHandler';
 import ModalInput from '../../../components/admin/ModalInput';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import { useLoading } from '../../../layouts/admin/contexts/LoadingContext';
+import { useAdmin } from '../../../layouts/contexts/AdminContext';
 import Swal from 'sweetalert2'
 import Modal from 'react-bootstrap/Modal';
 import LoaderTable from '../../../components/admin/LoaderTable';
@@ -27,7 +27,7 @@ export const ListaCustomers = () => {
     const [user, setUser] = useState(null);
     const [patrocinador, setPatrocinador] = useState(null);
     const [userId, setUserId] = useState(null);
-    const { showLoading, hideLoading } = useLoading();
+    const { showLoading, hideLoading } = useAdmin();
 
     const [searchPatrocinador, setSearchPatrocinador] = useState(null);
     const [options, setOptions] = useState([]);

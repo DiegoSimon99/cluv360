@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { showNotification } from '../../../../utils/greetingHandler';
 import apiClient from '../../../../api/axios';
 import { useDropzone } from 'react-dropzone';
-import { useLoading } from '../../../../layouts/admin/contexts/LoadingContext';
+import { useAdmin } from '../../../../layouts/contexts/AdminContext';
 
 export const Edit = () => {
     const { id } = useParams();
@@ -12,7 +12,7 @@ export const Edit = () => {
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubCategories] = useState([]);
     const [removedFiles, setRemovedFiles] = useState([]);
-    const { showLoading, hideLoading } = useLoading();
+    const { showLoading, hideLoading } = useAdmin();
     const [photos, setPhotos] = useState({
         photo1: null,
         photo2: null

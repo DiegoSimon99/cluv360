@@ -5,6 +5,7 @@ import { Blank } from "./layouts/admin/Blank";
 import WebLayout from "./layouts/web/WebLayout";
 import React, { useEffect } from "react";
 import fetchUserData from "./hooks/fetchUserData";
+import { AdminProvider } from "./layouts/contexts/AdminContext";
 
 function App() {
   const location = useLocation();
@@ -35,9 +36,11 @@ function App() {
           <Blank />
         </AppRoutes>
       ) : isAdminPath ? (
-        <Layout>
-          <AppRoutes />
-        </Layout>
+        <AdminProvider>
+          <Layout>
+            <AppRoutes />
+          </Layout>
+        </AdminProvider>
       ) : isWebPath ? (
         <WebLayout>
           <AppRoutes />
