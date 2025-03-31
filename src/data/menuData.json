@@ -34,7 +34,7 @@
             },
             {
                 "text": "Ver Movimientos",
-                "icon": "bx bx-table",
+                "icon": "bx bx-dollar",
                 "available": true,
                 "link": "/admin/movements"
             },
@@ -220,6 +220,24 @@
                 "icon": "bx bx-basket",
                 "available": true,
                 "link": "/admin/orders"
+            },
+            {
+                "text": "Cobro de Comisiones",
+                "icon": "bx bx-money",
+                "available": true,
+                "link": "/admin/commissions"
+            },
+            {
+                "text": "Lista de vendedores",
+                "icon": "bx bx-user",
+                "available": true,
+                "link": "/admin/sellers"
+            },
+            {
+                "text": "Paquetes clasificados",
+                "icon": "bx bx-table",
+                "available": true,
+                "link": "/admin/customer-packages"
             }
         ]
     }

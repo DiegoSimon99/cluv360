@@ -19,6 +19,7 @@ export const Index = () => {
     const navigate = useNavigate();
 
     const listSubSubCategorias = () => {
+        setSubSubCategorias([]);
         setLoading(true);
         const data = {
             search: search,

@@ -73,6 +73,8 @@ import { Create as AdminCreatePublicacion } from "../pages/admin/publicaciones/c
 import { Edit as AdminEditPublicacion } from "../pages/admin/publicaciones/edit";
 import { Index as AdminListaPedidos } from "../pages/admin/ventas-gomarket360";
 import { Detail as AdminDetailPedido } from "../pages/admin/ventas-gomarket360/detail";
+import { Index as AdminListaComisiones } from "../pages/admin/retirar-comisiones";
+import { Index as AdminListaSellers } from "../pages/admin/vendedores";
 
 const AppRoutes = () => {
     return (
@@ -151,6 +153,8 @@ const AppRoutes = () => {
                 <Route path="publications/edit/:id" element={<AdminEditPublicacion />} />
                 <Route path="orders" element={<AdminListaPedidos />} />
                 <Route path="orders/:id" element={<AdminDetailPedido />} />
+                <Route path="commissions" element={<AdminListaComisiones />} />
+                <Route path="sellers" element={<AdminListaSellers />} />
             </Route>
 
             {/* Rutas protegidas para customers y sellers */}

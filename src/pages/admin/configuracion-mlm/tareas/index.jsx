@@ -20,6 +20,7 @@ export const Index = () => {
     const navigate = useNavigate();
 
     const listTareas = () => {
+        setTareas([]);
         setLoading(true);
         const data = {
             search: search,

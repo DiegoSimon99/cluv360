@@ -27,6 +27,8 @@ export const Index = () => {
     });
 
     const listCierrePremium = () => {
+        setDatos([]);
+        setCierres([]);
         setLoading(true);
         apiClient.get(`admin/cierre-premium?page=${currentPage}`)
             .then(response => {

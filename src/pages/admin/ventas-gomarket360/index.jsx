@@ -23,28 +23,26 @@ export const Index = () => {
   const { showLoading, hideLoading } = useAdmin();
   const navigate = useNavigate();
 
-  const listOrders = () => {
-    setLoading(true);
-    const data = {
-      search: search,
-      paginate: paginate,
-      payment_type: filterPaymentType,
-      delivery_status: filterDeliveryStatus,
-    };
-    apiClient
-      .post(`admin/orders?page=${currentPage}`, data)
-      .then((response) => {
-        setOrders(response.data.data);
-        setTotalPages(response.data.last_page);
-        setPerPage(response.data.per_page);
-        setCurrentPageTable(response.data.current_page);
-      })
-      .catch((error) => {
-        showNotification(error.response?.data?.message || "Error al listar pedidos", "error");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const listOrders = async () => {
+    setOrders([]);
+    try {
+      setLoading(true);
+      const data = {
+        search: search,
+        paginate: paginate,
+        payment_type: filterPaymentType,
+        delivery_status: filterDeliveryStatus,
+      };
+      const response = await apiClient.post(`admin/orders?page=${currentPage}`, data);
+      setOrders(response.data.data);
+      setTotalPages(response.data.last_page);
+      setPerPage(response.data.per_page);
+      setCurrentPageTable(response.data.current_page);
+    } catch (error) {
+      showNotification(error.response?.data?.message || "Error al listar pedidos", "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -263,7 +261,7 @@ export const Index = () => {
             </div>
           </div>
         </div>
-        <div className="table-responsive text-nowrap pt-2 ps-4 pe-4">
+        <div className="table-responsive pt-2 ps-4 pe-4">
           <table className="table table-hover">
             <thead>
               <tr>
@@ -286,9 +284,11 @@ export const Index = () => {
               {orders.map((item, index) => (
                 <tr key={item.id}>
                   <td>{index + 1 + (currentPageTable - 1) * perPage}</td>
-                  <td>
-                    {item.code}
-                    {item.viewed == 0 && <span className="badge rounded-pill text-bg-success ms-3">Nuevo</span>}
+                  <td style={{ minWidth: 270 }}>
+                    <div className="d-flex justify-content-between">
+                      {item.code}
+                      {item.viewed == 0 && <span className="badge rounded-pill bg-label-success">Nuevo</span>}
+                    </div>
                   </td>
                   <td>{item.productos}</td>
                   <td>{item.cliente}</td>
@@ -298,7 +298,7 @@ export const Index = () => {
                   <td>{formatDate(item.created_at)}</td>
                   <td>{item.payment_type}</td>
                   <td>
-                    <span className={`badge rounded-pill text-bg-${item.payment_status.color}`}>
+                    <span className={`badge rounded-pill bg-label-${item.payment_status.color}`}>
                       {item.payment_status.name}
                     </span>
                   </td>
@@ -332,13 +332,13 @@ export const Index = () => {
                         >
                           <i className="bx bxs-download me-1"></i> Descargar Comprobante
                         </button>
-                        {/* <button
+                        <button
                           aria-label="dropdown action option"
                           className="dropdown-item"
                           onClick={() => deleteOrder(item.id)}
                         >
                           <i className="bx bx-trash me-1"></i> Eliminar
-                        </button> */}
+                        </button>
                       </div>
                     </div>
                   </td>

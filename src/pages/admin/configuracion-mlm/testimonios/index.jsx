@@ -19,6 +19,7 @@ export const Index = () => {
     const navigate = useNavigate();
 
     const listTestimonios = () => {
+        setTestimonios([]);
         setLoading(true);
         const data = {
             search: search,

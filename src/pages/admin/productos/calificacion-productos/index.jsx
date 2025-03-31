@@ -20,6 +20,7 @@ export const Index = () => {
     const [filterType, setFilterType] = useState('');
 
     const listProductos = () => {
+        setProductos([]);
         setLoading(true);
         const data = {
             search: search,

@@ -707,11 +707,11 @@ html[dir=rtl] .border-primary {
 }
 
 a {
-  color: var(--color-system);
+  color: #0040ff;
 }
 
 a:hover {
-  color: var(--color-hover);
+  color: #2f76c1;
 }
 
 .fill-primary {

@@ -21,6 +21,7 @@ export const Index = () => {
     const navigate = useNavigate();
 
     const listEventos = () => {
+        setEventos([]);
         setLoading(true);
         const data = {
             search: search,

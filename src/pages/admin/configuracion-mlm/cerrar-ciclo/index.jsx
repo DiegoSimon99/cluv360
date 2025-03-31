@@ -17,6 +17,7 @@ export const Index = () => {
     const navigate = useNavigate();
 
     const listRangos = () => {
+        setCierreCiclo([]);
         setLoading(true);
         const data = {
             paginate: paginate

@@ -50,6 +50,7 @@ export const Index = () => {
     };
 
     const listVentas = () => {
+        setVentas([]);
         setLoading(true);
         const data = {
             search: search,

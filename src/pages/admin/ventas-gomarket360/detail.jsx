@@ -134,6 +134,37 @@ export const Detail = () => {
     }
   };
 
+  const deleteOrder = () => {
+    confirmAlert({
+      title: "Confirmar eliminación",
+      message: "¿Estás seguro que deseas eliminar este pedido?",
+      buttons: [
+        {
+          label: "Sí, eliminar",
+          onClick: async () => {
+            try {
+              showLoading();
+              const response = await apiClient.delete(`/admin/orders/${id}`);
+              if (response.data.success) {
+                showNotification(response.data.message, "success");
+                navigate("/admin/orders");
+              } else {
+                showNotification(response.data.message, "error");
+              }
+            } catch (error) {
+              showNotification(error.response?.data?.message || "Error al eliminar pedido", "error");
+            } finally {
+              hideLoading();
+            }
+          },
+        },
+        {
+          label: "Cancelar",
+        },
+      ],
+    });
+  };
+
   return (
     <>
       {!isLoading && order ? (
@@ -149,9 +180,11 @@ export const Detail = () => {
               </div>
               <p className="mb-0">{formatDate(order.created_at)}</p>
             </div>
-            {/* <div className="d-flex align-content-center flex-wrap gap-2">
-              <button className="btn btn-danger">Eliminar pedido</button>
-            </div> */}
+            <div className="d-flex align-content-center flex-wrap gap-2">
+              <button className="btn btn-danger" onClick={deleteOrder}>
+                Eliminar pedido
+              </button>
+            </div>
           </div>
           <div className="row">
             <div className="col-12 col-lg-8">
@@ -180,8 +213,8 @@ export const Detail = () => {
                     <tbody>
                       {order.details.map((item, index) => (
                         <tr key={index}>
-                          <td>
-                            <div className="d-flex justify-content-start align-items-center text-nowrap">
+                          <td style={{ maxWidth: "200px", whiteSpace: "normal", wordWrap: "break-word" }}>
+                            <div className="d-flex justify-content-start align-items-center">
                               <div className="avatar-wrapper">
                                 <div className="avatar me-3">
                                   <img

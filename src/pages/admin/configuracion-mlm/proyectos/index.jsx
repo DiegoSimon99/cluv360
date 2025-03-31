@@ -19,6 +19,7 @@ export const Index = () => {
     const navigate = useNavigate();
 
     const listProyectos = () => {
+        setProyectos([]);
         setLoading(true);
         const data = {
             search: search,

@@ -20,6 +20,7 @@ export const Index = () => {
     const navigate = useNavigate();
 
     const listRangos = () => {
+        setRangos([]);
         setLoading(true);
         const data = {
             search: search,

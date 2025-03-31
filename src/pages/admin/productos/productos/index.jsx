@@ -22,6 +22,7 @@ export const Index = () => {
     const navigate = useNavigate();
 
     const listProductos = () => {
+        setProductos([]);
         setLoading(true);
         const data = {
             search: search,

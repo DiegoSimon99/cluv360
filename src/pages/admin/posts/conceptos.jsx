@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { confirmAlert } from "react-confirm-alert";
 import { useAdmin } from "../../../layouts/contexts/AdminContext";
 import { Modal } from "react-bootstrap";
+import { formatDate } from "../../../utils/dateFormatter";
 
 export const Conceptos = () => {
     const [conceptos, setConceptos] = useState([]);
@@ -20,7 +21,6 @@ export const Conceptos = () => {
     const [paginate, setPaginate] = useState(10);
     const [tpye_form, setTypeForm] = useState(1);
     const { showLoading, hideLoading } = useAdmin();
-    const navigate = useNavigate();
 
     /*Modal ChangeConcepto*/
     const [showChangeConcepto, setshowChangeConcepto] = useState(false);
@@ -42,6 +42,7 @@ export const Conceptos = () => {
     const nombreRef = useRef(null);
 
     const listConceptos = () => {
+        setConceptos([]);
         setLoading(true);
         const data = {
             search: search,
@@ -280,7 +281,7 @@ export const Conceptos = () => {
                                 <tr key={item.id}>
                                     <td>{(index + 1) + (currentPageTable - 1) * perPage}</td>
                                     <td>{item.nombre}</td>
-                                    <td>{item.created_at}</td>
+                                    <td>{formatDate(item.created_at)}</td>
                                     <td>
                                         <div className="dropdown">
                                             <button aria-label='Click me' type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

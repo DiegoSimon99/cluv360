@@ -20,6 +20,7 @@ export const Index = () => {
     const navigate = useNavigate();
 
     const listNoticias = () => {
+        setNoticias([]);
         setLoading(true);
         const data = {
             search: search,

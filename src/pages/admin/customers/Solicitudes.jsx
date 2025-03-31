@@ -17,6 +17,7 @@ export const Solicitudes = () => {
     const [paginate, setPaginate] = useState(10);
 
     const listSolicitudes = () => {
+        setSolicitudes([]);
         setLoading(true);
         apiClient.post(`admin/user/delete_request?page=${currentPage}`, { search: search, paginate: paginate })
             .then(response => {
