@@ -5572,6 +5572,10 @@ fieldset:disabled .btn {
   z-index: 1050 !important;
 }
 
+.layout-wrapper:not(.layout-horizontal) .menu-vertical .menu-inner>.menu-item .menu-sub .menu-sub .menu-link::before{
+  inset-inline-start: 1.975rem;
+}
+
 .modal {
   --bs-modal-zindex: 1090;
   --bs-modal-width: 35rem;

@@ -75,96 +75,146 @@ import { Index as AdminListaPedidos } from "../pages/admin/ventas-gomarket360";
 import { Detail as AdminDetailPedido } from "../pages/admin/ventas-gomarket360/detail";
 import { Index as AdminListaComisiones } from "../pages/admin/retirar-comisiones";
 import { Index as AdminListaSellers } from "../pages/admin/vendedores";
+import { Index as AdminListaCustomerPackage } from "../pages/admin/paquetes";
+import { Create as AdminCreateCustomerPackage } from "../pages/admin/paquetes/create";
+import { Edit as AdminEditCustomerPackage } from "../pages/admin/paquetes/edit";
+import { Activation as AdminConfigBusinessSettings } from "../pages/admin/business-settings/activation";
+import { PaymentMethod as AdminConfigPaymentMethod } from "../pages/admin/business-settings/payment-method";
+import { SmtSettings as AdminConfigSmtSettings } from "../pages/admin/business-settings/smtp-settings";
+import { Index as AdminListaCurrency } from "../pages/admin/business-settings/currency";
+import { Create as AdminCreateCurrency } from "../pages/admin/business-settings/currency/create";
+import { Edit as AdminEditCurrency } from "../pages/admin/business-settings/currency/edit";
+import { Index as AdminSellerPolicy } from "../pages/admin/frontend-settings/seller-policy";
+import { Index as AdminReturnPolicy } from "../pages/admin/frontend-settings/return-policy";
+import { Index as AdminSupportPolicy } from "../pages/admin/frontend-settings/support-policy";
+import { Index as AdminTerms } from "../pages/admin/frontend-settings/terms";
+import { Index as AdminPrivacyPolicy } from "../pages/admin/frontend-settings/privacy-policy";
+import { Index as AdminPrivacyPolicyYala } from "../pages/admin/frontend-settings/privacy-policy-yala";
+import { Index as AdminGeneralSettings } from "../pages/admin/frontend-settings/configuracion-general";
+import { Logo as AdminLogoSettings } from "../pages/admin/frontend-settings/logo";
+import { Index as AdminListaAttribute } from "../pages/admin/e-commerce-setup/atributos";
+import { Create as AdminCreateAttribute } from "../pages/admin/e-commerce-setup/atributos/create";
+import { Edit as AdminEditAttribute } from "../pages/admin/e-commerce-setup/atributos/edit";
+import { Index as AdminListaPickUpPoint } from "../pages/admin/e-commerce-setup/punto-recogida";
+import { Create as AdminCreatePickUpPoint } from "../pages/admin/e-commerce-setup/punto-recogida/create";
+import { Edit as AdminEditPickUpPoint } from "../pages/admin/e-commerce-setup/punto-recogida/edit";
+import { Index as AdminListaManualPaymentMethod } from "../pages/admin/sistema-pago/metodo-pago";
+import { Create as AdminCreateManualPaymentMethod } from "../pages/admin/sistema-pago/metodo-pago/create";
+import { Edit as AdminEditManualPaymentMethod } from "../pages/admin/sistema-pago/metodo-pago/edit";
 
 const AppRoutes = () => {
-    return (
-        <Routes>
-            {/* Rutas públicas */}
-            <Route path="/" element={<Inicio />} />
-            <Route path="/auth/login" element={<LoginPage />} />
-            <Route path="/auth/register" element={<RegisterPage />} />
-            <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+  return (
+    <Routes>
+      {/* Rutas públicas */}
+      <Route path="/" element={<Inicio />} />
+      <Route path="/auth/login" element={<LoginPage />} />
+      <Route path="/auth/register" element={<RegisterPage />} />
+      <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
 
+      <Route path="/login" element={<Login />} />
 
-            <Route path="/login" element={<Login />} />
+      {/* Ruta protegida para administradores */}
+      <Route path="/admin" element={<AdminRoutes />}>
+        <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="movements" element={<AdminListaMovimientos />} />
+        <Route path="customers/list" element={<AdminListaCustomers />} />
+        <Route path="customers/delete-request" element={<SolicitudesCustomers />} />
+        <Route path="cierre-premium" element={<CierrePremium />} />
+        <Route path="direct-sale" element={<VentaDirecta />} />
+        <Route path="proyectos" element={<AdminListaProyectos />} />
+        <Route path="proyectos/create" element={<AdminCreateProyectos />} />
+        <Route path="proyectos/edit/:id" element={<AdminEditProyectos />} />
+        <Route path="discount" element={<AdminListaDescuento />} />
+        <Route path="posts" element={<AdminListaPosts />} />
+        <Route path="denuncias/posts" element={<Reported />} />
+        <Route path="conceptos/denuncias" element={<AdminDenunciaConceptos />} />
+        <Route path="affiliate/user" element={<AdminListaRed />} />
+        <Route path="config/general" element={<General />} />
+        <Route path="config/rangos" element={<AdminListaRangos />} />
+        <Route path="config/rangos/create" element={<AdminCreateRangos />} />
+        <Route path="config/rangos/edit/:id" element={<AdminEditRangos />} />
+        <Route path="config/ciclo" element={<Ciclo />} />
+        <Route path="config/cerrar-ciclo" element={<AdminListaCierreCiclo />} />
+        <Route path="config/cerrar-ciclo/create" element={<AdminCreateCierreCiclo />} />
+        <Route path="config/cron-job-settings" element={<AdminListaTareas />} />
+        <Route path="config/cron-job-settings/create" element={<AdminCreateTarea />} />
+        <Route path="config/cron-job-settings/edit/:id" element={<AdminEditTarea />} />
+        <Route path="config/eventos" element={<AdminListaEventos />} />
+        <Route path="config/eventos/create" element={<AdminCreateEvento />} />
+        <Route path="config/eventos/edit/:id" element={<AdminEditEvento />} />
+        <Route path="config/noticias" element={<AdminListaNoticias />} />
+        <Route path="config/noticias/create" element={<AdminCreateNoticias />} />
+        <Route path="config/noticias/edit/:id" element={<AdminEditNoticia />} />
+        <Route path="config/viajes" element={<AdminListaViajes />} />
+        <Route path="config/viajes/create" element={<AdminCreateViajes />} />
+        <Route path="config/viajes/edit/:id" element={<AdminEditViaje />} />
+        <Route path="config/testimonios" element={<AdminListaTestimonios />} />
+        <Route path="config/testimonios/create" element={<AdminCreateTestimonios />} />
+        <Route path="config/testimonios/edit/:id" element={<AdminEditTestimonio />} />
+        <Route path="config/red" element={<Red />} />
+        <Route path="config/proyectos/create" element={<AdminCreateProyectosConfig />} />
+        <Route path="config/proyectos" element={<AdminListaProyectosConfig />} />
+        <Route path="config/proyectos/edit/:id" element={<AdminEditProyecto />} />
+        <Route path="config/terminos-condiciones-yala" element={<AdminTerminosCondicionesYala />} />
+        <Route path="brands" element={<AdminListaMarcas />} />
+        <Route path="brands/create" element={<AdminCreateMarcas />} />
+        <Route path="brands/edit/:id" element={<AdminEditMarcas />} />
+        <Route path="categories" element={<AdminListaCategorias />} />
+        <Route path="categories/create" element={<AdminCreateCategorias />} />
+        <Route path="categories/edit/:id" element={<AdminEditCategorias />} />
+        <Route path="subcategories" element={<AdminListaSubCategorias />} />
+        <Route path="subcategories/create" element={<AdminCreateSubCategorias />} />
+        <Route path="subcategories/edit/:id" element={<AdminEditSubCategorias />} />
+        <Route path="subsubcategories" element={<AdminListaSubSubCategorias />} />
+        <Route path="subsubcategories/create" element={<AdminCreateSubSubCategorias />} />
+        <Route path="subsubcategories/edit/:id" element={<AdminEditSubSubCategorias />} />
+        <Route path="products" element={<AdminListaProductos />} />
+        <Route path="products/create" element={<AdminCreateProductos />} />
+        <Route path="products/edit/:id" element={<AdminEditProductos />} />
+        <Route path="seller/products" element={<AdminListaProductosSeller />} />
+        <Route path="reviews/products" element={<AdminListaCalificacionProductos />} />
+        <Route path="publications" element={<AdminListaPublicaciones />} />
+        <Route path="publications/create" element={<AdminCreatePublicacion />} />
+        <Route path="publications/edit/:id" element={<AdminEditPublicacion />} />
+        <Route path="orders" element={<AdminListaPedidos />} />
+        <Route path="orders/:id" element={<AdminDetailPedido />} />
+        <Route path="commissions" element={<AdminListaComisiones />} />
+        <Route path="sellers" element={<AdminListaSellers />} />
+        <Route path="customer-packages" element={<AdminListaCustomerPackage />} />
+        <Route path="customer-packages/create" element={<AdminCreateCustomerPackage />} />
+        <Route path="customer-packages/edit/:id" element={<AdminEditCustomerPackage />} />
+        <Route path="activation" element={<AdminConfigBusinessSettings />} />
+        <Route path="payment-method" element={<AdminConfigPaymentMethod />} />
+        <Route path="smtp-settings" element={<AdminConfigSmtSettings />} />
+        <Route path="currency" element={<AdminListaCurrency />} />
+        <Route path="currency/create" element={<AdminCreateCurrency />} />
+        <Route path="currency/edit/:id" element={<AdminEditCurrency />} />
+        <Route path="seller_policy" element={<AdminSellerPolicy />} />
+        <Route path="return_policy" element={<AdminReturnPolicy />} />
+        <Route path="support_policy" element={<AdminSupportPolicy />} />
+        <Route path="terms" element={<AdminTerms />} />
+        <Route path="privacy_policy" element={<AdminPrivacyPolicy />} />
+        <Route path="yala_privacy_policy" element={<AdminPrivacyPolicyYala />} />
+        <Route path="generalsettings" element={<AdminGeneralSettings />} />
+        <Route path="logosettings" element={<AdminLogoSettings />} />
+        <Route path="attributes" element={<AdminListaAttribute />} />
+        <Route path="attributes/create" element={<AdminCreateAttribute />} />
+        <Route path="attributes/edit/:id" element={<AdminEditAttribute />} />
+        <Route path="pick_up_points" element={<AdminListaPickUpPoint />} />
+        <Route path="pick_up_points/create" element={<AdminCreatePickUpPoint />} />
+        <Route path="pick_up_points/edit/:id" element={<AdminEditPickUpPoint />} />
+        <Route path="manual_payment_methods" element={<AdminListaManualPaymentMethod />} />
+        <Route path="manual_payment_methods/create" element={<AdminCreateManualPaymentMethod />} />
+        <Route path="manual_payment_methods/edit/:id" element={<AdminEditManualPaymentMethod />} />
+      </Route>
 
-            {/* Ruta protegida para administradores */}
-            <Route path="/admin" element={<AdminRoutes />}>
-                <Route path="dashboard" element={<DashboardPage />} />
-                <Route path="movements" element={<AdminListaMovimientos />} />
-                <Route path="customers/list" element={<AdminListaCustomers />} />
-                <Route path="customers/delete-request" element={<SolicitudesCustomers />} />
-                <Route path="cierre-premium" element={<CierrePremium />} />
-                <Route path="direct-sale" element={<VentaDirecta />} />
-                <Route path="proyectos" element={<AdminListaProyectos />} />
-                <Route path="proyectos/create" element={<AdminCreateProyectos />} />
-                <Route path="proyectos/edit/:id" element={<AdminEditProyectos />} />
-                <Route path="discount" element={<AdminListaDescuento />} />
-                <Route path="posts" element={<AdminListaPosts />} />
-                <Route path="denuncias/posts" element={<Reported />} />
-                <Route path="conceptos/denuncias" element={<AdminDenunciaConceptos />} />
-                <Route path="affiliate/user" element={<AdminListaRed />} />
-                <Route path="config/general" element={<General />} />
-                <Route path="config/rangos" element={<AdminListaRangos />} />
-                <Route path="config/rangos/create" element={<AdminCreateRangos />} />
-                <Route path="config/rangos/edit/:id" element={<AdminEditRangos />} />
-                <Route path="config/ciclo" element={<Ciclo />} />
-                <Route path="config/cerrar-ciclo" element={<AdminListaCierreCiclo />} />
-                <Route path="config/cerrar-ciclo/create" element={<AdminCreateCierreCiclo />} />
-                <Route path="config/cron-job-settings" element={<AdminListaTareas />} />
-                <Route path="config/cron-job-settings/create" element={<AdminCreateTarea />} />
-                <Route path="config/cron-job-settings/edit/:id" element={<AdminEditTarea />} />
-                <Route path="config/eventos" element={<AdminListaEventos />} />
-                <Route path="config/eventos/create" element={<AdminCreateEvento />} />
-                <Route path="config/eventos/edit/:id" element={<AdminEditEvento />} />
-                <Route path="config/noticias" element={<AdminListaNoticias />} />
-                <Route path="config/noticias/create" element={<AdminCreateNoticias />} />
-                <Route path="config/noticias/edit/:id" element={<AdminEditNoticia />} />
-                <Route path="config/viajes" element={<AdminListaViajes />} />
-                <Route path="config/viajes/create" element={<AdminCreateViajes />} />
-                <Route path="config/viajes/edit/:id" element={<AdminEditViaje />} />
-                <Route path="config/testimonios" element={<AdminListaTestimonios />} />
-                <Route path="config/testimonios/create" element={<AdminCreateTestimonios />} />
-                <Route path="config/testimonios/edit/:id" element={<AdminEditTestimonio />} />
-                <Route path="config/red" element={<Red />} />
-                <Route path="config/proyectos/create" element={<AdminCreateProyectosConfig />} />
-                <Route path="config/proyectos" element={<AdminListaProyectosConfig />} />
-                <Route path="config/proyectos/edit/:id" element={<AdminEditProyecto />} />
-                <Route path="config/terminos-condiciones-yala" element={<AdminTerminosCondicionesYala />} />
-                <Route path="brands" element={<AdminListaMarcas />} />
-                <Route path="brands/create" element={<AdminCreateMarcas />} />
-                <Route path="brands/edit/:id" element={<AdminEditMarcas />} />
-                <Route path="categories" element={<AdminListaCategorias />} />
-                <Route path="categories/create" element={<AdminCreateCategorias />} />
-                <Route path="categories/edit/:id" element={<AdminEditCategorias />} />
-                <Route path="subcategories" element={<AdminListaSubCategorias />} />
-                <Route path="subcategories/create" element={<AdminCreateSubCategorias />} />
-                <Route path="subcategories/edit/:id" element={<AdminEditSubCategorias />} />
-                <Route path="subsubcategories" element={<AdminListaSubSubCategorias />} />
-                <Route path="subsubcategories/create" element={<AdminCreateSubSubCategorias />} />
-                <Route path="subsubcategories/edit/:id" element={<AdminEditSubSubCategorias />} />
-                <Route path="products" element={<AdminListaProductos />} />
-                <Route path="products/create" element={<AdminCreateProductos />} />
-                <Route path="products/edit/:id" element={<AdminEditProductos />} />
-                <Route path="seller/products" element={<AdminListaProductosSeller />} />
-                <Route path="reviews/products" element={<AdminListaCalificacionProductos />} />
-                <Route path="publications" element={<AdminListaPublicaciones />} />
-                <Route path="publications/create" element={<AdminCreatePublicacion />} />
-                <Route path="publications/edit/:id" element={<AdminEditPublicacion />} />
-                <Route path="orders" element={<AdminListaPedidos />} />
-                <Route path="orders/:id" element={<AdminDetailPedido />} />
-                <Route path="commissions" element={<AdminListaComisiones />} />
-                <Route path="sellers" element={<AdminListaSellers />} />
-            </Route>
+      {/* Rutas protegidas para customers y sellers */}
+      <Route path="/" element={<CustomerRoutes />}>
+        <Route path="/dashboard" element={<UserDashboard />} />
+      </Route>
 
-            {/* Rutas protegidas para customers y sellers */}
-            <Route path="/" element={<CustomerRoutes />}>
-                <Route path="/dashboard" element={<UserDashboard />} />
-            </Route>
-
-            <Route path="*" element={<ErrorPage />} />
-
-        </Routes>
-    )
-}
+      <Route path="*" element={<ErrorPage />} />
+    </Routes>
+  );
+};
 export default AppRoutes;

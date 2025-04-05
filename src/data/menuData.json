@@ -238,6 +238,125 @@
                 "icon": "bx bx-table",
                 "available": true,
                 "link": "/admin/customer-packages"
+            },
+            {
+                "text": "Business Settings",
+                "icon": "bx bx-briefcase-alt-2",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "Activación",
+                        "available": true,
+                        "link": "/admin/activation"
+                    },
+                    {
+                        "text": "Método de pago",
+                        "available": true,
+                        "link": "/admin/payment-method"
+                    },
+                    {
+                        "text": "SMTP Settings",
+                        "available": true,
+                        "link": "/admin/smtp-settings"
+                    },
+                    {
+                        "text": "Currency",
+                        "available": true,
+                        "link": "/admin/currency"
+                    }
+                ]
+            },
+            {
+                "text": "Frontend Settings",
+                "icon": "bx bx-desktop",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "Páginas de políticas",
+                        "available": true,
+                        "link": "#",
+                        "submenu": [
+                            {
+                                "text": "Política del vendedor",
+                                "available": true,
+                                "link": "/admin/seller_policy"
+                            },
+                            {
+                                "text": "Política de devoluciones",
+                                "available": true,
+                                "link": "/admin/return_policy"
+                            },
+                            {
+                                "text": "Política de soporte",
+                                "available": true,
+                                "link": "/admin/support_policy"
+                            },
+                            {
+                                "text": "Términos y condiciones",
+                                "available": true,
+                                "link": "/admin/terms"
+                            },
+                            {
+                                "text": "Política de privacidad",
+                                "available": true,
+                                "link": "/admin/privacy_policy"
+                            },
+                            {
+                                "text": "Política de privacidad Yala",
+                                "available": true,
+                                "link": "/admin/yala_privacy_policy"
+                            }
+                        ]
+                    },
+                    {
+                        "text": "Configuración general",
+                        "available": true,
+                        "link": "/admin/generalsettings"
+                    },
+                    {
+                        "text": "Configuración de Logo",
+                        "available": true,
+                        "link": "/admin/logosettings"
+                    }
+                ]
+            },
+            {
+                "text": "E-commerce Setup",
+                "icon": "bx bx-cog",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "Atributo",
+                        "available": true,
+                        "link": "/admin/attributes"
+                    },
+                    {
+                        "text": "Punto de recogida",
+                        "available": true,
+                        "link": "/admin/pick_up_points"
+                    }
+                ]
+            },
+            {
+                "text": "Sistema de pago fuera de línea",
+                "icon": "bx bxs-bank",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "Métodos de pago manuales",
+                        "available": true,
+                        "link": "/admin/manual_payment_methods"
+                    },
+                    {
+                        "text": "Solicitudes de recarga de billetera",
+                        "available": true,
+                        "link": "/admin/offline-wallet-recharge-requests"
+                    }
+                ]
             }
         ]
     }
