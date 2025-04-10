@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import apiClient from "../../../../api/axios";
-import { showNotification } from "../../../../utils/greetingHandler";
-import LoaderTable from "../../../../components/admin/LoaderTable";
+import apiClient from "../../../api/axios";
+import { showNotification } from "../../../utils/greetingHandler";
+import LoaderTable from "../../../components/admin/LoaderTable";
+import { useNavigate } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
-import { useAdmin } from "../../../../layouts/contexts/AdminContext";
-import { formatDate } from "../../../../utils/dateFormatter";
-import NumberFormatter from "../../../../components/NumberFormatter";
-import { Modal } from "react-bootstrap";
+import { useAdmin } from "../../../layouts/contexts/AdminContext";
+import { formatDate } from "../../../utils/dateFormatter";
 
 export const Index = () => {
-  const [id, setId] = useState(null);
-  const [manualPaymentMethods, setWalletRecharge] = useState([]);
+  const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [perPage, setPerPage] = useState(1);
@@ -20,46 +17,30 @@ export const Index = () => {
   const [search, setSearch] = useState("");
   const [paginate, setPaginate] = useState(10);
   const { showLoading, hideLoading } = useAdmin();
-  /*Modal ChangeVenta*/
-  const [showChangeRecharge, setshowRecharge] = useState(false);
-  const handleCloseChangeRecharge = () => setshowRecharge(false);
-  const handleShowChangeRecharge = () => setshowRecharge(true);
+  const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    details: "",
-  });
-
-  const handleChangeForm = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const listWalletRecharge = async () => {
+  const listRoles = async () => {
     try {
-      setWalletRecharge([]);
+      setRoles([]);
       setLoading(true);
       const data = {
         search: search,
         paginate: paginate,
       };
-      const response = await apiClient.post(`admin/offline-wallet-recharge-requests?page=${currentPage}`, data);
-      setWalletRecharge(response.data.data);
+      const response = await apiClient.post(`admin/roles?page=${currentPage}`, data);
+      setRoles(response.data.data);
       setTotalPages(response.data.last_page);
       setPerPage(response.data.per_page);
       setCurrentPageTable(response.data.current_page);
     } catch (error) {
-      showNotification(error);
+      showNotification(error.response?.data?.message || "Ocurrio un error al listar rol", "error");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    listWalletRecharge();
+    listRoles();
   }, [currentPage, search, paginate]);
 
   const getPagination = () => {
@@ -107,25 +88,33 @@ export const Index = () => {
     setCurrentPage(1);
   };
 
-  const deleteWalletRecharge = (id) => {
+  const createRole = () => {
+    navigate("/admin/roles/create");
+  };
+
+  const editRole = (id) => {
+    navigate(`/admin/roles/edit/${id}`);
+  };
+
+  const deleteRole = (id) => {
     confirmAlert({
       title: "Confirmar eliminación",
-      message: "¿Estás seguro que deseas eliminar esta solicitud de recarga?",
+      message: "¿Estás seguro que deseas eliminar este rol?",
       buttons: [
         {
           label: "Sí, eliminar",
           onClick: async () => {
             try {
               showLoading();
-              const response = await apiClient.delete(`/admin/offline-wallet-recharge-requests/${id}`);
+              const response = await apiClient.delete(`/admin/roles/${id}`);
               if (response.data.success) {
                 showNotification(response.data.message, "success");
-                listWalletRecharge();
+                listRoles();
               } else {
                 showNotification(response.data.message, "error");
               }
             } catch (error) {
-              showNotification(error.response?.data?.message || "Error al eliminar solicitud de recarga", "error");
+              showNotification(error.response?.data?.message || "Error al eliminar rol", "error");
             } finally {
               hideLoading();
             }
@@ -138,40 +127,18 @@ export const Index = () => {
     });
   };
 
-  const modalApproval = (wallet_id) => {
-    setId(wallet_id);
-    handleShowChangeRecharge();
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      setIsLoading(true);
-      const response = await apiClient.post(`/admin/offline-wallet-recharge-requests/approved/${id}`,formData);
-      if (response.data.success) {
-        showNotification(response.data.message, "success");
-        handleCloseChangeRecharge();
-        listWalletRecharge();
-        setFormData({
-          details: "",
-        });
-      } else {
-        showNotification(response.data.message, "error");
-      }
-    } catch (error) {
-      showNotification(error.response?.data?.message || "Ocurrio un error al aprobar recargar", "error");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <>
       <div className="card">
         <div className="card-header align-items-center row">
-          <div className="col-12 pt-0 pt-md-2 mb-4">
-            <h5 className="mb-0 text-md-start text-center">Solicitudes de recarga de billetera</h5>
+          <div className="col-12 col-md-10 pt-0 pt-md-2 mb-4">
+            <h5 className="mb-0 text-md-start text-center">Roles</h5>
+          </div>
+          <div className="col-12 col-md-2 mb-4">
+            <button type="button" className="btn btn-primary w-100" onClick={() => createRole()}>
+              {" "}
+              Nuevo Rol
+            </button>
           </div>
           <div className="col-12 col-md-2 mb-1">
             <label>Entradas</label>
@@ -206,57 +173,45 @@ export const Index = () => {
               <tr>
                 <th>#</th>
                 <th>Nombre</th>
-                <th>Moneda</th>
-                <th>Monto</th>
-                <th>Método</th>
-                <th>Tipo</th>
-                <th>TXN ID</th>
-                <th>Foto</th>
-                <th>Aprobación</th>
-                <th>Detalles</th>
-                <th>Fecha</th>
+                <th>Ultima actualización</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody className={`table-border-bottom-0 ${loading ? "position-relative" : ""}`}>
-              <LoaderTable loading={loading} cantidad={manualPaymentMethods.length}></LoaderTable>
-              {manualPaymentMethods.map((item, index) => (
+              <LoaderTable loading={loading} cantidad={roles.length}></LoaderTable>
+              {roles.map((item, index) => (
                 <tr key={item.id}>
                   <td>{index + 1 + (currentPageTable - 1) * perPage}</td>
-                  <td>{item.username + " " + item.surname}</td>
-                  <td>{item.currency_code}</td>
+                  <td>{item.name}</td>
+                  <td>{formatDate(item.updated_at)}</td>
                   <td>
-                    <NumberFormatter value={item.amount}></NumberFormatter>
-                  </td>
-                  <td>{item.payment_method}</td>
-                  <td>{item.tipo_abono}</td>
-                  <td>{item.voucher}</td>
-                  <td>
-                    <a href={item.reciept} target="_blank" rel="noopener noreferrer">
-                      Ver Recibo
-                    </a>
-                  </td>
-                  <td>
-                    {item.approval == 0 ? (
-                      <button type="button" className="btn btn-primary" onClick={() => modalApproval(item.id)}>
-                        Aprobar
-                      </button>
-                    ) : (
-                      "APROBADO"
-                    )}
-                  </td>
-                  <td>{item.details}</td>
-                  <td>{formatDate(item.created_at)}</td>
-                  <td>
-                    {item.approval == 0 && (
+                    <div className="dropdown">
                       <button
+                        aria-label="Click me"
                         type="button"
-                        className="btn btn-danger"
-                        onClick={() => deleteWalletRecharge(item.id)}
+                        className="btn p-0 dropdown-toggle hide-arrow"
+                        data-bs-toggle="dropdown"
                       >
-                        <i className="bx bx-trash me-1"></i> Eliminar
+                        <i className="bx bx-dots-vertical-rounded"></i>
                       </button>
-                    )}
+                      <div className="dropdown-menu">
+                        <button
+                          aria-label="dropdown action option"
+                          className="dropdown-item"
+                          href="#"
+                          onClick={() => editRole(item.id)}
+                        >
+                          <i className="bx bx-edit-alt me-1"></i> Editar
+                        </button>
+                        <button
+                          aria-label="dropdown action option"
+                          className="dropdown-item"
+                          onClick={() => deleteRole(item.id)}
+                        >
+                          <i className="bx bx-trash me-1"></i> Eliminar
+                        </button>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -330,41 +285,6 @@ export const Index = () => {
           </nav>
         </div>
       </div>
-
-      <Modal show={showChangeRecharge} onHide={handleCloseChangeRecharge} centered>
-        <Modal.Header closeButton>
-          <h5 className="modal-title">Aprobar Recarga</h5>
-        </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={handleSubmit}>
-            <div className="row g-2">
-              <div className="col-12 mb-2">
-                <label className="form-label">Observaciones</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="details"
-                  value={formData.details}
-                  onChange={handleChangeForm}
-                  required
-                />
-              </div>
-              <div className="col-12 mb-2">
-                <button type="submit" className="btn btn-primary w-100">
-                  {isLoading && (
-                    <div>
-                      <div className="spinner-border spinner-border-sm text-primary me-2" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                      </div>
-                    </div>
-                  )}
-                  Enviar
-                </button>
-              </div>
-            </div>
-          </form>
-        </Modal.Body>
-      </Modal>
     </>
   );
 };

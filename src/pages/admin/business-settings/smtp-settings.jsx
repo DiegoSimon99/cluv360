@@ -95,6 +95,10 @@ export const SmtSettings = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (value.includes("$")) {
+      showNotification("No se permite el símbolo '$'", "error");
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
       [name]: value,

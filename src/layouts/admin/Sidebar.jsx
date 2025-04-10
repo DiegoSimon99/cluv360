@@ -11,7 +11,9 @@ const Sidebar = () => {
     reviewCountOrder,
     setReviewCountOrder,
     refreshOrdersCount,
-    setRefreshOrdersCount,
+    reviewCountTicket,
+    setReviewCountTicket,
+    refreshTicketsCount,
   } = useAdmin();
 
   useEffect(() => {
@@ -39,6 +41,19 @@ const Sidebar = () => {
 
     fetchReviewCountOrders();
   }, [refreshOrdersCount]);
+
+  useEffect(() => {
+    const fetchReviewCountTickets = async () => {
+      try {
+        const response = await apiClient.get("/admin/support_ticket/reviews/count");
+        setReviewCountTicket(response.data.count);
+      } catch (error) {
+        console.error("Error al obtener la cantidad de tickets", error);
+      }
+    };
+
+    fetchReviewCountTickets();
+  }, [refreshTicketsCount]);
 
   return (
     <aside id="layout-menu" className="layout-menu menu-vertical menu bg-menu-theme">
@@ -69,6 +84,7 @@ const Sidebar = () => {
                 {...item}
                 reviewCount={reviewCount}
                 reviewCountOrder={reviewCountOrder}
+                reviewCountTicket={reviewCountTicket}
               />
             ))}
           </React.Fragment>
@@ -78,7 +94,7 @@ const Sidebar = () => {
   );
 };
 
-const MenuItem = ({ text, link, available, icon, submenu, reviewCount, reviewCountOrder }) => {
+const MenuItem = ({ text, link, available, icon, submenu, reviewCount, reviewCountOrder, reviewCountTicket }) => {
   const location = useLocation();
   const hasSubmenu = submenu && submenu.length > 0;
 
@@ -104,6 +120,9 @@ const MenuItem = ({ text, link, available, icon, submenu, reviewCount, reviewCou
         )}
         {text === "Calificación de Productos" && reviewCount > 0 && (
           <div className="badge bg-primary fs-tiny rounded-pill ms-auto">{reviewCount}</div>
+        )}
+        {link === "/admin/support_ticket" && reviewCountTicket > 0 && (
+          <div className="badge bg-primary fs-tiny rounded-pill ms-auto">{reviewCountTicket}</div>
         )}
       </NavLink>
       {submenu && (

@@ -9,9 +9,11 @@ export const useAdmin = () => useContext(AdminContext);
 // Proveedor del contexto
 export const AdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
-  const [reviewCountOrder, setReviewCountOrder] = useState(0);
   const [reviewCount, setReviewCount] = useState(0);
+  const [reviewCountOrder, setReviewCountOrder] = useState(0);
   const [refreshOrdersCount, setRefreshOrdersCount] = useState(false);
+  const [reviewCountTicket, setReviewCountTicket] = useState(0);
+  const [refreshTicketsCount, setRefreshTicketsCount] = useState(false);
 
   const showLoading = () => setLoading(true); // Función para mostrar el loader
   const hideLoading = () => setLoading(false); // Función para ocultar el loader
@@ -28,6 +30,10 @@ export const AdminProvider = ({ children }) => {
         setReviewCount,
         refreshOrdersCount,
         setRefreshOrdersCount,
+        reviewCountTicket,
+        setReviewCountTicket,
+        refreshTicketsCount,
+        setRefreshTicketsCount,
       }}
     >
       {children}

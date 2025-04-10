@@ -357,6 +357,48 @@
                         "link": "/admin/offline-wallet-recharge-requests"
                     }
                 ]
+            },
+            {
+                "text": "OTP System",
+                "icon": "bx bx-mobile",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "OTP Configurations",
+                        "available": true,
+                        "link": "/admin/otp-configuration"
+                    },
+                    {
+                        "text": "Set OTP Credentials",
+                        "available": true,
+                        "link": "/admin/otp-credentials-configuration"
+                    }
+                ]
+            },
+            {
+                "text": "Ticket de soporte",
+                "icon": "bx bx-support",
+                "available": true,
+                "link": "/admin/support_ticket"
+            },
+            {
+                "text": "Staffs",
+                "icon": "bx bxs-user-plus",
+                "available": true,
+                "link": "#",
+                "submenu": [
+                    {
+                        "text": "Personales",
+                        "available": true,
+                        "link": "/admin/staffs"
+                    },
+                    {
+                        "text": "Roles",
+                        "available": true,
+                        "link": "/admin/roles"
+                    }
+                ]
             }
         ]
     }

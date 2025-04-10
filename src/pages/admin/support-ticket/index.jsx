@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import apiClient from "../../../../api/axios";
-import { showNotification } from "../../../../utils/greetingHandler";
-import LoaderTable from "../../../../components/admin/LoaderTable";
+import apiClient from "../../../api/axios";
+import LoaderTable from "../../../components/admin/LoaderTable";
 import { useNavigate } from "react-router-dom";
-import { confirmAlert } from "react-confirm-alert";
-import { useAdmin } from "../../../../layouts/contexts/AdminContext";
-import { formatDate } from "../../../../utils/dateFormatter";
+import { formatDate } from "../../../utils/dateFormatter";
+import { showNotification } from "../../../utils/greetingHandler";
+import { Tooltip } from "react-tooltip";
 
 export const Index = () => {
-  const [manualPaymentMethods, setManualPaymentMethods] = useState([]);
+  const [supportTicket, setSupportTicket] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -16,31 +15,30 @@ export const Index = () => {
   const [currentPageTable, setCurrentPageTable] = useState(1);
   const [search, setSearch] = useState("");
   const [paginate, setPaginate] = useState(10);
-  const { showLoading, hideLoading } = useAdmin();
   const navigate = useNavigate();
 
-  const listManualPaymentMethods = async () => {
+  const listSupportTicket = async () => {
     try {
-      setManualPaymentMethods([]);
+      setSupportTicket([]);
       setLoading(true);
       const data = {
         search: search,
         paginate: paginate,
       };
-      const response = await apiClient.post(`admin/manual_payment_methods?page=${currentPage}`, data);
-      setManualPaymentMethods(response.data.data);
+      const response = await apiClient.post(`admin/support_ticket?page=${currentPage}`, data);
+      setSupportTicket(response.data.data);
       setTotalPages(response.data.last_page);
       setPerPage(response.data.per_page);
       setCurrentPageTable(response.data.current_page);
     } catch (error) {
-      showNotification(error);
+      showNotification(error.response?.data?.message || "Error al listar tickets", "error");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    listManualPaymentMethods();
+    listSupportTicket();
   }, [currentPage, search, paginate]);
 
   const getPagination = () => {
@@ -88,57 +86,16 @@ export const Index = () => {
     setCurrentPage(1);
   };
 
-  const createManualPaymentMethod = () => {
-    navigate("/admin/manual_payment_methods/create");
-  };
-
-  const editManualPaymentMethod = (id) => {
-    navigate(`/admin/manual_payment_methods/edit/${id}`);
-  };
-
-  const deleteManualPaymentMethod = (id) => {
-    confirmAlert({
-      title: "Confirmar eliminación",
-      message: "¿Estás seguro de que deseas eliminar este método de pago manual?",
-      buttons: [
-        {
-          label: "Sí, eliminar",
-          onClick: async () => {
-            try {
-              showLoading();
-              const response = await apiClient.delete(`/admin/manual_payment_methods/${id}`);
-              if (response.data.success) {
-                showNotification(response.data.message, "success");
-                listManualPaymentMethods();
-              } else {
-                showNotification(response.data.message, "error");
-              }
-            } catch (error) {
-              showNotification(error.response?.data?.message || "Error al eliminar Método de pago manual", "error");
-            } finally {
-              hideLoading();
-            }
-          },
-        },
-        {
-          label: "Cancelar",
-        },
-      ],
-    });
+  const viewDetails = (id) => {
+    navigate(`/admin/support_ticket/details/${id}`);
   };
 
   return (
     <>
       <div className="card">
         <div className="card-header align-items-center row">
-          <div className="col-12 col-md-10 pt-0 pt-md-2 mb-4">
-            <h5 className="mb-0 text-md-start text-center">Método de pago manual</h5>
-          </div>
-          <div className="col-12 col-md-2 mb-4">
-            <button type="button" className="btn btn-primary w-100" onClick={() => createManualPaymentMethod()}>
-              {" "}
-              Nuevo Método de pago
-            </button>
+          <div className="col-12 pt-0 pt-md-2 mb-4">
+            <h5 className="mb-0 text-md-start text-center">Ticket de soporte</h5>
           </div>
           <div className="col-12 col-md-2 mb-1">
             <label>Entradas</label>
@@ -172,55 +129,46 @@ export const Index = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Nombre</th>
-                <th>Logo</th>
-                <th>Ulima Actualización</th>
+                <th>Ticket ID</th>
+                <th>Fecha de envío</th>
+                <th>Subject</th>
+                <th>Usuario</th>
+                <th>Estado</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody className={`table-border-bottom-0 ${loading ? "position-relative" : ""}`}>
-              <LoaderTable loading={loading} cantidad={manualPaymentMethods.length}></LoaderTable>
-              {manualPaymentMethods.map((item, index) => (
+              <LoaderTable loading={loading} cantidad={supportTicket.length}></LoaderTable>
+              {supportTicket.map((item, index) => (
                 <tr key={item.id}>
                   <td>{index + 1 + (currentPageTable - 1) * perPage}</td>
-                  <td>{item.heading}</td>
+                  <td>{item.code}</td>
                   <td>
-                    <img
-                      src={item.photo || import.meta.env.VITE_URL_PRODUCTO}
-                      className="img-md me-2"
-                      alt="not-found"
-                      height="50"
-                    />
-                  </td>
-                  <td>{formatDate(item.updated_at)}</td>
-                  <td>
-                    <div className="dropdown">
-                      <button
-                        aria-label="Click me"
-                        type="button"
-                        className="btn p-0 dropdown-toggle hide-arrow"
-                        data-bs-toggle="dropdown"
-                      >
-                        <i className="bx bx-dots-vertical-rounded"></i>
-                      </button>
-                      <div className="dropdown-menu">
-                        <button
-                          aria-label="dropdown action option"
-                          className="dropdown-item"
-                          href="#"
-                          onClick={() => editManualPaymentMethod(item.id)}
-                        >
-                          <i className="bx bx-edit-alt me-1"></i> Editar
-                        </button>
-                        <button
-                          aria-label="dropdown action option"
-                          className="dropdown-item"
-                          onClick={() => deleteManualPaymentMethod(item.id)}
-                        >
-                          <i className="bx bx-trash me-1"></i> Eliminar
-                        </button>
-                      </div>
+                    <div className="d-flex justify-content-between">
+                      {formatDate(item.created_at)}
+                      {item.viewed == 0 && <span className="badge rounded-pill bg-label-info">Nuevo</span>}
                     </div>
+                  </td>
+                  <td>{item.subject}</td>
+                  <td>{item.username + " " + item.surname}</td>
+                  <td>
+                    {item.status == "pending" ? (
+                      <span className="badge rounded-pill bg-label-danger">{item.status}</span>
+                    ) : item.status == "open" ? (
+                      <span className="badge rounded-pill bg-label-secondary">{item.status}</span>
+                    ) : (
+                      <span className="badge rounded-pill bg-label-success">{item.status}</span>
+                    )}
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-primary"
+                      data-tooltip-id="my-tooltip"
+                      data-tooltip-content="Ver Detalles"
+                      onClick={() => viewDetails(item.id)}
+                    >
+                      <i className="bx bxs-show"></i>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -294,6 +242,7 @@ export const Index = () => {
           </nav>
         </div>
       </div>
+      <Tooltip id="my-tooltip" place="top" />
     </>
   );
 };

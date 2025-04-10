@@ -101,6 +101,17 @@ import { Edit as AdminEditPickUpPoint } from "../pages/admin/e-commerce-setup/pu
 import { Index as AdminListaManualPaymentMethod } from "../pages/admin/sistema-pago/metodo-pago";
 import { Create as AdminCreateManualPaymentMethod } from "../pages/admin/sistema-pago/metodo-pago/create";
 import { Edit as AdminEditManualPaymentMethod } from "../pages/admin/sistema-pago/metodo-pago/edit";
+import { Index as AdminListaWalletRecharge } from "../pages/admin/sistema-pago/solicitud-recarga";
+import { Index as AdminOtpConfiguration } from "../pages/admin/otp-system/otp-configuration";
+import { Index as AdminOtpCredentialsConfiguration } from "../pages/admin/otp-system/otp-credentials-configuration";
+import { Index as AdminListaSupportTicket } from "../pages/admin/support-ticket";
+import { Detail as AdminDetailSupportTicket } from "../pages/admin/support-ticket/detail";
+import { Index as AdminListaStaff } from "../pages/admin/staff";
+import { Create as AdminCreateStaff } from "../pages/admin/staff/create";
+import { Edit as AdminEditStaff } from "../pages/admin/staff/edit";
+import { Index as AdminListaRoles } from "../pages/admin/roles";
+import { Create as AdminCreateRoles } from "../pages/admin/roles/create";
+import { Edit as AdminEditRoles } from "../pages/admin/roles/edit";
 
 const AppRoutes = () => {
   return (
@@ -206,6 +217,17 @@ const AppRoutes = () => {
         <Route path="manual_payment_methods" element={<AdminListaManualPaymentMethod />} />
         <Route path="manual_payment_methods/create" element={<AdminCreateManualPaymentMethod />} />
         <Route path="manual_payment_methods/edit/:id" element={<AdminEditManualPaymentMethod />} />
+        <Route path="offline-wallet-recharge-requests" element={<AdminListaWalletRecharge />} />
+        <Route path="otp-configuration" element={<AdminOtpConfiguration />} />
+        <Route path="otp-credentials-configuration" element={<AdminOtpCredentialsConfiguration />} />
+        <Route path="support_ticket" element={<AdminListaSupportTicket />} />
+        <Route path="support_ticket/details/:id" element={<AdminDetailSupportTicket />} />
+        <Route path="staffs" element={<AdminListaStaff />} />
+        <Route path="staffs/create" element={<AdminCreateStaff />} />
+        <Route path="staffs/edit/:id" element={<AdminEditStaff />} />
+        <Route path="roles" element={<AdminListaRoles />} />
+        <Route path="roles/create" element={<AdminCreateRoles />} />
+        <Route path="roles/edit/:id" element={<AdminEditRoles />} />
       </Route>
 
       {/* Rutas protegidas para customers y sellers */}
