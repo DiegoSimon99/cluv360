@@ -4,7 +4,7 @@ import { LoginPage } from "../pages/admin/authentication/LoginPage";
 import { RegisterPage } from "../pages/admin/authentication/RegisterPage";
 import { ForgotPasswordPage } from "../pages/admin/authentication/ForgotPasswordPage";
 import { ErrorPage } from "../pages/misc/ErrorPage";
-import { DashboardPage } from "../pages/DashboardPage";
+import { DashboardPage } from "../pages/admin/DashboardPage";
 import { UserDashboard } from "../pages/web/UserDashboard";
 
 import { Inicio } from "../pages/web/Inicio";
@@ -117,12 +117,12 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Rutas públicas */}
-      <Route path="/" element={<Inicio />} />
+      <Route path="/" element={<LoginPage />} />
       <Route path="/auth/login" element={<LoginPage />} />
-      <Route path="/auth/register" element={<RegisterPage />} />
-      <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+      {/* <Route path="/auth/register" element={<RegisterPage />} /> */}
+      {/* <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} /> */}
 
-      <Route path="/login" element={<Login />} />
+      {/* <Route path="/login" element={<Login />} /> */}
 
       {/* Ruta protegida para administradores */}
       <Route path="/admin" element={<AdminRoutes />}>
@@ -231,9 +231,9 @@ const AppRoutes = () => {
       </Route>
 
       {/* Rutas protegidas para customers y sellers */}
-      <Route path="/" element={<CustomerRoutes />}>
+      {/* <Route path="/" element={<CustomerRoutes />}>
         <Route path="/dashboard" element={<UserDashboard />} />
-      </Route>
+      </Route> */}
 
       <Route path="*" element={<ErrorPage />} />
     </Routes>

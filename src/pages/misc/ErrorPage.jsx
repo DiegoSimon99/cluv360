@@ -4,12 +4,12 @@ import './page-misc.css'
 
 export const ErrorPage = () => {
     const [url, setUrl] = useState("/");
-    useEffect(() => {
-        const user_data = localStorage.getItem("user_data");
-        if (user_data) {
-            setUrl('login');
-        }
-    }, []);
+    // useEffect(() => {
+    //     const user_data = localStorage.getItem("user_data");
+    //     if (user_data) {
+    //         setUrl('login');
+    //     }
+    // }, []);
     return (
         <>
             <div className="misc-wrapper">
@@ -18,7 +18,7 @@ export const ErrorPage = () => {
                 <Link aria-label='Go to Home Page' to={url} className="btn btn-primary">Back to home</Link>
                 <div className="mt-3">
                     <img
-                        src="../assets/img/illustrations/page-misc-error-light.png"
+                        src="https://f005.backblazeb2.com/file/cluv360archivos/67f8c3ff88dc7_page-misc-error-light.png"
                         alt="page-misc-error-light"
                         aria-label="page misc error light"
                         width="500"

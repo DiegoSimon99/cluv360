@@ -42,9 +42,12 @@ function App() {
           </Layout>
         </AdminProvider>
       ) : isWebPath ? (
-        <WebLayout>
-          <AppRoutes />
-        </WebLayout>
+        // <WebLayout>
+        //   <AppRoutes />
+        // </WebLayout>
+        <AppRoutes>
+          <Blank />
+        </AppRoutes>
       ) : null}
     </>
   );

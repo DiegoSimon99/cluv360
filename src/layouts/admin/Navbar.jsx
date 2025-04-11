@@ -71,7 +71,7 @@ const Navbar = () => {
               <li>
                 <div className="dropdown-divider"></div>
               </li>
-              <li>
+              {/* <li>
                 <a aria-label='go to profile' className="dropdown-item" href="#">
                   <i className="bx bx-user me-2"></i>
                   <span className="align-middle">My Profile</span>
@@ -94,7 +94,7 @@ const Navbar = () => {
               </li>
               <li>
                 <div className="dropdown-divider"></div>
-              </li>
+              </li> */}
               <li>
                 <a aria-label='click to log out' className="dropdown-item" href="#" onClick={logout}>
                   <i className="bx bx-power-off me-2"></i>
