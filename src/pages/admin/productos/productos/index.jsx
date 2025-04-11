@@ -324,7 +324,7 @@ export const Index = () => {
                                 <tr key={item.id}>
                                     <td>{(index + 1) + (currentPageTable - 1) * perPage}</td>
                                     <td>
-                                        <img src={item.thumbnail_img} className="img-md me-2" alt="not-found" height={50} />
+                                        <img src={item.thumbnail_img || import.meta.env.VITE_URL_PRODUCTO} className="img-md me-2" alt="not-found" height={50} />
                                         {item.name}
                                     </td>
                                     <td>{item.total_stock}</td>

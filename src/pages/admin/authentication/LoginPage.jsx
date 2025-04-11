@@ -89,9 +89,8 @@ export const LoginPage = () => {
             Correo o usuario
           </label>
           <input
-            type="text"
+            type="email"
             className="form-control"
-            id="email"
             value={formData.name}
             onChange={handleChange}
             name="email"
@@ -113,7 +112,6 @@ export const LoginPage = () => {
             <input
               type={showPassword ? "text" : "password"}
               autoComplete="true"
-              id="password"
               value={formData.password}
               onChange={handleChange}
               className="form-control"
