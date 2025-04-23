@@ -6,9 +6,11 @@ import { confirmAlert } from "react-confirm-alert";
 import { useAdmin } from "../../../layouts/contexts/AdminContext";
 import { showNotification } from "../../../utils/greetingHandler";
 import { formatDate } from "../../../utils/dateFormatter";
+import ModalInput from "../../../components/admin/ModalInput";
 
 export const Index = () => {
   const [orders, setOrders] = useState([]);
+  const [order, setOrder] = useState(null);
   const [paymentType, setPaymentType] = useState([]);
   const [deliveryStatus, setDeliveryStatus] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -205,6 +207,89 @@ export const Index = () => {
     setCurrentPage(1);
   };
 
+  const viewOrderPayment = async (id) => {
+    setOrder(null);
+    try {
+      const response = await apiClient.get(`/admin/orders/order/${id}`);
+      const res = response.data.data;
+      const data = [
+        {
+          id: 1,
+          numCol: 6,
+          label: "token Id",
+          input: res.tokenId,
+        },
+        {
+          id: 2,
+          numCol: 6,
+          label: "purchase Number",
+          input: res.purchaseNumber,
+        },
+        {
+          id: 3,
+          numCol: 6,
+          label: "amount",
+          input: res.amount,
+        },
+        {
+          id: 4,
+          numCol: 6,
+          label: "installment",
+          input: res.installment,
+        },
+        {
+          id: 5,
+          numCol: 6,
+          label: "currency",
+          input: res.currency,
+        },
+        {
+          id: 6,
+          numCol: 6,
+          label: "authorized Amount",
+          input: res.authorizedAmount,
+        },
+        {
+          id: 7,
+          numCol: 6,
+          label: "authorization Code",
+          input: res.authorizationCode,
+        },
+        {
+          id: 8,
+          numCol: 6,
+          label: "action Code",
+          input: res.actionCode,
+        },
+        {
+          id: 9,
+          numCol: 6,
+          label: "trace Number",
+          input: res.traceNumber,
+        },
+        {
+          id: 10,
+          numCol: 6,
+          label: "transaction Date",
+          input: res.transactionDate,
+        },
+        {
+          id: 11,
+          numCol: 6,
+          label: "transaction Id",
+          input: res.transactionId,
+        },
+      ];
+      setOrder(data);
+    } catch (error) {
+      showNotification(error.response?.data?.message || "Ocurrio un error al consultar orden", "error");
+    }
+  };
+
+  const handleCloseModal = () => {
+    setOrder(null);
+  };
+
   return (
     <>
       <div className="card">
@@ -332,6 +417,18 @@ export const Index = () => {
                         >
                           <i className="bx bxs-download me-1"></i> Descargar Comprobante
                         </button>
+                        {item.payment_type.toLowerCase() === "niubiz" && (
+                          <button
+                            type="button"
+                            aria-label="dropdown action option"
+                            className="dropdown-item"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalOrder"
+                            onClick={() => viewOrderPayment(item.id)}
+                          >
+                            <i className="bx bx-show me-1"></i> Ver Orden de Pago
+                          </button>
+                        )}
                         <button
                           aria-label="dropdown action option"
                           className="dropdown-item"
@@ -412,6 +509,32 @@ export const Index = () => {
               </li>
             </ul>
           </nav>
+        </div>
+      </div>
+
+      <div className="modal fade" id="modalOrder" tabIndex="-1" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Orden Niubiz</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={handleCloseModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              {order === null ? (
+                <p className="text-center">Cargando Orden...</p>
+              ) : (
+                <div className="row g-2">
+                  <ModalInput items={order}></ModalInput>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </>

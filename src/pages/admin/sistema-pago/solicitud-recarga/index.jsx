@@ -7,6 +7,7 @@ import { useAdmin } from "../../../../layouts/contexts/AdminContext";
 import { formatDate } from "../../../../utils/dateFormatter";
 import NumberFormatter from "../../../../components/NumberFormatter";
 import { Modal } from "react-bootstrap";
+import ModalInput from "../../../../components/admin/ModalInput";
 
 export const Index = () => {
   const [id, setId] = useState(null);
@@ -20,6 +21,7 @@ export const Index = () => {
   const [search, setSearch] = useState("");
   const [paginate, setPaginate] = useState(10);
   const { showLoading, hideLoading } = useAdmin();
+  const [order, setOrder] = useState(null);
   /*Modal ChangeVenta*/
   const [showChangeRecharge, setshowRecharge] = useState(false);
   const handleCloseChangeRecharge = () => setshowRecharge(false);
@@ -148,7 +150,7 @@ export const Index = () => {
 
     try {
       setIsLoading(true);
-      const response = await apiClient.post(`/admin/offline-wallet-recharge-requests/approved/${id}`,formData);
+      const response = await apiClient.post(`/admin/offline-wallet-recharge-requests/approved/${id}`, formData);
       if (response.data.success) {
         showNotification(response.data.message, "success");
         handleCloseChangeRecharge();
@@ -164,6 +166,89 @@ export const Index = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const viewOrderPayment = async (wallet_id) => {
+    setOrder(null);
+    try {
+      const response = await apiClient.get(`/admin/offline-wallet-recharge-requests/${wallet_id}`);
+      const res = response.data.data;
+      const data = [
+        {
+          id: 1,
+          numCol: 6,
+          label: "token Id",
+          input: res.tokenId,
+        },
+        {
+          id: 2,
+          numCol: 6,
+          label: "purchase Number",
+          input: res.purchaseNumber,
+        },
+        {
+          id: 3,
+          numCol: 6,
+          label: "amount",
+          input: res.amount,
+        },
+        {
+          id: 4,
+          numCol: 6,
+          label: "installment",
+          input: res.installment,
+        },
+        {
+          id: 5,
+          numCol: 6,
+          label: "currency",
+          input: res.currency,
+        },
+        {
+          id: 6,
+          numCol: 6,
+          label: "authorized Amount",
+          input: res.authorizedAmount,
+        },
+        {
+          id: 7,
+          numCol: 6,
+          label: "authorization Code",
+          input: res.authorizationCode,
+        },
+        {
+          id: 8,
+          numCol: 6,
+          label: "action Code",
+          input: res.actionCode,
+        },
+        {
+          id: 9,
+          numCol: 6,
+          label: "trace Number",
+          input: res.traceNumber,
+        },
+        {
+          id: 10,
+          numCol: 6,
+          label: "transaction Date",
+          input: res.transactionDate,
+        },
+        {
+          id: 11,
+          numCol: 6,
+          label: "transaction Id",
+          input: res.transactionId,
+        },
+      ];
+      setOrder(data);
+    } catch (error) {
+      showNotification(error.response?.data?.message || "Ocurrio un error al consultar orden", "error");
+    }
+  };
+
+  const handleCloseModal = () => {
+    setOrder(null);
   };
 
   return (
@@ -232,9 +317,13 @@ export const Index = () => {
                   <td>{item.tipo_abono}</td>
                   <td>{item.voucher}</td>
                   <td>
-                    <a href={item.reciept} target="_blank" rel="noopener noreferrer">
-                      Ver Recibo
-                    </a>
+                    {item.voucher ? (
+                      <a href={item.reciept} target="_blank" rel="noopener noreferrer">
+                        Ver Recibo
+                      </a>
+                    ) : (
+                      "-"
+                    )}
                   </td>
                   <td>
                     {item.approval == 0 ? (
@@ -248,14 +337,41 @@ export const Index = () => {
                   <td>{item.details}</td>
                   <td>{formatDate(item.created_at)}</td>
                   <td>
-                    {item.approval == 0 && (
-                      <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={() => deleteWalletRecharge(item.id)}
-                      >
-                        <i className="bx bx-trash me-1"></i> Eliminar
-                      </button>
+                    {(item.payment_method == "niubiz" || item.approval == 0) && (
+                      <div className="dropdown">
+                        <button
+                          aria-label="Click me"
+                          type="button"
+                          className="btn p-0 dropdown-toggle hide-arrow"
+                          data-bs-toggle="dropdown"
+                        >
+                          <i className="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div className="dropdown-menu">
+                          {item.payment_method.toLowerCase() === "niubiz" && (
+                            <button
+                              type="button"
+                              aria-label="dropdown action option"
+                              className="dropdown-item"
+                              data-bs-toggle="modal"
+                              data-bs-target="#modalOrder"
+                              onClick={() => viewOrderPayment(item.id)}
+                            >
+                              <i className="bx bx-show me-1"></i> Ver Orden de Pago
+                            </button>
+                          )}
+                          {item.approval == 0 && (
+                            <button
+                              aria-label="dropdown action option"
+                              type="button"
+                              className="dropdown-item"
+                              onClick={() => deleteWalletRecharge(item.id)}
+                            >
+                              <i className="bx bx-trash me-1"></i> Eliminar
+                            </button>
+                          )}
+                        </div>
+                      </div>
                     )}
                   </td>
                 </tr>
@@ -350,7 +466,7 @@ export const Index = () => {
                 />
               </div>
               <div className="col-12 mb-2">
-                <button type="submit" className="btn btn-primary w-100">
+                <button type="submit" className="btn btn-primary w-100" disabled={isLoading}>
                   {isLoading && (
                     <div>
                       <div className="spinner-border spinner-border-sm text-primary me-2" role="status">
@@ -365,6 +481,32 @@ export const Index = () => {
           </form>
         </Modal.Body>
       </Modal>
+
+      <div className="modal fade" id="modalOrder" tabIndex="-1" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Orden Niubiz</h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={handleCloseModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              {order === null ? (
+                <p className="text-center">Cargando Orden...</p>
+              ) : (
+                <div className="row g-2">
+                  <ModalInput items={order}></ModalInput>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
