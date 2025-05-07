@@ -112,6 +112,17 @@ import { Edit as AdminEditStaff } from "../pages/admin/staff/edit";
 import { Index as AdminListaRoles } from "../pages/admin/roles";
 import { Create as AdminCreateRoles } from "../pages/admin/roles/create";
 import { Edit as AdminEditRoles } from "../pages/admin/roles/edit";
+import { Index as AdminTemplateBienvenida } from "../pages/admin/templates/bienvenida";
+import { Index as AdminTemplateCompras } from "../pages/admin/templates/compras";
+import { Index as AdminTemplateInversion } from "../pages/admin/templates/inversion";
+import { Index as AdminTemplateComisiones } from "../pages/admin/templates/comisiones";
+import { Index as AdminTemplateComentarios } from "../pages/admin/templates/comentarios";
+import { Index as AdminTemplateCentrales } from "../pages/admin/templates/centrales";
+import { Index as AdminTemplateSeguidor } from "../pages/admin/templates/nuevo-seguidor";
+import { Index as AdminTemplateMembresia } from "../pages/admin/templates/membresia";
+import { Index as AdminTemplateHappyBirthday } from "../pages/admin/templates/happy-birthday";
+import { Index as AdminTemplateCodeVerification } from "../pages/admin/templates/code-verification";
+import { Index as AdminTemplateResetAcount } from "../pages/admin/templates/reset-acount";
 
 const AppRoutes = () => {
   return (
@@ -228,6 +239,17 @@ const AppRoutes = () => {
         <Route path="roles" element={<AdminListaRoles />} />
         <Route path="roles/create" element={<AdminCreateRoles />} />
         <Route path="roles/edit/:id" element={<AdminEditRoles />} />
+        <Route path="template/bienvenida" element={<AdminTemplateBienvenida />} />
+        <Route path="template/compras" element={<AdminTemplateCompras />} />
+        <Route path="template/inversion" element={<AdminTemplateInversion />} />
+        <Route path="template/comisiones" element={<AdminTemplateComisiones />} />
+        <Route path="template/comentarios" element={<AdminTemplateComentarios />} />
+        <Route path="template/centrales" element={<AdminTemplateCentrales />} />
+        <Route path="template/nuevo-seguidor" element={<AdminTemplateSeguidor />} />
+        <Route path="template/membresia" element={<AdminTemplateMembresia />} />
+        <Route path="template/happy-birthday" element={<AdminTemplateHappyBirthday />} />
+        <Route path="template/code-verification" element={<AdminTemplateCodeVerification />} />
+        <Route path="template/reset-acount" element={<AdminTemplateResetAcount />} />
       </Route>
 
       {/* Rutas protegidas para customers y sellers */}

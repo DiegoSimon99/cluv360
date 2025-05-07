@@ -71,7 +71,57 @@
                     {
                         "text": "Bienvenida",
                         "available": true,
-                        "link": "/admin/edit-template/bienvenida"
+                        "link": "/admin/template/bienvenida"
+                    },
+                    {
+                        "text": "Compras",
+                        "available": true,
+                        "link": "/admin/template/compras"
+                    },
+                    {
+                        "text": "Compra de Inversion",
+                        "available": true,
+                        "link": "/admin/template/inversion"
+                    },
+                    {
+                        "text": "Comisiones",
+                        "available": true,
+                        "link": "/admin/template/comisiones"
+                    },
+                    {
+                        "text": "Comentarios",
+                        "available": true,
+                        "link": "/admin/template/comentarios"
+                    },
+                    {
+                        "text": "Compra de central",
+                        "available": true,
+                        "link": "/admin/template/centrales"
+                    },
+                    {
+                        "text": "Nuevo Seguidor",
+                        "available": true,
+                        "link": "/admin/template/nuevo-seguidor"
+                    },
+                    {
+                        "text": "Compra de membresía",
+                        "available": true,
+                        "link": "/admin/template/membresia"
+                    },
+                    {
+                        "text": "Cumpleaños",
+                        "available": true,
+                        "link": "/admin/template/happy-birthday"
+                    },
+                    {
+                        "text": "Código de verificación",
+                        "available": true,
+                        "link": "/admin/template/code-verification"
+                    },
+                    {
+                        "text": "Recuperación de cuenta",
+                        "available": true,
+                        "link": "/admin/template/reset-acount"
                     }
                 ]
             },

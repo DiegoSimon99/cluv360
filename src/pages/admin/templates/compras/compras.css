@@ -1,0 +1,199 @@
+#page-content{
+    .header .banner {
+        margin-top: 6px;
+        width: 156px;
+    }
+    .header h1{
+        font-family: "roboto", sans-serif;
+        font-size: 25px;
+        margin-bottom: 2px;
+        color: #fff;
+    }
+    .header .logo{
+        width: 60px;
+        height: 40px;
+        object-fit: contain;
+    }
+    .header p{
+        font-family: "roboto", sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        margin: 0;
+    }
+    .content {
+        text-align: center;
+        padding: 20px 20px 5px 20px;
+    }
+    .content h1 {
+        font-family: "roboto", sans-serif;
+        font-size: 24px;
+        color: #000;
+        font-weight: bold;
+        margin: 0;
+    }
+    .content p.hello {
+        font-family: "roboto", sans-serif;
+        font-size: 16px;
+        color: #000;
+        font-weight: 800;
+        margin-bottom: 2px;
+    }
+    .content .price {
+        font-family: "roboto", sans-serif;
+        font-size: 45px;
+        color: #ff004f;
+        margin: 20px 0;
+        font-weight: 700;
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+    .content .text{
+        font-family: "roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        margin: 15px 0 0 0;
+        color: #000;
+    }
+    .image-content{
+        position: relative;
+        padding-top: 2rem;
+    }
+    .image-content .user{
+        z-index: 10;
+        position: relative;
+    }
+    .image-content .photo{
+        width: 340px;
+        height: 168px;
+    }
+    .title{
+        font-family: "roboto", sans-serif;
+        color: #000;
+        font-size: 20px;
+        margin: 0;
+        font-weight: 600;
+        text-align: center;
+        padding: 1.5rem 0;
+    }
+    .info{
+        display: flex;
+        justify-content: space-between;
+        padding-top: 2rem;
+    }
+    .info>div{
+        text-align: center;
+        padding: 17px 5px;
+        height: 130px;
+        width: 175px;
+        margin: 0 6px;
+        border: 1px solid #D9D9D9;
+        border-radius: 5px;
+    }
+    .info>div>p{
+        font-family: "roboto", sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        color: #000;
+    }
+    .info>div.image>img{
+        width: 45px;
+        height: 45px;
+        object-fit: contain;
+    }
+    .info>div.image>h1{
+        font-family: "roboto", sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        padding-top: 8px;
+    }
+    .info>div.amount>h1{
+        font-size: 23px;
+        padding-top: 5px;
+        color: #00D870;
+    }
+    .info>div.amount>h2{
+        font-family: "roboto", sans-serif;
+        font-size: 11px;
+        color: #B4B4B4;
+        font-weight: 600;
+        margin: 0;
+        padding-top: 10px;
+    }
+    .info>div.date>div{
+        padding-top: 5px;
+    }
+    .info>div.date>div>p{
+        font-family: "roboto", sans-serif;
+        font-size: 11px;
+        color: #B4B4B4;
+        margin: 0;
+    }
+    .info>div.date>div>h1{
+        font-family: "roboto", sans-serif;
+        font-size: 23px;
+        margin: 2px 0;
+    }
+    .ganancia{
+        text-align: -webkit-center;
+    }
+    .ganancia>div{
+        background-color: #F7FFC3;
+        color: #C8A221;
+        width: 400px;
+        padding: 2rem 0;
+    }
+    .ganancia>div>h1{
+        font-family: "roboto", sans-serif;
+        margin: 0;
+        font-size: 25px;
+        display: ruby;
+        color: #C8A221;
+        font-weight: 600;
+    }
+    .ganancia>div>h1>p{
+        font-family: "roboto", sans-serif;
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    @media (max-width: 420px){
+        .header .banner {
+            margin-top: 18px !important;
+            width: 120px !important;
+        }
+        .info>div>p {
+            font-size: 9px;
+            line-height: 1rem;
+        }
+        .info>div.image>h1 {
+            font-size: 9px;
+            padding-top: 10px;
+        }
+        .info>div.amount>h1 {
+            font-size: 18px;
+        }
+        .info>div.amount>h2 {
+            font-size: 9px;
+            padding-top: 12px;
+        }
+        .info>div.date>div>p {
+            font-size: 9px;
+        }
+        .info>div.date>div>h1 {
+            font-size: 18px;
+        }
+        .info>div.amount>p{
+            padding-top: 1.4rem;
+        }
+        .info>div.date>p{
+            padding-top: 1.1rem;
+        }
+        .ganancia>div {
+            width: 100%;
+            padding: 2rem 0;
+        }
+        .ganancia>div>h1 {
+            font-size: 20px;
+        }
+    }
+}

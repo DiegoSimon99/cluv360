@@ -1,0 +1,85 @@
+#page-content{
+    .header .banner {
+        margin-top: 16px;
+        width: 123px;
+    }
+    .header h1{
+        font-family: "roboto", sans-serif;
+        font-size: 25px;
+        margin-bottom: 2px;
+        color: #fff;
+    }
+    .header .logo{
+        width: 60px;
+        height: 40px;
+        object-fit: contain;
+    }
+    .header p{
+        font-family: "roboto", sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        margin: 0;
+    }
+    .content {
+        text-align: center;
+        padding: 20px 20px 5px 20px;
+    }
+    .content h1 {
+        font-family: "roboto", sans-serif;
+        font-size: 24px;
+        color: #000;
+        font-weight: bold;
+        margin: 0;
+    }
+    .content p.hello {
+        font-family: "roboto", sans-serif;
+        font-size: 16px;
+        color: #000;
+        font-weight: 800;
+        margin-bottom: 2px;
+    }
+    .content .price {
+        font-family: "roboto", sans-serif;
+        font-size: 45px;
+        color: #26CCF0;
+        margin: 20px 0;
+        font-weight: 700;
+        margin-bottom: 0;
+        margin-top: 10px;
+    }
+    .content .date{
+        font-family: "roboto", sans-serif;
+        color: #B4B4B4;
+        font-size: 14px;
+        margin: 0;
+        font-weight: 500;
+        padding-bottom: 14px;
+    }
+    .content .text{
+        font-family: "roboto", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        margin: 5px 0 0;
+        color: #000;
+    }
+    .image-content{
+        position: relative;
+        padding-top: 2rem;
+    }
+    .image-content .user{
+        z-index: 10;
+        position: relative;
+    }
+    .image-content .photo{
+        width: 340px;
+        height: 168px;
+    }
+    @media (max-width: 420px){
+        .header .banner {
+            width: 107px;
+        }
+        .image-content .photo {
+            width: 100%;
+        }
+    }
+}
