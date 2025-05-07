@@ -9,9 +9,9 @@ import { getYouTubeThumbnail } from "../../../../utils/getYouTubeThumbnail";
 
 export const Index = () => {
   const [template, setTemplate] = useState(null);
-  const { updateText, updateImage } = useTemplateUpdater(setTemplate);
+  const { updateText } = useTemplateUpdater(setTemplate);
 
-  useDynamicStyles("/src/pages/admin/templates/inversion/inversion.css", "inversion-styles");
+  useDynamicStyles("/assets/css/templates/inversion.css", "inversion-styles");
 
   useEffect(() => {
     const fetchTemplate = async () => {

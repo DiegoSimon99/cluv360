@@ -5,13 +5,12 @@ import { showNotification } from "../../../../utils/greetingHandler";
 import { useTemplateUpdater } from "../../../../hooks/useTemplateUpdater";
 import { useDynamicStyles } from "../../../../hooks/useDynamicStyles";
 import TemplateFooter from "../../../../components/admin/TemplateFooter";
-import { getYouTubeThumbnail } from "../../../../utils/getYouTubeThumbnail";
 
 export const Index = () => {
   const [template, setTemplate] = useState(null);
-  const { updateText, updateImage } = useTemplateUpdater(setTemplate);
+  const { updateText } = useTemplateUpdater(setTemplate);
 
-  useDynamicStyles("/src/pages/admin/templates/nuevo-seguidor/nuevo-seguidor.css", "nuevo-seguidor-styles");
+  useDynamicStyles("/assets/css/templates/nuevo-seguidor.css", "nuevo-seguidor-styles");
 
   useEffect(() => {
     const fetchTemplate = async () => {

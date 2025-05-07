@@ -8,9 +8,9 @@ import TemplateFooter from "../../../../components/admin/TemplateFooter";
 
 export const Index = () => {
   const [template, setTemplate] = useState(null);
-  const { updateText, updateImage } = useTemplateUpdater(setTemplate);
+  const { updateText } = useTemplateUpdater(setTemplate);
 
-  useDynamicStyles("/src/pages/admin/templates/compras/compras.css", "compras-styles");
+  useDynamicStyles("/assets/css/templates/compras.css", "compras-styles");
 
   useEffect(() => {
     const fetchTemplate = async () => {

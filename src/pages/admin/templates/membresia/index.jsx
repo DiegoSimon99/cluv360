@@ -9,9 +9,9 @@ import { getYouTubeThumbnail } from "../../../../utils/getYouTubeThumbnail";
 
 export const Index = () => {
   const [template, setTemplate] = useState(null);
-  const { updateText, updateImage } = useTemplateUpdater(setTemplate);
+  const { updateText } = useTemplateUpdater(setTemplate);
 
-  useDynamicStyles("/src/pages/admin/templates/membresia/membresia.css", "membresia-styles");
+  useDynamicStyles("/assets/css/templates/membresia.css", "membresia-styles");
 
   useEffect(() => {
     const fetchTemplate = async () => {

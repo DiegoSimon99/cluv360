@@ -11,7 +11,7 @@ export const Index = () => {
   const [template, setTemplate] = useState(null);
   const { updateText, updateImage } = useTemplateUpdater(setTemplate);
 
-  useDynamicStyles("/src/pages/admin/templates/happy-birthday/happy-birthday.css", "happy-birthday-styles");
+  useDynamicStyles("/assets/css/templates/happy-birthday.css", "happy-birthday-styles");
 
   useEffect(() => {
     const fetchTemplate = async () => {

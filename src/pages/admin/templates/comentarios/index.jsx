@@ -10,7 +10,7 @@ export const Index = () => {
   const [template, setTemplate] = useState(null);
   const { updateText, updateImage } = useTemplateUpdater(setTemplate);
 
-  useDynamicStyles("/src/pages/admin/templates/comentarios/comentarios.css", "comentarios-styles");
+  useDynamicStyles("/assets/css/templates/comentarios.css", "comentarios-styles");
 
   useEffect(() => {
     const fetchTemplate = async () => {

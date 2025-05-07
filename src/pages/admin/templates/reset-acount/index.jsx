@@ -9,9 +9,9 @@ import { getYouTubeThumbnail } from "../../../../utils/getYouTubeThumbnail";
 
 export const Index = () => {
   const [template, setTemplate] = useState(null);
-  const { updateText, updateImage } = useTemplateUpdater(setTemplate);
+  const { updateText } = useTemplateUpdater(setTemplate);
 
-  useDynamicStyles("/src/pages/admin/templates/reset-acount/reset-acount.css", "reset-acount-styles");
+  useDynamicStyles("/assets/css/templates/reset-acount.css", "reset-acount-styles");
 
   useEffect(() => {
     const fetchTemplate = async () => {

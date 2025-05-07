@@ -10,7 +10,7 @@ export const Index = () => {
   const [template, setTemplate] = useState(null);
   const { updateText, updateImage } = useTemplateUpdater(setTemplate);
 
-  useDynamicStyles("/src/pages/admin/templates/bienvenida/bienvenida.css", "bienvenida-styles");
+  useDynamicStyles("/assets/css/templates/bienvenida.css", "bienvenida-styles");
 
   useEffect(() => {
     const fetchTemplate = async () => {
