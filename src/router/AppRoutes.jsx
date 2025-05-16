@@ -123,6 +123,7 @@ import { Index as AdminTemplateMembresia } from "../pages/admin/templates/membre
 import { Index as AdminTemplateHappyBirthday } from "../pages/admin/templates/happy-birthday";
 import { Index as AdminTemplateCodeVerification } from "../pages/admin/templates/code-verification";
 import { Index as AdminTemplateResetAcount } from "../pages/admin/templates/reset-acount";
+import { Index as AdminTemplateCodeTransaction } from "../pages/admin/templates/code-transaction";
 
 const AppRoutes = () => {
   return (
@@ -250,6 +251,7 @@ const AppRoutes = () => {
         <Route path="template/happy-birthday" element={<AdminTemplateHappyBirthday />} />
         <Route path="template/code-verification" element={<AdminTemplateCodeVerification />} />
         <Route path="template/reset-acount" element={<AdminTemplateResetAcount />} />
+        <Route path="template/code-transaction" element={<AdminTemplateCodeTransaction />} />
       </Route>
 
       {/* Rutas protegidas para customers y sellers */}

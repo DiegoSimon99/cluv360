@@ -122,6 +122,11 @@
                         "text": "Recuperación de cuenta",
                         "available": true,
                         "link": "/admin/template/reset-acount"
+                    },
+                    {
+                        "text": "Código de transacción",
+                        "available": true,
+                        "link": "/admin/template/code-transaction"
                     }
                 ]
             },

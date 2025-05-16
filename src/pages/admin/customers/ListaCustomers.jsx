@@ -8,6 +8,7 @@ import { useAdmin } from "../../../layouts/contexts/AdminContext";
 import Swal from "sweetalert2";
 import Modal from "react-bootstrap/Modal";
 import LoaderTable from "../../../components/admin/LoaderTable";
+import CryptoJS from "crypto-js";
 
 export const ListaCustomers = () => {
   const [customers, setData] = useState([]); // Almacena los datos de los usuario
@@ -40,6 +41,13 @@ export const ListaCustomers = () => {
   const [showChangePatrocinador, setshowChangePatrocinador] = useState(false);
   const handleCloseChangePatrocinador = () => setshowChangePatrocinador(false);
   const handleShowChangePatrocinador = () => setshowChangePatrocinador(true);
+
+  /*Modal ChangeConfirmPassword*/
+  const [showChangeConfirmPassword, setshowChangeConfirmPassword] = useState(false);
+  const handleCloseChangeConfirmPassword = () => setshowChangeConfirmPassword(false);
+  const handleShowChangeConfirmPassword = () => setshowChangeConfirmPassword(true);
+
+  const [idUser, setIdUser] = useState(null);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -487,6 +495,52 @@ export const ListaCustomers = () => {
     }
   };
 
+  const encryptId = (id) => {
+    const key = CryptoJS.enc.Utf8.parse("12345678901234567890123456789012"); // 32 chars
+    const iv = CryptoJS.enc.Utf8.parse("1234567890123456"); // 16 chars
+
+    const encrypted = CryptoJS.AES.encrypt(id.toString(), key, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    });
+
+    return encodeURIComponent(encrypted.toString()); // Útil para URL
+  };
+
+  const handleIniciarSesion = (id) => {
+    setIdUser(id);
+    handleShowChangeConfirmPassword();
+  };
+
+  const handleSubmitConfirmPassword = async (e) => {
+    e.preventDefault();
+    const password = e.target.password.value;
+
+    if (!password) {
+      showNotification("Por favor, ingrese su contraseña.", "error");
+      return;
+    }
+
+    try {
+      setLoadingUser(true);
+      const response = await apiClient.post("/admin/validate_password", { password: password });
+      if (response.data.success) {
+        showNotification(response.data.message, "success");
+        handleCloseChangeConfirmPassword();
+        const encryptedId = encryptId(idUser);
+        const url = `${import.meta.env.VITE_API_URL_YALA}/#/login/redirect/${encryptedId}`;
+        window.open(url, "_blank", "noopener,noreferrer");
+      } else {
+        showNotification(response.data.message, "error");
+      }
+    } catch (error) {
+      showNotification(error.response?.data?.message || "Ocurrio un error al validar contraseña", "error");
+    } finally {
+      setLoadingUser(false);
+    }
+  };
+
   return (
     <>
       <div className="card">
@@ -617,6 +671,14 @@ export const ListaCustomers = () => {
                           onClick={() => [setUserId(item.user_id), handleShowResetPassword()]}
                         >
                           <i className="bx bx-lock-alt me-1"></i> Resetear Clave
+                        </a>
+                        <a
+                          aria-label="dropdown action option"
+                          className="dropdown-item"
+                          href="#"
+                          onClick={() => handleIniciarSesion(item.user_id)}
+                        >
+                          <i className="bx bx-arrow-to-right me-1"></i> Iniciar Sesión
                         </a>
                         <a
                           aria-label="dropdown action option"
@@ -1039,6 +1101,49 @@ export const ListaCustomers = () => {
                   )}
                 </button>
               </div>
+            </div>
+          </form>
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showChangeConfirmPassword} onHide={handleCloseChangeConfirmPassword} centered>
+        <Modal.Header closeButton>
+          <h5 className="modal-title">Iniciar Sesión</h5>
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handleSubmitConfirmPassword}>
+            <div className="col-12 mb-4">
+              <div className="alert d-flex align-items-start alert-warning mb-0" role="alert">
+                <span className="alert-icon me-3 rounded-circle">
+                  <i className="bx bx-info-circle bx-sm"></i>
+                </span>
+                Por favor, confirma tu contraseña para proceder con el inicio de sesión. Esta acción es necesaria para
+                validar tu autenticación como usuario autorizado.
+              </div>
+            </div>
+            <div className="col-12 mb-4">
+              <label className="form-label">INGRESE SU CONTRASEÑA DE USUARIO</label>
+              <input
+                type="password"
+                name="password"
+                className="form-control"
+                placeholder="Ingrese su contraseña"
+                required
+              />
+            </div>
+            <div className="col-12 text-end">
+              <button type="submit" className="btn btn-primary" disabled={loadingUser}>
+                {loadingUser ? (
+                  <div>
+                    <span className="pe-1">Validando </span>
+                    <div className="spinner-border spinner-border-sm text-primary" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  "Confirmar"
+                )}
+              </button>
             </div>
           </form>
         </Modal.Body>
