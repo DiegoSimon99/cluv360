@@ -124,6 +124,9 @@ import { Index as AdminTemplateHappyBirthday } from "../pages/admin/templates/ha
 import { Index as AdminTemplateCodeVerification } from "../pages/admin/templates/code-verification";
 import { Index as AdminTemplateResetAcount } from "../pages/admin/templates/reset-acount";
 import { Index as AdminTemplateCodeTransaction } from "../pages/admin/templates/code-transaction";
+import { Index as AdminListaPos } from "../pages/admin/pos";
+import { Index as AdminEditInversiones } from "../pages/admin/configuracion-mlm/inversiones";
+import { Index as AdminEditCentrales } from "../pages/admin/configuracion-mlm/centrales";
 
 const AppRoutes = () => {
   return (
@@ -252,6 +255,9 @@ const AppRoutes = () => {
         <Route path="template/code-verification" element={<AdminTemplateCodeVerification />} />
         <Route path="template/reset-acount" element={<AdminTemplateResetAcount />} />
         <Route path="template/code-transaction" element={<AdminTemplateCodeTransaction />} />
+        <Route path="pos" element={<AdminListaPos />} />
+        <Route path="config/inversiones" element={<AdminEditInversiones />} />
+        <Route path="config/centrales" element={<AdminEditCentrales />} />
       </Route>
 
       {/* Rutas protegidas para customers y sellers */}

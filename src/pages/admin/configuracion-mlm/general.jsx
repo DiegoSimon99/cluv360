@@ -125,19 +125,6 @@ export const General = () => {
                                 </div>
                             </div>
                             <div className="row mb-3">
-                                <label className="col-sm-2 col-form-label">Porcentaje Inversión</label>
-                                <div className="col-sm-10">
-                                    <input
-                                        type="number"
-                                        step="0.01"
-                                        className="form-control"
-                                        name="78"
-                                        value={formData.obj["78"] || ""}
-                                        onChange={handleDecimalInputChange}
-                                        required />
-                                </div>
-                            </div>
-                            <div className="row mb-3">
                                 <label className="col-sm-2 col-form-label">Video Tarea</label>
                                 <div className="col-sm-10">
                                     <input

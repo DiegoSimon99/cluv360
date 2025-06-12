@@ -245,15 +245,21 @@ export const Detail = () => {
                   <div className="order-calculations">
                     <div className="d-flex justify-content-start mb-2">
                       <span className="w-px-200 text-heading">Subtotal:</span>
-                      <h6 className="mb-0">{order.subtotal}</h6>
+                      <h6 className="mb-0">
+                        S/<NumberFormatter value={order.subtotal}></NumberFormatter>
+                      </h6>
                     </div>
                     <div className="d-flex justify-content-start mb-2">
                       <span className="w-px-200 text-heading">Envio:</span>
-                      <h6 className="mb-0">{order.envio}</h6>
+                      <h6 className="mb-0">
+                        S/<NumberFormatter value={order.envio}></NumberFormatter>
+                      </h6>
                     </div>
                     <div className="d-flex justify-content-start mb-2">
                       <span className="w-px-200 text-heading">Descuento:</span>
-                      <h6 className="mb-0">{order.discount}</h6>
+                      <h6 className="mb-0">
+                        S/<NumberFormatter value={order.discount}></NumberFormatter>
+                      </h6>
                     </div>
                     <div className="d-flex justify-content-start mb-2">
                       <span className="w-px-200 text-heading">Gran Total:</span>
@@ -358,7 +364,18 @@ export const Detail = () => {
                     Estado de envío:{" "}
                     <span className={`badge bg-label-${order.status.color} me-1 ms-2`}>{order.status.name}</span>
                   </p>
-                  <p className="pt-1 mb-0">Monto Total: {order.subtotal}</p>
+                  <p className="pt-1 mb-0">Tipo de envío: {order.tipo_envio}</p>
+                  {order.direccion ? (
+                    <p className="pt-1 mb-0">Dirección: {order.direccion}</p>
+                  ) : (
+                    <p className="pt-1 mb-0">Local: {order.punto_recogo}</p>
+                  )}
+                  {order.discount > 0 && (
+                    <p className="pt-1 mb-0">
+                      Descuento: S/<NumberFormatter value={order.discount}></NumberFormatter>
+                    </p>
+                  )}
+                  <p className="pt-1 mb-0">Monto Total: {order.grand_total}</p>
                   <p className="pt-1 mb-0">Método de pago: {order.payment_type}</p>
                 </div>
               </div>

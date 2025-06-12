@@ -352,15 +352,15 @@ export const Index = () => {
               <tr>
                 <th>#</th>
                 <th>Código de orden</th>
-                <th>Productos</th>
+                {/* <th>Productos</th> */}
                 <th>Cliente</th>
-                <th>DNI</th>
+                {/* <th>DNI</th> */}
                 <th>Lugar</th>
                 <th>Monto</th>
                 <th>Fecha</th>
                 <th>Método de pago</th>
-                <th>Pago</th>
-                <th>Estado</th>
+                <th>Estado de Pago</th>
+                <th>Estado de Envío</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -375,8 +375,8 @@ export const Index = () => {
                       {item.viewed == 0 && <span className="badge rounded-pill bg-label-success">Nuevo</span>}
                     </div>
                   </td>
-                  <td>{item.productos}</td>
-                  <td>{item.cliente}</td>
+                  {/* <td>{item.productos}</td> */}
+                  {/* <td>{item.cliente}</td> */}
                   <td>{item.dni}</td>
                   <td>{item.lugar}</td>
                   <td>{item.monto}</td>

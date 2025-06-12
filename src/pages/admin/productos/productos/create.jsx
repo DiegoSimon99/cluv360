@@ -468,7 +468,7 @@ export const Create = () => {
                   onChange={(selectedOption) => {
                     setFormData((prev) => ({
                       ...prev,
-                      category_id: selectedOption.value,
+                      category_id: selectedOption ? selectedOption.value : null,
                       subcategory_id: null, // Reinicia la subcategoría
                     }));
                     setSubcategories([]); // Borra las subcategorías hasta que se carguen las nuevas

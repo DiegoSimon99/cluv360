@@ -9,6 +9,12 @@
                 "link": "/admin/dashboard"
             },
             {
+                "text": "Pos Manager",
+                "icon": "bx bx-basket",
+                "available": true,
+                "link": "/admin/pos"
+            },
+            {
                 "text": "Cierre premium",
                 "icon": "bx bx-clipboard",
                 "available": true,
@@ -213,6 +219,16 @@
                         "text": "Proyectos",
                         "available": true,
                         "link": "/admin/config/proyectos"
+                    },
+                    {
+                        "text": "Cofiguración de Inversiones",
+                        "available": true,
+                        "link": "/admin/config/inversiones"
+                    },
+                    {
+                        "text": "Cofiguración de Centrales",
+                        "available": true,
+                        "link": "/admin/config/centrales"
                     },
                     {
                         "text": "Términos y Condiciones (Yala)",
