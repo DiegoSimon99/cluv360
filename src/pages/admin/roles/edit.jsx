@@ -12,68 +12,100 @@ export const Edit = () => {
 
   const fields = [
     {
-      label: "Productos",
+      label: "POS Manager",
       value: 1,
     },
     {
-      label: "Flash Deal",
+      label: "Cierre Premium",
       value: 2,
     },
     {
-      label: "Orders",
+      label: "Asociados",
       value: 3,
     },
     {
-      label: "Ventas",
+      label: "Ver Movimientos",
       value: 4,
     },
     {
-      label: "Sellers",
+      label: "Ingresar Venta",
       value: 5,
     },
     {
-      label: "Customers",
+      label: "Proyectos",
       value: 6,
     },
     {
-      label: "Mensajería",
+      label: "Generar Descuento",
       value: 7,
     },
     {
-      label: "Business Settings",
+      label: "Red de Afiliados",
       value: 8,
     },
     {
-      label: "Configuracion Visual",
+      label: "Plantilla de correos",
       value: 9,
     },
     {
-      label: "Staffs",
+      label: "Red Social",
       value: 10,
     },
     {
-      label: "SEO Setting",
+      label: "Configuración MLM",
       value: 11,
     },
     {
-      label: "E-commerce Setup",
+      label: "Productos",
       value: 12,
     },
     {
-      label: "Sistema de soporte",
+      label: "Publicaciones",
       value: 13,
     },
     {
-      label: "Orden de punto de recogida",
+      label: "Ventas GoMarket360",
       value: 14,
     },
     {
-      label: "Administrador de complementos",
+      label: "Cobro de Comisiones",
       value: 15,
     },
     {
-      label: "Proyectos",
+      label: "Lista de Vendedores",
       value: 16,
+    },
+    {
+      label: "Paquetes Clasificados",
+      value: 17,
+    },
+    {
+      label: "Business Settings",
+      value: 18,
+    },
+    {
+      label: "Frontend Settings",
+      value: 19,
+    },
+    {
+      label: "E-commerce Setup",
+      value: 20,
+    },
+    {
+      label: "Sistema de pago fuera de línea",
+      value: 21,
+    },
+    {
+      label: "OTP System",
+      value: 22,
+    },
+    {
+      label: "Sistema de soporte",
+      value: 23,
+    },
+    {
+      label: "Staffs",
+      value: 24,
     },
   ];
 

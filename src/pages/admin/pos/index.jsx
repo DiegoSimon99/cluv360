@@ -21,6 +21,8 @@ export const Index = () => {
   const [filterBrand, setFilterBrand] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [userDiscount, setUserDiscount] = useState(0);
+  const [totalBruto, setTotalBruto] = useState(0);
   const [selectedPickupPoints, setSelectedPickupPoints] = useState(null);
   const [deliveryStatus, setDeliveryStatus] = useState("pending");
   const [cart, setCart] = useState(() => {
@@ -104,12 +106,27 @@ export const Index = () => {
 
   const clearCart = () => setCart([]);
 
+  useEffect(() => {
+    const totalBrutoTemp = cart.reduce((total, item) => {
+      const qty = parseInt(item.quantity || "0");
+      return total + item.price * qty;
+    }, 0);
+
+    setTotalBruto(totalBrutoTemp);
+  }, [cart]);
+
   const calculateCartTotals = (cart) => {
     return cart.reduce(
       (totals, item) => {
         const qty = parseInt(item.quantity || "0");
+        let itemTotal = item.price * qty;
+
+        if (item.exclusivo_gm360 == 1 && userDiscount == 1) {
+          itemTotal = itemTotal / 2;
+        }
+
         return {
-          subtotal: totals.subtotal + item.price * qty,
+          subtotal: totals.subtotal + itemTotal,
           puntos: totals.puntos + item.puntos * qty,
         };
       },
@@ -125,7 +142,7 @@ export const Index = () => {
 
   const loadOptionsCategories = async (inputValue) => {
     try {
-      const response = await apiClient.get(`/admin/subcategories/categories?search=${inputValue}`);
+      const response = await apiClient.get(`/admin/pos/categories?search=${inputValue}`);
       return response.data.map((item) => ({
         value: item.id,
         label: item.name,
@@ -230,6 +247,7 @@ export const Index = () => {
   const handleUserChange = async (selectedOption) => {
     const userId = selectedOption ? selectedOption.value : null;
     setSelectedUser(selectedOption);
+    setUserDiscount(0);
 
     if (userId) {
       setIsLoadingAddress(true);
@@ -248,13 +266,18 @@ export const Index = () => {
       }
 
       try {
-        const response = await apiClient.get(`/yala/user_address/${userId}`);
-        if (response.data.result) {
-          const formattedAddresses = response.data.data.map((address) => ({
+        const response = await apiClient.get(`/admin/pos/customer_select/${userId}`);
+        if (response.data.success) {
+          const formattedAddresses = response.data.data.address.map((address) => ({
             value: address.id,
-            label: address.direccion,
+            label: address.address,
           }));
           setAddress(formattedAddresses);
+          if (response.data.data.user.customer_package_id != 6) {
+            setUserDiscount(1);
+          } else {
+            setUserDiscount(0);
+          }
         } else {
           showNotification(response.data.message, "error");
         }
@@ -311,6 +334,7 @@ export const Index = () => {
       shipping_type: shippingType,
       cart_products: cart,
       subtotal: subtotal,
+      coupon_discount: totalBruto-subtotal,
       address_id: selectedAddress,
       pickup_point_id: selectedPickupPoints,
       delivery_status: deliveryStatus,
@@ -511,9 +535,29 @@ export const Index = () => {
                               S/<NumberFormatter value={item.price}></NumberFormatter>{" "}
                               {" x " + parseInt(item.quantity || "0")}
                             </div>
-                            <div className="fs-15 fw-600 text-black">
-                              S/<NumberFormatter value={item.price * parseInt(item.quantity || "0")}></NumberFormatter>
-                            </div>
+                            {item.exclusivo_gm360 == 1 && userDiscount == 1 ? (
+                              <>
+                                <div className="fs-12 opacity-60">
+                                  <del>
+                                    S/
+                                    <NumberFormatter
+                                      value={item.price * parseInt(item.quantity || "0")}
+                                    ></NumberFormatter>
+                                  </del>
+                                </div>
+                                <div className="fs-15 fw-600 text-black">
+                                  S/
+                                  <NumberFormatter
+                                    value={(item.price * parseInt(item.quantity || "0")) / 2}
+                                  ></NumberFormatter>
+                                </div>
+                              </>
+                            ) : (
+                              <div className="fs-15 fw-600 text-black">
+                                S/
+                                <NumberFormatter value={item.price * parseInt(item.quantity || "0")}></NumberFormatter>
+                              </div>
+                            )}
                             <div className="fs-12 opacity-60">
                               Puntos: {item.puntos * parseInt(item.quantity || "0")}
                             </div>
@@ -534,7 +578,21 @@ export const Index = () => {
                 </div>
                 <div>
                   <div className="d-flex justify-content-between fw-600 mb-2 opacity-70 fs-12">
-                    <span>Total del pedido</span>
+                    <span>Total Bruto</span>
+                    <span>
+                      S/<NumberFormatter value={totalBruto}></NumberFormatter>
+                    </span>
+                  </div>
+                  {totalBruto > subtotal && (
+                    <div className="d-flex justify-content-between fw-600 mb-2 opacity-70 fs-12">
+                      <span>Descuento</span>
+                      <span>
+                        S/<NumberFormatter value={totalBruto - subtotal}></NumberFormatter>
+                      </span>
+                    </div>
+                  )}
+                  <div className="d-flex justify-content-between fw-600 mb-2 opacity-70 fs-12">
+                    <span>Total Neto</span>
                     <span>
                       S/<NumberFormatter value={subtotal}></NumberFormatter>
                     </span>
@@ -792,10 +850,37 @@ export const Index = () => {
                         <font className="v-align">{puntos}</font>
                       </font>
                     </dd>
-
                     <dt className="col-6 fw-normal">
                       <font className="v-align">
-                        <font className="v-align">Sub Total</font>
+                        <font className="v-align">Total Bruto</font>
+                      </font>
+                    </dt>
+                    <dd className="col-6 text-end">
+                      <font className="v-align">
+                        <font className="v-align">
+                          S/<NumberFormatter value={totalBruto}></NumberFormatter>
+                        </font>
+                      </font>
+                    </dd>
+                    {totalBruto > subtotal && (
+                      <>
+                        <dt className="col-6 fw-normal">
+                          <font className="v-align">
+                            <font className="v-align">Descuento</font>
+                          </font>
+                        </dt>
+                        <dd className="col-6 text-end">
+                          <font className="v-align">
+                            <font className="v-align">
+                              S/<NumberFormatter value={totalBruto - subtotal}></NumberFormatter>
+                            </font>
+                          </font>
+                        </dd>
+                      </>
+                    )}
+                    <dt className="col-6 fw-normal">
+                      <font className="v-align">
+                        <font className="v-align">Total neto</font>
                       </font>
                     </dt>
                     <dd className="col-6 text-end">

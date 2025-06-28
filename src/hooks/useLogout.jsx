@@ -27,6 +27,7 @@ const useLogout = () => {
               localStorage.removeItem("access_token");
               localStorage.removeItem("user_type");
               localStorage.removeItem("user_data");
+              localStorage.removeItem("cart");
               // Redirigir al login
               navigate("/");
             }

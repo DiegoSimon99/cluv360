@@ -1,5 +1,5 @@
-import useLogout from '../../hooks/useLogout';
-import getGreetingMessage from '../../utils/greetingHandler';
+import useLogout from "../../hooks/useLogout";
+import getGreetingMessage from "../../utils/greetingHandler";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
@@ -15,12 +15,12 @@ const Navbar = () => {
   }, []);
 
   if (!userData) {
-    return <p className='text-center pt-4'>Cargando...</p>; // Mostrar un indicador de carga mientras se obtienen los datos
+    return <p className="text-center pt-4">Cargando...</p>; // Mostrar un indicador de carga mientras se obtienen los datos
   }
 
   const handleSidebarToggle = () => {
     // Llamar a la función predefinida de la plantilla para alternar el Sidebar
-    if (window.Helpers && typeof window.Helpers.toggleCollapsed === 'function') {
+    if (window.Helpers && typeof window.Helpers.toggleCollapsed === "function") {
       window.Helpers.toggleCollapsed();
     }
   };
@@ -28,13 +28,10 @@ const Navbar = () => {
   return (
     <nav
       className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-      id="layout-navbar">
+      id="layout-navbar"
+    >
       <div className="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-        <a
-          aria-label='toggle for sidebar'
-          className="nav-item nav-link px-0 me-xl-4"
-          onClick={handleSidebarToggle}
-        >
+        <a aria-label="toggle for sidebar" className="nav-item nav-link px-0 me-xl-4" onClick={handleSidebarToggle}>
           <i className="bx bx-menu bx-sm"></i>
         </a>
       </div>
@@ -43,25 +40,40 @@ const Navbar = () => {
         {getGreetingMessage(userData.username || "Usuario")}
         <ul className="navbar-nav flex-row align-items-center ms-auto">
           <li className="nav-item navbar-dropdown dropdown-user dropdown">
-            <a aria-label='dropdown profile avatar' className="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
+            <a
+              aria-label="dropdown profile avatar"
+              className="nav-link dropdown-toggle hide-arrow"
+              href="#"
+              data-bs-toggle="dropdown"
+            >
               <div className="avatar avatar-online">
-                <img src={userData.avatar_original || "../assets/img/avatars/1.png"} className="w-px-40 h-auto rounded-circle" alt="avatar-image" aria-label='Avatar Image' />
+                <img
+                  src={userData.avatar_original || "../assets/img/avatars/1.png"}
+                  className="w-px-40 h-auto rounded-circle"
+                  alt="avatar-image"
+                  aria-label="Avatar Image"
+                />
               </div>
             </a>
             <ul className="dropdown-menu dropdown-menu-end">
               <li>
-                <a aria-label='go to profile' className="dropdown-item" href="#">
+                <a aria-label="go to profile" className="dropdown-item" href="#">
                   <div className="d-flex">
                     <div className="flex-shrink-0 me-3">
                       <div className="avatar avatar-online">
-                        <img src={userData.avatar_original || "../assets/img/avatars/1.png"} className="w-px-40 h-auto rounded-circle" alt='avatar-image' aria-label='Avatar Image' />
+                        <img
+                          src={userData.avatar_original || "../assets/img/avatars/1.png"}
+                          className="w-px-40 h-auto rounded-circle"
+                          alt="avatar-image"
+                          aria-label="Avatar Image"
+                        />
                       </div>
                     </div>
                     <div className="flex-grow-1">
                       <span className="fw-medium d-block">
-                        {userData && userData.username && userData.surname
+                        {userData && userData.user_type == "admin"
                           ? `${userData.username} ${userData.surname}`
-                          : "Usuario"}
+                          : userData.name}
                       </span>
                       <small className="text-muted">{userData.user_type || "Rol no definido"}</small>
                     </div>
@@ -96,7 +108,7 @@ const Navbar = () => {
                 <div className="dropdown-divider"></div>
               </li> */}
               <li>
-                <a aria-label='click to log out' className="dropdown-item" href="#" onClick={logout}>
+                <a aria-label="click to log out" className="dropdown-item" href="#" onClick={logout}>
                   <i className="bx bx-power-off me-2"></i>
                   <span className="align-middle">Cerrar Sesión</span>
                 </a>
@@ -107,5 +119,5 @@ const Navbar = () => {
       </div>
     </nav>
   );
-}
+};
 export default Navbar;

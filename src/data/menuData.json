@@ -6,25 +6,29 @@
                 "text": "Dashboard",
                 "icon": "bx bx-home",
                 "available": true,
-                "link": "/admin/dashboard"
+                "link": "/admin/dashboard",
+                "requiredPermissions": ["0"]
             },
             {
                 "text": "Pos Manager",
                 "icon": "bx bx-basket",
                 "available": true,
-                "link": "/admin/pos"
+                "link": "/admin/pos",
+                "requiredPermissions": ["1"]
             },
             {
                 "text": "Cierre premium",
                 "icon": "bx bx-clipboard",
                 "available": true,
-                "link": "/admin/cierre-premium"
+                "link": "/admin/cierre-premium",
+                "requiredPermissions": ["2"]
             },
             {
                 "text": "Asociados",
                 "icon": "bx bx-user",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["3"],
                 "submenu": [
                     {
                         "text": "Lista de asociados",
@@ -42,37 +46,43 @@
                 "text": "Ver Movimientos",
                 "icon": "bx bx-dollar",
                 "available": true,
-                "link": "/admin/movements"
+                "link": "/admin/movements",
+                "requiredPermissions": ["4"]
             },
             {
                 "text": "Ingresar Venta",
                 "icon": "bx bx-cart-alt",
                 "available": true,
-                "link": "/admin/direct-sale"
+                "link": "/admin/direct-sale",
+                "requiredPermissions": ["5"]
             },
             {
                 "text": "Proyectos",
                 "icon": "bx bx-briefcase-alt-2",
                 "available": true,
-                "link": "/admin/proyectos"
+                "link": "/admin/proyectos",
+                "requiredPermissions": ["6"]
             },
             {
                 "text": "Generar Descuento",
                 "icon": "bx bx-money",
                 "available": true,
-                "link": "/admin/discount"
+                "link": "/admin/discount",
+                "requiredPermissions": ["7"]
             },
             {
                 "text": "Red de Afiliados",
                 "icon": "bx bx-user",
                 "available": true,
-                "link": "/admin/affiliate/user"
+                "link": "/admin/affiliate/user",
+                "requiredPermissions": ["8"]
             },
             {
                 "text": "Plantilla de correos",
                 "icon": "bx bx-envelope",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["9"],
                 "submenu": [
                     {
                         "text": "Bienvenida",
@@ -141,6 +151,7 @@
                 "icon": "bx bx-cog",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["10"],
                 "submenu": [
                     {
                         "text": "Publicaciones",
@@ -164,6 +175,7 @@
                 "icon": "bx bx-cog",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["11"],
                 "submenu": [
                     {
                         "text": "General",
@@ -242,6 +254,7 @@
                 "icon": "bx bx-cart",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["12"],
                 "submenu": [
                     {
                         "text": "Marcas",
@@ -284,37 +297,43 @@
                 "text": "Publicaciones",
                 "icon": "bx bx-globe",
                 "available": true,
-                "link": "/admin/publications"
+                "link": "/admin/publications",
+                "requiredPermissions": ["13"]
             },
             {
                 "text": "Ventas GoMarket360",
                 "icon": "bx bx-basket",
                 "available": true,
-                "link": "/admin/orders"
+                "link": "/admin/orders",
+                "requiredPermissions": ["14"]
             },
             {
                 "text": "Cobro de Comisiones",
                 "icon": "bx bx-money",
                 "available": true,
-                "link": "/admin/commissions"
+                "link": "/admin/commissions",
+                "requiredPermissions": ["15"]
             },
             {
                 "text": "Lista de vendedores",
                 "icon": "bx bx-user",
                 "available": true,
-                "link": "/admin/sellers"
+                "link": "/admin/sellers",
+                "requiredPermissions": ["16"]
             },
             {
                 "text": "Paquetes clasificados",
                 "icon": "bx bx-table",
                 "available": true,
-                "link": "/admin/customer-packages"
+                "link": "/admin/customer-packages",
+                "requiredPermissions": ["17"]
             },
             {
                 "text": "Business Settings",
                 "icon": "bx bx-briefcase-alt-2",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["18"],
                 "submenu": [
                     {
                         "text": "Activación",
@@ -343,6 +362,7 @@
                 "icon": "bx bx-desktop",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["19"],
                 "submenu": [
                     {
                         "text": "Páginas de políticas",
@@ -398,6 +418,7 @@
                 "icon": "bx bx-cog",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["20"],
                 "submenu": [
                     {
                         "text": "Atributo",
@@ -416,6 +437,7 @@
                 "icon": "bx bxs-bank",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["21"],
                 "submenu": [
                     {
                         "text": "Métodos de pago manuales",
@@ -434,6 +456,7 @@
                 "icon": "bx bx-mobile",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["22"],
                 "submenu": [
                     {
                         "text": "OTP Configurations",
@@ -451,13 +474,15 @@
                 "text": "Ticket de soporte",
                 "icon": "bx bx-support",
                 "available": true,
-                "link": "/admin/support_ticket"
+                "link": "/admin/support_ticket",
+                "requiredPermissions": ["23"]
             },
             {
                 "text": "Staffs",
                 "icon": "bx bxs-user-plus",
                 "available": true,
                 "link": "#",
+                "requiredPermissions": ["24"],
                 "submenu": [
                     {
                         "text": "Personales",

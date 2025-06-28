@@ -16,6 +16,8 @@ const Sidebar = () => {
     refreshTicketsCount,
   } = useAdmin();
 
+  const userPermissions = JSON.parse(localStorage.getItem("user_data"))?.permissions || [];
+
   useEffect(() => {
     const fetchReviewCountProducts = async () => {
       try {
@@ -82,6 +84,7 @@ const Sidebar = () => {
               <MenuItem
                 key={item.link || itemIndex}
                 {...item}
+                userPermissions={userPermissions}
                 reviewCount={reviewCount}
                 reviewCountOrder={reviewCountOrder}
                 reviewCountTicket={reviewCountTicket}
@@ -94,13 +97,40 @@ const Sidebar = () => {
   );
 };
 
-const MenuItem = ({ text, link, available, icon, submenu, reviewCount, reviewCountOrder, reviewCountTicket }) => {
+const MenuItem = ({
+  text,
+  link,
+  available,
+  icon,
+  submenu,
+  reviewCount,
+  reviewCountOrder,
+  reviewCountTicket,
+  userPermissions,
+  requiredPermissions,
+}) => {
   const location = useLocation();
   const hasSubmenu = submenu && submenu.length > 0;
 
   // Verifica si la URL actual comienza con el `link` en lugar de exigir una coincidencia exacta
   const isActive = location.pathname.startsWith(link);
   const isSubmenuActive = hasSubmenu && submenu.some((subitem) => location.pathname.startsWith(subitem.link));
+
+  const user = JSON.parse(localStorage.getItem("user_data"));
+  const isAdmin = user?.user_type === "admin";
+  const hasFullAccess = userPermissions.includes("*");
+  const isDashboard = text === "Dashboard";
+
+  if (
+    !available ||
+    (!isDashboard &&
+      !isAdmin &&
+      !hasFullAccess &&
+      requiredPermissions &&
+      !requiredPermissions.some((p) => userPermissions.includes(p.toString())))
+  ) {
+    return null;
+  }
 
   return (
     <li
@@ -131,6 +161,7 @@ const MenuItem = ({ text, link, available, icon, submenu, reviewCount, reviewCou
             <MenuItem
               key={submenuItem.link || index}
               {...submenuItem}
+              userPermissions={userPermissions}
               reviewCount={reviewCount}
               reviewCountOrder={reviewCountOrder}
             />

@@ -36,7 +36,7 @@ apiClient.interceptors.response.use(
       localStorage.removeItem("access_token"); // Limpiar el token
 
       // Redireccionar según el tipo de usuario
-      if (userType === "admin") {
+      if (userType === "admin" || userType === "staff") {
         window.location.href = "/auth/login"; // Redirigir al login de admin
       } else {
         window.location.href = "/"; // Redirigir a la página principal

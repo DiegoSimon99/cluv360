@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import Modal from "react-bootstrap/Modal";
 import LoaderTable from "../../../components/admin/LoaderTable";
 import CryptoJS from "crypto-js";
+import { encode } from "base64-url";
 
 export const ListaCustomers = () => {
   const [customers, setData] = useState([]); // Almacena los datos de los usuario
@@ -495,17 +496,9 @@ export const ListaCustomers = () => {
     }
   };
 
-  const encryptId = (id) => {
-    const key = CryptoJS.enc.Utf8.parse("12345678901234567890123456789012"); // 32 chars
-    const iv = CryptoJS.enc.Utf8.parse("1234567890123456"); // 16 chars
-
-    const encrypted = CryptoJS.AES.encrypt(id.toString(), key, {
-      iv: iv,
-      mode: CryptoJS.mode.CBC,
-      padding: CryptoJS.pad.Pkcs7,
-    });
-
-    return encodeURIComponent(encrypted.toString()); // Útil para URL
+  const encodeUserId = (id) => {
+    // Convertir el id a una cadena y luego codificarlo en Base64
+    return btoa(id.toString());
   };
 
   const handleIniciarSesion = (id) => {
@@ -528,8 +521,10 @@ export const ListaCustomers = () => {
       if (response.data.success) {
         showNotification(response.data.message, "success");
         handleCloseChangeConfirmPassword();
-        const encryptedId = encryptId(idUser);
-        const url = `${import.meta.env.VITE_API_URL_YALA}/#/login/redirect/${encryptedId}`;
+        const encodedId = encodeUserId(idUser);
+        console.log(encodedId);
+        const url = `${import.meta.env.VITE_API_URL_YALA}/login/redirect/${encodedId}`;
+        console.log(url);
         window.open(url, "_blank", "noopener,noreferrer");
       } else {
         showNotification(response.data.message, "error");

@@ -1,16 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 
 import { LoginPage } from "../pages/admin/authentication/LoginPage";
-import { RegisterPage } from "../pages/admin/authentication/RegisterPage";
-import { ForgotPasswordPage } from "../pages/admin/authentication/ForgotPasswordPage";
 import { ErrorPage } from "../pages/misc/ErrorPage";
 import { DashboardPage } from "../pages/admin/DashboardPage";
-import { UserDashboard } from "../pages/web/UserDashboard";
-
-import { Inicio } from "../pages/web/Inicio";
-import { Login } from "../pages/web/authentication/Login";
 import AdminRoutes from "./AdminRoutes";
-import CustomerRoutes from "./CustomerRoutes";
 import { ListaMovimientos as AdminListaMovimientos } from "../pages/admin/movimientos/ListaMovimientos";
 import { ListaCustomers as AdminListaCustomers } from "../pages/admin/customers/ListaCustomers";
 import { Index as CierrePremium } from "../pages/admin/cierre-premium";
@@ -127,6 +120,7 @@ import { Index as AdminTemplateCodeTransaction } from "../pages/admin/templates/
 import { Index as AdminListaPos } from "../pages/admin/pos";
 import { Index as AdminEditInversiones } from "../pages/admin/configuracion-mlm/inversiones";
 import { Index as AdminEditCentrales } from "../pages/admin/configuracion-mlm/centrales";
+import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutes = () => {
   return (
@@ -142,122 +136,194 @@ const AppRoutes = () => {
       {/* Ruta protegida para administradores */}
       <Route path="/admin" element={<AdminRoutes />}>
         <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="movements" element={<AdminListaMovimientos />} />
-        <Route path="customers/list" element={<AdminListaCustomers />} />
-        <Route path="customers/delete-request" element={<SolicitudesCustomers />} />
-        <Route path="cierre-premium" element={<CierrePremium />} />
-        <Route path="direct-sale" element={<VentaDirecta />} />
-        <Route path="proyectos" element={<AdminListaProyectos />} />
-        <Route path="proyectos/create" element={<AdminCreateProyectos />} />
-        <Route path="proyectos/edit/:id" element={<AdminEditProyectos />} />
-        <Route path="discount" element={<AdminListaDescuento />} />
-        <Route path="posts" element={<AdminListaPosts />} />
-        <Route path="denuncias/posts" element={<Reported />} />
-        <Route path="conceptos/denuncias" element={<AdminDenunciaConceptos />} />
-        <Route path="affiliate/user" element={<AdminListaRed />} />
-        <Route path="config/general" element={<General />} />
-        <Route path="config/rangos" element={<AdminListaRangos />} />
-        <Route path="config/rangos/create" element={<AdminCreateRangos />} />
-        <Route path="config/rangos/edit/:id" element={<AdminEditRangos />} />
-        <Route path="config/ciclo" element={<Ciclo />} />
-        <Route path="config/cerrar-ciclo" element={<AdminListaCierreCiclo />} />
-        <Route path="config/cerrar-ciclo/create" element={<AdminCreateCierreCiclo />} />
-        <Route path="config/cron-job-settings" element={<AdminListaTareas />} />
-        <Route path="config/cron-job-settings/create" element={<AdminCreateTarea />} />
-        <Route path="config/cron-job-settings/edit/:id" element={<AdminEditTarea />} />
-        <Route path="config/eventos" element={<AdminListaEventos />} />
-        <Route path="config/eventos/create" element={<AdminCreateEvento />} />
-        <Route path="config/eventos/edit/:id" element={<AdminEditEvento />} />
-        <Route path="config/noticias" element={<AdminListaNoticias />} />
-        <Route path="config/noticias/create" element={<AdminCreateNoticias />} />
-        <Route path="config/noticias/edit/:id" element={<AdminEditNoticia />} />
-        <Route path="config/viajes" element={<AdminListaViajes />} />
-        <Route path="config/viajes/create" element={<AdminCreateViajes />} />
-        <Route path="config/viajes/edit/:id" element={<AdminEditViaje />} />
-        <Route path="config/testimonios" element={<AdminListaTestimonios />} />
-        <Route path="config/testimonios/create" element={<AdminCreateTestimonios />} />
-        <Route path="config/testimonios/edit/:id" element={<AdminEditTestimonio />} />
-        <Route path="config/red" element={<Red />} />
-        <Route path="config/proyectos/create" element={<AdminCreateProyectosConfig />} />
-        <Route path="config/proyectos" element={<AdminListaProyectosConfig />} />
-        <Route path="config/proyectos/edit/:id" element={<AdminEditProyecto />} />
-        <Route path="config/terminos-condiciones-yala" element={<AdminTerminosCondicionesYala />} />
-        <Route path="brands" element={<AdminListaMarcas />} />
-        <Route path="brands/create" element={<AdminCreateMarcas />} />
-        <Route path="brands/edit/:id" element={<AdminEditMarcas />} />
-        <Route path="categories" element={<AdminListaCategorias />} />
-        <Route path="categories/create" element={<AdminCreateCategorias />} />
-        <Route path="categories/edit/:id" element={<AdminEditCategorias />} />
-        <Route path="subcategories" element={<AdminListaSubCategorias />} />
-        <Route path="subcategories/create" element={<AdminCreateSubCategorias />} />
-        <Route path="subcategories/edit/:id" element={<AdminEditSubCategorias />} />
-        <Route path="subsubcategories" element={<AdminListaSubSubCategorias />} />
-        <Route path="subsubcategories/create" element={<AdminCreateSubSubCategorias />} />
-        <Route path="subsubcategories/edit/:id" element={<AdminEditSubSubCategorias />} />
-        <Route path="products" element={<AdminListaProductos />} />
-        <Route path="products/create" element={<AdminCreateProductos />} />
-        <Route path="products/edit/:id" element={<AdminEditProductos />} />
-        <Route path="seller/products" element={<AdminListaProductosSeller />} />
-        <Route path="reviews/products" element={<AdminListaCalificacionProductos />} />
-        <Route path="publications" element={<AdminListaPublicaciones />} />
-        <Route path="publications/create" element={<AdminCreatePublicacion />} />
-        <Route path="publications/edit/:id" element={<AdminEditPublicacion />} />
-        <Route path="orders" element={<AdminListaPedidos />} />
-        <Route path="orders/:id" element={<AdminDetailPedido />} />
-        <Route path="commissions" element={<AdminListaComisiones />} />
-        <Route path="sellers" element={<AdminListaSellers />} />
-        <Route path="customer-packages" element={<AdminListaCustomerPackage />} />
-        <Route path="customer-packages/create" element={<AdminCreateCustomerPackage />} />
-        <Route path="customer-packages/edit/:id" element={<AdminEditCustomerPackage />} />
-        <Route path="activation" element={<AdminConfigBusinessSettings />} />
-        <Route path="payment-method" element={<AdminConfigPaymentMethod />} />
-        <Route path="smtp-settings" element={<AdminConfigSmtSettings />} />
-        <Route path="currency" element={<AdminListaCurrency />} />
-        <Route path="currency/create" element={<AdminCreateCurrency />} />
-        <Route path="currency/edit/:id" element={<AdminEditCurrency />} />
-        <Route path="seller_policy" element={<AdminSellerPolicy />} />
-        <Route path="return_policy" element={<AdminReturnPolicy />} />
-        <Route path="support_policy" element={<AdminSupportPolicy />} />
-        <Route path="terms" element={<AdminTerms />} />
-        <Route path="privacy_policy" element={<AdminPrivacyPolicy />} />
-        <Route path="yala_privacy_policy" element={<AdminPrivacyPolicyYala />} />
-        <Route path="generalsettings" element={<AdminGeneralSettings />} />
-        <Route path="logosettings" element={<AdminLogoSettings />} />
-        <Route path="attributes" element={<AdminListaAttribute />} />
-        <Route path="attributes/create" element={<AdminCreateAttribute />} />
-        <Route path="attributes/edit/:id" element={<AdminEditAttribute />} />
-        <Route path="pick_up_points" element={<AdminListaPickUpPoint />} />
-        <Route path="pick_up_points/create" element={<AdminCreatePickUpPoint />} />
-        <Route path="pick_up_points/edit/:id" element={<AdminEditPickUpPoint />} />
-        <Route path="manual_payment_methods" element={<AdminListaManualPaymentMethod />} />
-        <Route path="manual_payment_methods/create" element={<AdminCreateManualPaymentMethod />} />
-        <Route path="manual_payment_methods/edit/:id" element={<AdminEditManualPaymentMethod />} />
-        <Route path="offline-wallet-recharge-requests" element={<AdminListaWalletRecharge />} />
-        <Route path="otp-configuration" element={<AdminOtpConfiguration />} />
-        <Route path="otp-credentials-configuration" element={<AdminOtpCredentialsConfiguration />} />
-        <Route path="support_ticket" element={<AdminListaSupportTicket />} />
-        <Route path="support_ticket/details/:id" element={<AdminDetailSupportTicket />} />
-        <Route path="staffs" element={<AdminListaStaff />} />
-        <Route path="staffs/create" element={<AdminCreateStaff />} />
-        <Route path="staffs/edit/:id" element={<AdminEditStaff />} />
-        <Route path="roles" element={<AdminListaRoles />} />
-        <Route path="roles/create" element={<AdminCreateRoles />} />
-        <Route path="roles/edit/:id" element={<AdminEditRoles />} />
-        <Route path="template/bienvenida" element={<AdminTemplateBienvenida />} />
-        <Route path="template/compras" element={<AdminTemplateCompras />} />
-        <Route path="template/inversion" element={<AdminTemplateInversion />} />
-        <Route path="template/comisiones" element={<AdminTemplateComisiones />} />
-        <Route path="template/comentarios" element={<AdminTemplateComentarios />} />
-        <Route path="template/centrales" element={<AdminTemplateCentrales />} />
-        <Route path="template/nuevo-seguidor" element={<AdminTemplateSeguidor />} />
-        <Route path="template/membresia" element={<AdminTemplateMembresia />} />
-        <Route path="template/happy-birthday" element={<AdminTemplateHappyBirthday />} />
-        <Route path="template/code-verification" element={<AdminTemplateCodeVerification />} />
-        <Route path="template/reset-acount" element={<AdminTemplateResetAcount />} />
-        <Route path="template/code-transaction" element={<AdminTemplateCodeTransaction />} />
-        <Route path="pos" element={<AdminListaPos />} />
-        <Route path="config/inversiones" element={<AdminEditInversiones />} />
-        <Route path="config/centrales" element={<AdminEditCentrales />} />
+
+        <Route element={<ProtectedRoute requiredPermissions={[1]} />}>
+          <Route path="pos" element={<AdminListaPos />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[2]} />}>
+          <Route path="cierre-premium" element={<CierrePremium />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[3]} />}>
+          <Route path="customers/list" element={<AdminListaCustomers />} />
+          <Route path="customers/delete-request" element={<SolicitudesCustomers />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[4]} />}>
+          <Route path="movements" element={<AdminListaMovimientos />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[5]} />}>
+          <Route path="direct-sale" element={<VentaDirecta />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[6]} />}>
+          <Route path="proyectos" element={<AdminListaProyectos />} />
+          <Route path="proyectos/create" element={<AdminCreateProyectos />} />
+          <Route path="proyectos/edit/:id" element={<AdminEditProyectos />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[7]} />}>
+          <Route path="discount" element={<AdminListaDescuento />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[8]} />}>
+          <Route path="affiliate/user" element={<AdminListaRed />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[9]} />}>
+          <Route path="template/bienvenida" element={<AdminTemplateBienvenida />} />
+          <Route path="template/compras" element={<AdminTemplateCompras />} />
+          <Route path="template/inversion" element={<AdminTemplateInversion />} />
+          <Route path="template/comisiones" element={<AdminTemplateComisiones />} />
+          <Route path="template/comentarios" element={<AdminTemplateComentarios />} />
+          <Route path="template/centrales" element={<AdminTemplateCentrales />} />
+          <Route path="template/nuevo-seguidor" element={<AdminTemplateSeguidor />} />
+          <Route path="template/membresia" element={<AdminTemplateMembresia />} />
+          <Route path="template/happy-birthday" element={<AdminTemplateHappyBirthday />} />
+          <Route path="template/code-verification" element={<AdminTemplateCodeVerification />} />
+          <Route path="template/reset-acount" element={<AdminTemplateResetAcount />} />
+          <Route path="template/code-transaction" element={<AdminTemplateCodeTransaction />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[10]} />}>
+          <Route path="posts" element={<AdminListaPosts />} />
+          <Route path="denuncias/posts" element={<Reported />} />
+          <Route path="conceptos/denuncias" element={<AdminDenunciaConceptos />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[11]} />}>
+          <Route path="config/general" element={<General />} />
+          <Route path="config/rangos" element={<AdminListaRangos />} />
+          <Route path="config/rangos/create" element={<AdminCreateRangos />} />
+          <Route path="config/rangos/edit/:id" element={<AdminEditRangos />} />
+          <Route path="config/ciclo" element={<Ciclo />} />
+          <Route path="config/cerrar-ciclo" element={<AdminListaCierreCiclo />} />
+          <Route path="config/cerrar-ciclo/create" element={<AdminCreateCierreCiclo />} />
+          <Route path="config/cron-job-settings" element={<AdminListaTareas />} />
+          <Route path="config/cron-job-settings/create" element={<AdminCreateTarea />} />
+          <Route path="config/cron-job-settings/edit/:id" element={<AdminEditTarea />} />
+          <Route path="config/eventos" element={<AdminListaEventos />} />
+          <Route path="config/eventos/create" element={<AdminCreateEvento />} />
+          <Route path="config/eventos/edit/:id" element={<AdminEditEvento />} />
+          <Route path="config/noticias" element={<AdminListaNoticias />} />
+          <Route path="config/noticias/create" element={<AdminCreateNoticias />} />
+          <Route path="config/noticias/edit/:id" element={<AdminEditNoticia />} />
+          <Route path="config/viajes" element={<AdminListaViajes />} />
+          <Route path="config/viajes/create" element={<AdminCreateViajes />} />
+          <Route path="config/viajes/edit/:id" element={<AdminEditViaje />} />
+          <Route path="config/testimonios" element={<AdminListaTestimonios />} />
+          <Route path="config/testimonios/create" element={<AdminCreateTestimonios />} />
+          <Route path="config/testimonios/edit/:id" element={<AdminEditTestimonio />} />
+          <Route path="config/red" element={<Red />} />
+          <Route path="config/proyectos/create" element={<AdminCreateProyectosConfig />} />
+          <Route path="config/proyectos" element={<AdminListaProyectosConfig />} />
+          <Route path="config/proyectos/edit/:id" element={<AdminEditProyecto />} />
+          <Route path="config/inversiones" element={<AdminEditInversiones />} />
+          <Route path="config/centrales" element={<AdminEditCentrales />} />
+          <Route path="config/terminos-condiciones-yala" element={<AdminTerminosCondicionesYala />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[12]} />}>
+          <Route path="brands" element={<AdminListaMarcas />} />
+          <Route path="brands/create" element={<AdminCreateMarcas />} />
+          <Route path="brands/edit/:id" element={<AdminEditMarcas />} />
+          <Route path="categories" element={<AdminListaCategorias />} />
+          <Route path="categories/create" element={<AdminCreateCategorias />} />
+          <Route path="categories/edit/:id" element={<AdminEditCategorias />} />
+          <Route path="subcategories" element={<AdminListaSubCategorias />} />
+          <Route path="subcategories/create" element={<AdminCreateSubCategorias />} />
+          <Route path="subcategories/edit/:id" element={<AdminEditSubCategorias />} />
+          <Route path="subsubcategories" element={<AdminListaSubSubCategorias />} />
+          <Route path="subsubcategories/create" element={<AdminCreateSubSubCategorias />} />
+          <Route path="subsubcategories/edit/:id" element={<AdminEditSubSubCategorias />} />
+          <Route path="products" element={<AdminListaProductos />} />
+          <Route path="products/create" element={<AdminCreateProductos />} />
+          <Route path="products/edit/:id" element={<AdminEditProductos />} />
+          <Route path="seller/products" element={<AdminListaProductosSeller />} />
+          <Route path="reviews/products" element={<AdminListaCalificacionProductos />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[13]} />}>
+          <Route path="publications" element={<AdminListaPublicaciones />} />
+          <Route path="publications/create" element={<AdminCreatePublicacion />} />
+          <Route path="publications/edit/:id" element={<AdminEditPublicacion />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[14]} />}>
+          <Route path="orders" element={<AdminListaPedidos />} />
+          <Route path="orders/:id" element={<AdminDetailPedido />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[15]} />}>
+          <Route path="commissions" element={<AdminListaComisiones />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[16]} />}>
+          <Route path="sellers" element={<AdminListaSellers />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[17]} />}>
+          <Route path="customer-packages" element={<AdminListaCustomerPackage />} />
+          <Route path="customer-packages/create" element={<AdminCreateCustomerPackage />} />
+          <Route path="customer-packages/edit/:id" element={<AdminEditCustomerPackage />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[18]} />}>
+          <Route path="activation" element={<AdminConfigBusinessSettings />} />
+          <Route path="payment-method" element={<AdminConfigPaymentMethod />} />
+          <Route path="smtp-settings" element={<AdminConfigSmtSettings />} />
+          <Route path="currency" element={<AdminListaCurrency />} />
+          <Route path="currency/create" element={<AdminCreateCurrency />} />
+          <Route path="currency/edit/:id" element={<AdminEditCurrency />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[19]} />}>
+          <Route path="seller_policy" element={<AdminSellerPolicy />} />
+          <Route path="return_policy" element={<AdminReturnPolicy />} />
+          <Route path="support_policy" element={<AdminSupportPolicy />} />
+          <Route path="terms" element={<AdminTerms />} />
+          <Route path="privacy_policy" element={<AdminPrivacyPolicy />} />
+          <Route path="yala_privacy_policy" element={<AdminPrivacyPolicyYala />} />
+          <Route path="generalsettings" element={<AdminGeneralSettings />} />
+          <Route path="logosettings" element={<AdminLogoSettings />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[20]} />}>
+          <Route path="attributes" element={<AdminListaAttribute />} />
+          <Route path="attributes/create" element={<AdminCreateAttribute />} />
+          <Route path="attributes/edit/:id" element={<AdminEditAttribute />} />
+          <Route path="pick_up_points" element={<AdminListaPickUpPoint />} />
+          <Route path="pick_up_points/create" element={<AdminCreatePickUpPoint />} />
+          <Route path="pick_up_points/edit/:id" element={<AdminEditPickUpPoint />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[21]} />}>
+          <Route path="manual_payment_methods" element={<AdminListaManualPaymentMethod />} />
+          <Route path="manual_payment_methods/create" element={<AdminCreateManualPaymentMethod />} />
+          <Route path="manual_payment_methods/edit/:id" element={<AdminEditManualPaymentMethod />} />
+          <Route path="offline-wallet-recharge-requests" element={<AdminListaWalletRecharge />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[22]} />}>
+          <Route path="otp-configuration" element={<AdminOtpConfiguration />} />
+          <Route path="otp-credentials-configuration" element={<AdminOtpCredentialsConfiguration />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[23]} />}>
+          <Route path="support_ticket" element={<AdminListaSupportTicket />} />
+          <Route path="support_ticket/details/:id" element={<AdminDetailSupportTicket />} />
+        </Route>
+
+        <Route element={<ProtectedRoute requiredPermissions={[24]} />}>
+          <Route path="staffs" element={<AdminListaStaff />} />
+          <Route path="staffs/create" element={<AdminCreateStaff />} />
+          <Route path="staffs/edit/:id" element={<AdminEditStaff />} />
+          <Route path="roles" element={<AdminListaRoles />} />
+          <Route path="roles/create" element={<AdminCreateRoles />} />
+          <Route path="roles/edit/:id" element={<AdminEditRoles />} />
+        </Route>
       </Route>
 
       {/* Rutas protegidas para customers y sellers */}

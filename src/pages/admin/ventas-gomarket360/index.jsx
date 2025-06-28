@@ -354,7 +354,7 @@ export const Index = () => {
                 <th>Código de orden</th>
                 {/* <th>Productos</th> */}
                 <th>Cliente</th>
-                {/* <th>DNI</th> */}
+                <th>DNI</th>
                 <th>Lugar</th>
                 <th>Monto</th>
                 <th>Fecha</th>
@@ -376,7 +376,7 @@ export const Index = () => {
                     </div>
                   </td>
                   {/* <td>{item.productos}</td> */}
-                  {/* <td>{item.cliente}</td> */}
+                  <td>{item.cliente}</td>
                   <td>{item.dni}</td>
                   <td>{item.lugar}</td>
                   <td>{item.monto}</td>

@@ -17,7 +17,7 @@ export const LoginPage = () => {
 
     // Si hay token, redirigir según el tipo de usuario
     if (token) {
-      if (userType === "admin") {
+      if (userType === "admin" || userType === "staff") {
         navigate("/admin/dashboard");
       } else {
         navigate("/dashboard");
