@@ -5,8 +5,10 @@ import AsyncSelect from "react-select/async";
 import NumberFormatter from "../../../components/NumberFormatter";
 import Modal from "react-bootstrap/Modal";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 export const Index = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [address, setAddress] = useState([]);
   const [isLoadingAddress, setIsLoadingAddress] = useState(false);
@@ -334,7 +336,7 @@ export const Index = () => {
       shipping_type: shippingType,
       cart_products: cart,
       subtotal: subtotal,
-      coupon_discount: totalBruto-subtotal,
+      coupon_discount: totalBruto - subtotal,
       address_id: selectedAddress,
       pickup_point_id: selectedPickupPoints,
       delivery_status: deliveryStatus,
@@ -345,12 +347,8 @@ export const Index = () => {
       const response = await apiClient.post("/admin/pos/order", data);
       if (response.data.success) {
         showNotification(response.data.message, "success");
-        setSelectedUser(null);
-        setSelectedAddress(null);
-        setSelectedPickupPoints(null);
         clearCart();
-        handleCloseChangeOrder();
-        fetchProducts();
+        navigate(`/admin/orders/${response.data.data.id}`);
       } else {
         showNotification(response.data.message, "error");
       }

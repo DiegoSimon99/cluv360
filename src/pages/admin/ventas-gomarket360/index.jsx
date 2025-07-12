@@ -24,6 +24,7 @@ export const Index = () => {
   const [paginate, setPaginate] = useState(10);
   const { showLoading, hideLoading } = useAdmin();
   const navigate = useNavigate();
+  const user_type = localStorage.getItem("user_type");
 
   const listOrders = async () => {
     setOrders([]);
@@ -295,7 +296,7 @@ export const Index = () => {
       <div className="card">
         <div className="card-header align-items-center row">
           <div className="col-12 pt-0 pt-md-2 mb-4">
-            <h5 className="mb-0 text-md-start text-center">Ventas realizadas por GoMarket360</h5>
+            <h5 className="mb-0 text-md-start text-center">Ventas realizadas</h5>
           </div>
           <div className="col-12 col-md-2 mb-1">
             <label>Entradas</label>
@@ -429,13 +430,15 @@ export const Index = () => {
                             <i className="bx bx-show me-1"></i> Ver Orden de Pago
                           </button>
                         )}
-                        <button
-                          aria-label="dropdown action option"
-                          className="dropdown-item"
-                          onClick={() => deleteOrder(item.id)}
-                        >
-                          <i className="bx bx-trash me-1"></i> Eliminar
-                        </button>
+                        {user_type === "admin" && (
+                          <button
+                            aria-label="dropdown action option"
+                            className="dropdown-item"
+                            onClick={() => deleteOrder(item.id)}
+                          >
+                            <i className="bx bx-trash me-1"></i> Eliminar
+                          </button>
+                        )}
                       </div>
                     </div>
                   </td>

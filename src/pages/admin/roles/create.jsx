@@ -65,7 +65,7 @@ export const Create = () => {
       value: 13,
     },
     {
-      label: "Ventas GoMarket360",
+      label: "Ventas realizadas",
       value: 14,
     },
     {

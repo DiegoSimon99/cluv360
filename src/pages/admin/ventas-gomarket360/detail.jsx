@@ -32,6 +32,8 @@ export const Detail = () => {
     },
   ];
 
+  const user_type = localStorage.getItem("user_type");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -81,8 +83,8 @@ export const Detail = () => {
               .post("/admin/orders/update_delivery_status", data)
               .then((response) => {
                 if (response.data.success) {
-                  showOrder();
                   showNotification(response.data.message, "success");
+                  navigate(`/admin/orders`);
                 } else {
                   showNotification(response.data.message, "error");
                 }
@@ -181,13 +183,49 @@ export const Detail = () => {
               <p className="mb-0">{formatDate(order.created_at)}</p>
             </div>
             <div className="d-flex align-content-center flex-wrap gap-2">
-              <button className="btn btn-danger" onClick={deleteOrder}>
-                Eliminar pedido
+              <button type="button" className="btn btn-info" onClick={() => downloadComprobante()}>
+                <i className="bx bxs-download me-1"></i> Descargar Comprobante
               </button>
+              {user_type === "admin" && (
+                <button className="btn btn-danger" onClick={deleteOrder}>
+                  Eliminar pedido
+                </button>
+              )}
             </div>
           </div>
           <div className="row">
             <div className="col-12 col-lg-8">
+              <div className="card mb-3">
+                <div className="card-header d-flex justify-content-between">
+                  <h5 className="card-title m-0">Detalles del pedido</h5>
+                </div>
+                <div className="card-body">
+                  <p className="pt-1 mb-0">Código de compra: {order.code}</p>
+                  <p className="pt-1 mb-0">
+                    Estado de pago:{" "}
+                    <span className={`badge bg-label-${order.payment_status.color} me-1 ms-2`}>
+                      {order.payment_status.name}
+                    </span>
+                  </p>
+                  <p className="pt-1 mb-0">
+                    Estado de envío:{" "}
+                    <span className={`badge bg-label-${order.status.color} me-1 ms-2`}>{order.status.name}</span>
+                  </p>
+                  <p className="pt-1 mb-0">Tipo de envío: {order.tipo_envio}</p>
+                  {order.direccion ? (
+                    <p className="pt-1 mb-0">Dirección: {order.direccion}</p>
+                  ) : (
+                    <p className="pt-1 mb-0">Local: {order.punto_recogo}</p>
+                  )}
+                  {order.discount > 0 && (
+                    <p className="pt-1 mb-0">
+                      Descuento: S/<NumberFormatter value={order.discount}></NumberFormatter>
+                    </p>
+                  )}
+                  <p className="pt-1 mb-0">Monto Total: {order.grand_total}</p>
+                  <p className="pt-1 mb-0">Método de pago: {order.payment_type}</p>
+                </div>
+              </div>
               <div className="card mb-3">
                 <div className="row card-header border-bottom mx-0 px-3">
                   <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto px-3">
@@ -272,9 +310,13 @@ export const Detail = () => {
                   </div>
                 </div>
               </div>
-              <div className="card p-5">
-                <div className="form-group">
-                  <label className="form-label">Estado del envío</label>
+            </div>
+            <div className="col-12 col-lg-4">
+              <div className="card mb-3">
+                <div className="card-header">
+                  <h5 className="card-title m-0">Estado del envío</h5>
+                </div>
+                <div className="card-body">
                   <select name="delivery_status" className="form-select" value={status} onChange={handleStatus}>
                     {deliveryStatus.map((item) => (
                       <option key={item.value} value={item.value}>
@@ -283,14 +325,7 @@ export const Detail = () => {
                     ))}
                   </select>
                 </div>
-                <div className="form-group mt-4">
-                  <button type="button" className="btn btn-info" onClick={() => downloadComprobante()}>
-                    <i className="bx bxs-download me-1"></i> Descargar Comprobante
-                  </button>
-                </div>
               </div>
-            </div>
-            <div className="col-12 col-lg-4">
               <div className="card mb-3">
                 <div className="card-header">
                   <h5 className="card-title m-0">Detalles del cliente</h5>
@@ -346,37 +381,6 @@ export const Detail = () => {
                     <h6 className="mb-1">Información de contacto</h6>
                   </div>
                   <p className="pt-1 mb-0">Teléfono: {order.patrocinador_details.phone}</p>
-                </div>
-              </div>
-              <div className="card mb-6">
-                <div className="card-header d-flex justify-content-between">
-                  <h5 className="card-title m-0">Detalles del pedido</h5>
-                </div>
-                <div className="card-body">
-                  <p className="pt-1 mb-0">Código de compra: {order.code}</p>
-                  <p className="pt-1 mb-0">
-                    Estado de pago:{" "}
-                    <span className={`badge bg-label-${order.payment_status.color} me-1 ms-2`}>
-                      {order.payment_status.name}
-                    </span>
-                  </p>
-                  <p className="pt-1 mb-0">
-                    Estado de envío:{" "}
-                    <span className={`badge bg-label-${order.status.color} me-1 ms-2`}>{order.status.name}</span>
-                  </p>
-                  <p className="pt-1 mb-0">Tipo de envío: {order.tipo_envio}</p>
-                  {order.direccion ? (
-                    <p className="pt-1 mb-0">Dirección: {order.direccion}</p>
-                  ) : (
-                    <p className="pt-1 mb-0">Local: {order.punto_recogo}</p>
-                  )}
-                  {order.discount > 0 && (
-                    <p className="pt-1 mb-0">
-                      Descuento: S/<NumberFormatter value={order.discount}></NumberFormatter>
-                    </p>
-                  )}
-                  <p className="pt-1 mb-0">Monto Total: {order.grand_total}</p>
-                  <p className="pt-1 mb-0">Método de pago: {order.payment_type}</p>
                 </div>
               </div>
             </div>

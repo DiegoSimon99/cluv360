@@ -30,6 +30,7 @@ export const ListaCustomers = () => {
   const [patrocinador, setPatrocinador] = useState(null);
   const [userId, setUserId] = useState(null);
   const { showLoading, hideLoading } = useAdmin();
+  const [paginate, setPaginate] = useState(10);
 
   const [searchPatrocinador, setSearchPatrocinador] = useState(null);
   const [options, setOptions] = useState([]);
@@ -350,34 +351,31 @@ export const ListaCustomers = () => {
     setLoading(false);
   };
 
-  // Llamar a la API cuando cambie la página o los filtros
-  const fetchUsers = () => {
+  const fetchUsers = async () => {
     setData([]);
     let data = {
       page: currentPage,
       search: filterName.trim() || null,
       fecha: filterDate || null,
       tipo_paquete: filterPackage || null,
+      paginate: paginate,
     };
     setLoading(true);
-    apiClient
-      .post(`admin/customers_list`, data)
-      .then((response) => {
-        setData(response.data.data); // Almacenar los datos obtenidos
-        setTotalPages(response.data.last_page); // Establecer el total de páginas
-        setPerPage(response.data.per_page);
-        setCurrentPageTable(response.data.current_page);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      const response = await apiClient.post(`admin/customers_list`, data);
+      setData(response.data.data);
+      setTotalPages(response.data.last_page); // Establecer el total de páginas
+      setPerPage(response.data.per_page);
+      setCurrentPageTable(response.data.current_page);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     fetchUsers();
-  }, [currentPage, filterName, filterDate, filterPackage]); // Esto se ejecutará cada vez que cambie `currentPage`
+  }, [currentPage, filterName, filterDate, filterPackage, paginate]); // Esto se ejecutará cada vez que cambie `currentPage`
 
   // Manejar cambio en el filtro de nombre (actualización inmediata)
   const handleFilterNameSubmit = (e) => {
@@ -389,6 +387,11 @@ export const ListaCustomers = () => {
     if (e.key === "Enter") {
       setCurrentPage(1); // Reinicia la página al presionar Enter
     }
+  };
+
+  const handleEntradaChange = (e) => {
+    setPaginate(e.target.value);
+    setCurrentPage(1);
   };
 
   // Manejar cambio en el filtro de fecha
@@ -540,10 +543,21 @@ export const ListaCustomers = () => {
     <>
       <div className="card">
         <div className="card-header align-items-center row">
-          <div className="col-12 col-md-4 pt-0 pt-md-2 mb-3">
+          <div className="col-12 pt-0 pt-md-2 mb-3">
             <h5 className="mb-0 text-md-start text-center">Lista de Asociados</h5>
           </div>
+          <div className="col-12 col-md-2 mb-1">
+            <label>Entradas</label>
+            <select className="form-select" onChange={handleEntradaChange} value={paginate}>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div className="col-0 col-md-2"></div>
           <div className="col-12 col-md-3 mb-2">
+            <br />
             <select className="form-select" onChange={handleFilterPackageChange} value={filterPackage}>
               <option value="">TODOS LOS PAQUETES</option>
               {packages.map((pkg) => (
@@ -554,9 +568,11 @@ export const ListaCustomers = () => {
             </select>
           </div>
           <div className="col-12 col-md-3 mb-2">
+            <br />
             <input type="month" className="form-control" onChange={handleFilterDateChange} />
           </div>
           <div className="col-12 col-md-2 mb-2">
+            <br />
             <div className="input-group input-group-merge">
               <span className="input-group-text" id="basic-addon-search31">
                 <i className="bx bx-search"></i>

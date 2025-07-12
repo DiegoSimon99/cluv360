@@ -246,6 +246,11 @@
                         "text": "Términos y Condiciones (Yala)",
                         "available": true,
                         "link": "/admin/config/terminos-condiciones-yala"
+                    },
+                    {
+                        "text": "Red de afiliados",
+                        "available": true,
+                        "link": "/admin/config/affiliate-user"
                     }
                 ]
             },
@@ -301,7 +306,7 @@
                 "requiredPermissions": ["13"]
             },
             {
-                "text": "Ventas GoMarket360",
+                "text": "Ventas realizadas",
                 "icon": "bx bx-basket",
                 "available": true,
                 "link": "/admin/orders",

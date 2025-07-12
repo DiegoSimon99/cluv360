@@ -113,8 +113,6 @@ export const Index = () => {
         };
     }, []);
 
-
-
     return (
         <>
             <div className="card">

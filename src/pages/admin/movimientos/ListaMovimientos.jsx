@@ -4,8 +4,8 @@ import LoaderTable from "../../../components/admin/LoaderTable";
 import { formatDate } from "../../../utils/dateFormatter";
 
 export const ListaMovimientos = () => {
-  const [movimientos, setMovimientos] = useState([]); // Almacena los datos de la API
-  const [loading, setLoading] = useState(false); // Estado de carga
+  const [movimientos, setMovimientos] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null); // Estado de error
   const [currentPage, setCurrentPage] = useState(1); // Página actual
   const [totalPages, setTotalPages] = useState(1); // Total de páginas
@@ -24,7 +24,7 @@ export const ListaMovimientos = () => {
           paginate: paginate,
         };
         const response = await apiClient.post(`admin/movements?page=${currentPage}`, data);
-        setMovimientos(response.data.data); // Almacenar los datos obtenidos
+        setMovimientos(response.data.data);
         setTotalPages(response.data.last_page); // Establecer el total de páginas
         setPerPage(response.data.per_page);
         setCurrentPageTable(response.data.current_page);

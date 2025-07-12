@@ -120,6 +120,7 @@ import { Index as AdminTemplateCodeTransaction } from "../pages/admin/templates/
 import { Index as AdminListaPos } from "../pages/admin/pos";
 import { Index as AdminEditInversiones } from "../pages/admin/configuracion-mlm/inversiones";
 import { Index as AdminEditCentrales } from "../pages/admin/configuracion-mlm/centrales";
+import { Index as AdminConfigRed } from "../pages/admin/configuracion-mlm/red-afiliados";
 import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutes = () => {
@@ -223,6 +224,7 @@ const AppRoutes = () => {
           <Route path="config/inversiones" element={<AdminEditInversiones />} />
           <Route path="config/centrales" element={<AdminEditCentrales />} />
           <Route path="config/terminos-condiciones-yala" element={<AdminTerminosCondicionesYala />} />
+          <Route path="config/affiliate-user" element={<AdminConfigRed />} />
         </Route>
 
         <Route element={<ProtectedRoute requiredPermissions={[12]} />}>
