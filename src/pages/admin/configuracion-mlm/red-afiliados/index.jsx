@@ -11,6 +11,11 @@ export const Index = () => {
   const [photos, setPhotos] = useState({
     photo1: null,
     photo2: null,
+    photo3: null,
+    photo4: null,
+    photo5: null,
+    photo6: null,
+    photo7: null,
   });
   const navigate = useNavigate();
 
@@ -37,6 +42,9 @@ export const Index = () => {
               : null,
             photo6: data.pts_rango_photo
               ? { name: "image_uploaded_6", preview: data.pts_rango_photo, isNew: false }
+              : null,
+            photo7: data.pts_minimo_photo
+              ? { name: "image_uploaded_7", preview: data.pts_minimo_photo, isNew: false }
               : null,
           });
         }
@@ -103,6 +111,12 @@ export const Index = () => {
     multiple: false,
   });
 
+  const { getRootProps: getRootProps7, getInputProps: getInputProps7 } = useDropzone({
+    onDrop: (files) => onDropPhoto(files, "photo7"),
+    accept: { "image/*": [] },
+    multiple: false,
+  });
+
   const removePhoto = (fieldName) => {
     setPhotos((prev) => {
       const fileToRemove = prev[fieldName];
@@ -153,6 +167,10 @@ export const Index = () => {
       data.append("pts_rango_photo", photos.photo6);
     }
 
+    if (photos.photo7?.isNew) {
+      data.append("pts_minimo_photo", photos.photo7);
+    }
+
     Object.entries(formData).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         data.append(key, value[0]);
@@ -163,7 +181,8 @@ export const Index = () => {
           key != "bono_meta_img" &&
           key != "pts_personales_photo" &&
           key != "pts_canje_photo" &&
-          key != "pts_rango_photo"
+          key != "pts_rango_photo" &&
+          key != "pts_minimo_photo"
         ) {
           data.append(key, value);
         }
@@ -203,6 +222,73 @@ export const Index = () => {
         <div className="card-body">
           {formData ? (
             <form onSubmit={handleSubmit}>
+              <div className="row mb-4">
+                <h5 className="mb-0 text-md-start text-center">Comisiones del mes</h5>
+              </div>
+              <div className="row mb-3">
+                <label className="col-sm-2 col-form-label">Foto</label>
+                <div className="col-sm-10">
+                  {!photos.photo7 && (
+                    <div
+                      {...getRootProps7()}
+                      style={{
+                        border: "2px dashed #cccccc",
+                        padding: "20px",
+                        textAlign: "center",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <input {...getInputProps7()} />
+                      <p>Arrastra tu imagen aquí o haz clic para seleccionarla</p>
+                    </div>
+                  )}
+                  {photos.photo7 && (
+                    <div className="preview-container" style={{ display: "flex", flexWrap: "wrap" }}>
+                      <div style={{ position: "relative" }}>
+                        <img
+                          src={photos.photo7.preview}
+                          alt="preview"
+                          style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "5px" }}
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-xs"
+                          style={{ position: "absolute", top: "5px", right: "5px", width: "20px", height: "20px" }}
+                          onClick={() => removePhoto("photo7")}
+                        >
+                          <i className="bx bx-x"></i>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="row mb-3">
+                <label className="col-sm-2 col-form-label">Titulo</label>
+                <div className="col-sm-10">
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="pts_minimo_title"
+                    value={formData.pts_minimo_title}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="row mb-3">
+                <label className="col-sm-2 col-form-label">Descripión</label>
+                <div className="col-sm-10">
+                  <textarea
+                    className="form-control"
+                    name="pts_minimo_description"
+                    value={formData.pts_minimo_description}
+                    onChange={handleChange}
+                    rows={4}
+                    required
+                  ></textarea>
+                </div>
+              </div>
               <div className="row mb-4">
                 <h5 className="mb-0 text-md-start text-center">Información de Bonos por Metas</h5>
               </div>
@@ -392,6 +478,19 @@ export const Index = () => {
                 <h5 className="mb-0 text-md-start text-center">Puntos personales</h5>
               </div>
               <div className="row mb-3">
+                <label className="col-sm-2 col-form-label">Titulo</label>
+                <div className="col-sm-10">
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="pts_personales_title"
+                    value={formData.pts_personales_title}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="row mb-3">
                 <label className="col-sm-2 col-form-label">Foto</label>
                 <div className="col-sm-10">
                   {!photos.photo4 && (
@@ -446,6 +545,19 @@ export const Index = () => {
                 <h5 className="mb-0 text-md-start text-center">Puntos para canje</h5>
               </div>
               <div className="row mb-3">
+                <label className="col-sm-2 col-form-label">Titulo</label>
+                <div className="col-sm-10">
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="pts_canje_title"
+                    value={formData.pts_canje_title}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="row mb-3">
                 <label className="col-sm-2 col-form-label">Foto</label>
                 <div className="col-sm-10">
                   {!photos.photo5 && (
@@ -498,6 +610,19 @@ export const Index = () => {
               </div>
               <div className="row mb-4">
                 <h5 className="mb-0 text-md-start text-center">Puntos para rango</h5>
+              </div>
+              <div className="row mb-3">
+                <label className="col-sm-2 col-form-label">Titulo</label>
+                <div className="col-sm-10">
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="pts_rango_title"
+                    value={formData.pts_rango_title}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
               </div>
               <div className="row mb-3">
                 <label className="col-sm-2 col-form-label">Foto</label>
