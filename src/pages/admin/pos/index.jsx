@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 export const Index = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [variations, setVariations] = useState([]);
+  const [isLoadingVariations, setIsLoadingVariations] = useState(false);
   const [address, setAddress] = useState([]);
   const [isLoadingAddress, setIsLoadingAddress] = useState(false);
   const [pickupPoints, setPickupPoints] = useState([]);
@@ -36,6 +38,9 @@ export const Index = () => {
   const [showChangeOrder, setshowChangeOrder] = useState(false);
   const handleCloseChangeOrder = () => setshowChangeOrder(false);
   const handleShowChangeOrder = () => setshowChangeOrder(true);
+  const [showChangeVariation, setshowChangeVariation] = useState(false);
+  const handleCloseChangeVariation = () => setshowChangeVariation(false);
+  const handleShowChangeVariation = () => setshowChangeVariation(true);
   const [balanceData, setBalanceData] = useState(null);
   const [granTotal, setGranTotal] = useState(0);
   const [totalDelivery, setTotalDelivery] = useState(0);
@@ -348,7 +353,9 @@ export const Index = () => {
       if (response.data.success) {
         showNotification(response.data.message, "success");
         clearCart();
-        navigate(`/admin/orders/${response.data.data.id}`);
+        setTimeout(() => {
+          navigate(`/admin/orders/${response.data.data.id}`);
+        }, 100);
       } else {
         showNotification(response.data.message, "error");
       }
@@ -356,6 +363,28 @@ export const Index = () => {
       showNotification(error.response?.data?.message || "Ocurrio un error en la transacción", "error");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const addValidateProduct = async (item) => {
+    if (item.variant_product == 1) {
+      handleShowChangeVariation();
+      setIsLoadingVariations(true);
+      try {
+        const response = await apiClient.get(`/admin/pos/products_variations/${item.id}`);
+        const newVariants = response.data.data.map((p) => ({
+          ...p,
+          uid: `${p.id}-${p.variant}`,
+        }));
+
+        setVariations(newVariants);
+      } catch (error) {
+        showNotification(error.response?.data?.message || "Ocurrio un error al consultar variaciones", "error");
+      } finally {
+        setIsLoadingVariations(false);
+      }
+    } else if (item.variant_product == 0) {
+      addToCart(item);
     }
   };
 
@@ -417,7 +446,10 @@ export const Index = () => {
               <div className="d-flex flex-wrap justify-content-center">
                 {products.map((item, index) => (
                   <div className="w-150px w-xl-180px w-xxl-210px mx-2 mb-4" key={index}>
-                    <div className="card bg-white c-pointer product-card hov-container" onClick={() => addToCart(item)}>
+                    <div
+                      className="card bg-white c-pointer product-card hov-container"
+                      onClick={() => addValidateProduct(item)}
+                    >
                       <div className="position-relative">
                         <span className="absolute-top-left mt-1 ms-1 me-0">
                           <span className={`badge badge-inline badge-${item.stock > 0 ? "success" : "danger"} fs-10`}>
@@ -936,6 +968,48 @@ export const Index = () => {
               </div>
             </div>
           </form>
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showChangeVariation} onHide={handleCloseChangeVariation} centered size="xl">
+        <Modal.Header closeButton>
+          <h5 className="modal-title">Seleccionar caracteristica</h5>
+        </Modal.Header>
+        <Modal.Body className="pt-0">
+          <div className="row">
+            {isLoadingVariations ? (
+              <div className="col-12 text-center">
+                <p>Cargando variaciones...</p>
+              </div>
+            ) : (
+              variations.map((item, index) => (
+                <div className="col-12 col-md-3 mb-4" key={index}>
+                  <div className="card bg-white c-pointer product-card hov-container" onClick={() => addToCart(item)}>
+                    <div className="card-body p-2 p-xl-3" style={{ height: "110px" }}>
+                      <div className="fw-600 fs-12 mb-2 h-line">{item.variant}</div>
+                      <div className="">
+                        <span className="fs-12">
+                          S/<NumberFormatter value={item.price}></NumberFormatter>
+                        </span>
+                      </div>
+                      <span className={`badge badge-inline badge-${item.stock > 0 ? "success" : "danger"} fs-10`}>
+                        {(item.stock > 0 ? "En Stock: " : "Agotado: ") + item.stock}
+                      </span>
+                    </div>
+                    <div
+                      className={`add-plus absolute-full rounded overflow-hidden hov-box ${
+                        item.stock <= 0 ? "c-not-allowed" : ""
+                      }`}
+                      data-stock-id="791"
+                    >
+                      <div className="absolute-full bg-dark opacity-50"></div>
+                      <i className="bx bx-plus absolute-center la-6x text-white"></i>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </Modal.Body>
       </Modal>
     </>
